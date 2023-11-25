@@ -9,6 +9,11 @@ async function greet() {
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
   greetMsg.value = await invoke("greet", { name: name.value });
 }
+async function executeCmd() {
+  const res = await invoke("get_token");
+  console.log(res);
+  
+}
 </script>
 
 <template>
@@ -18,4 +23,6 @@ async function greet() {
   </form>
 
   <p class="text-[#249b73]">{{ greetMsg }}</p>
+
+  <button class="border p-1 px-2 rounded" @click="executeCmd">执行</button>
 </template>
