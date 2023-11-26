@@ -1,5 +1,5 @@
 [package]
-name = "game-tools"
+name = "game_tools"
 version = "0.0.0"
 description = "A Tauri App"
 authors = ["you"]
