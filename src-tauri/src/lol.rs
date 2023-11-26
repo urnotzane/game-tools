@@ -26,7 +26,7 @@ pub fn get_remote_data_by_key(key: &str) -> String {
     for item in col {
         let temp: Vec<_> = item.split("=").collect();
         if temp[0] == key {
-            value = temp[1].replace("\"", "");
+            value = temp[1].replace("\"", "").trim().to_string();
         }
     }
     value
