@@ -795,7 +795,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "game_tools"
+name = "game-tools"
 version = "0.0.0"
 dependencies = [
  "serde",
