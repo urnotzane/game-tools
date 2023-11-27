@@ -3,6 +3,11 @@ import vue from "@vitejs/plugin-vue";;
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
+  resolve: {
+    "alias": {
+      '@': "./src"
+    }
+  },
   plugins: [
     vue(),
   ],

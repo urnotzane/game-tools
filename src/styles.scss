@@ -1,5 +1,8 @@
 @import "./styles/index.scss";
 
+* {
+  border-collapse: collapse;
+}
 #app {
-  padding: 20px;
+  // padding: 20px;
 }
