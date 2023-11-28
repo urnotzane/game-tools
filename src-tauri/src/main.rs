@@ -10,7 +10,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             cmds::greet,
             cmds::get_token,
-						// cmds::send_req,
+			cmds::current_summoner,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,10 +1,10 @@
 use crate::utils::execute_command;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Deserialize, Serialize)]
 pub struct RemoteData {
-    remote_token: String,
-    port: String,
+    pub remote_token: String,
+    pub port: String,
 }
 
 pub fn get_remote_data_by_key(key: &str) -> String {
