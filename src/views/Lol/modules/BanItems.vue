@@ -13,17 +13,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
 import { LolSpace } from '@/types/lol.ts';
 
-const props = defineProps<{
+defineProps<{
 	banLimit: number;
 	banChamps: LolSpace.BanChamp[];
 	team?: LolSpace.TeamType;
 }>()
-
-onMounted(() => {
-	console.log(props.team);
-	
-})
 </script>

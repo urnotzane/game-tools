@@ -1,22 +1,10 @@
 use crate::utils::execute_command;
-use serde::{Serialize, Serializer};
+use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct RemoteData {
-    token: String,
+    remote_token: String,
     port: String,
-}
-
-impl Serialize for RemoteData {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        use serde::ser::SerializeMap;
-        let mut map = serializer.serialize_map(Some(2))?;
-        map.serialize_entry("token", &self.token)?;
-        map.serialize_entry("port", &self.port)?;
-        map.end()
-    }
 }
 
 pub fn get_remote_data_by_key(key: &str) -> String {
@@ -34,7 +22,7 @@ pub fn get_remote_data_by_key(key: &str) -> String {
 
 pub fn get_remote_data() -> RemoteData {
     RemoteData {
-        token: get_remote_data_by_key("remoting-auth-token"),
+        remote_token: get_remote_data_by_key("remoting-auth-token"),
         port: get_remote_data_by_key("app-port"),
     }
 }
