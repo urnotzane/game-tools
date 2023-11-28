@@ -37,8 +37,8 @@
         "fullscreen": false,
         "resizable": false,
         "title": "game-tools",
-        "width": 1024,
-        "height": 576
+        "width": 1440,
+        "height": 810
       }
     ]
   }

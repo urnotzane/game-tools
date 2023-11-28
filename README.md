@@ -3,7 +3,7 @@
 ## 设计
 仿LOL S13的BP界面。
 
-按照16:9、宽度为1024px计算，高度应为576px，使用[rem.js](https://github.com/lanmerry/rem.js)自动计算px。
+按照16:9、宽度为1440px计算，高度应为810px，~~使用[rem.js](https://github.com/lanmerry/rem.js)自动计算px~~。
 
 ## windows下管理员权限cmd无法切换盘符
 1. 方法一

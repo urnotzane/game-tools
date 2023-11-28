@@ -1,0 +1,420 @@
+[
+	{
+		"championName": "虚空先知",
+		"isBot": false,
+		"isDead": false,
+		"items": [
+			{
+				"canUse": true,
+				"consumable": false,
+				"count": 1,
+				"displayName": "侦查守卫",
+				"itemID": 3340,
+				"price": 0,
+				"rawDescription": "GeneratedTip_Item_3340_Description",
+				"rawDisplayName": "Item_3340_Name",
+				"slot": 6
+			}
+		],
+		"level": 1,
+		"position": "",
+		"rawChampionName": "game_character_displayname_Malzahar",
+		"respawnTimer": 0.0,
+		"runes": {
+			"keystone": {
+				"displayName": "召唤：艾黎",
+				"id": 8214,
+				"rawDescription": "perk_tooltip_SummonAery",
+				"rawDisplayName": "perk_displayname_SummonAery"
+			},
+			"primaryRuneTree": {
+				"displayName": "巫术",
+				"id": 8200,
+				"rawDescription": "perkstyle_tooltip_7202",
+				"rawDisplayName": "perkstyle_displayname_7202"
+			},
+			"secondaryRuneTree": {
+				"displayName": "精密",
+				"id": 8000,
+				"rawDescription": "perkstyle_tooltip_7201",
+				"rawDisplayName": "perkstyle_displayname_7201"
+			}
+		},
+		"scores": {
+			"assists": 0,
+			"creepScore": 0,
+			"deaths": 0,
+			"kills": 0,
+			"wardScore": 0.0
+		},
+		"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"skinID": 0,
+		"summonerName": "const暖风",
+		"summonerSpells": {
+			"summonerSpellOne": {
+				"displayName": "净化",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerBoost_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerBoost_DisplayName"
+			},
+			"summonerSpellTwo": {
+				"displayName": "虚弱",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerExhaust_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerExhaust_DisplayName"
+			}
+		},
+		"team": "ORDER"
+	},
+	{
+		"championName": "荒漠屠夫",
+		"isBot": true,
+		"isDead": false,
+		"items": [
+			{
+				"canUse": false,
+				"consumable": false,
+				"count": 1,
+				"displayName": "多兰之刃",
+				"itemID": 1055,
+				"price": 450,
+				"rawDescription": "GeneratedTip_Item_1055_Description",
+				"rawDisplayName": "Item_1055_Name",
+				"slot": 0
+			},
+			{
+				"canUse": true,
+				"consumable": true,
+				"count": 1,
+				"displayName": "生命药水",
+				"itemID": 2003,
+				"price": 50,
+				"rawDescription": "GeneratedTip_Item_2003_Description",
+				"rawDisplayName": "Item_2003_Name",
+				"slot": 1
+			},
+			{
+				"canUse": true,
+				"consumable": false,
+				"count": 1,
+				"displayName": "侦查守卫",
+				"itemID": 3340,
+				"price": 0,
+				"rawDescription": "GeneratedTip_Item_3340_Description",
+				"rawDisplayName": "Item_3340_Name",
+				"slot": 6
+			}
+		],
+		"level": 1,
+		"position": "",
+		"rawChampionName": "game_character_displayname_Renekton",
+		"respawnTimer": 0.0,
+		"runes": {
+			"keystone": {
+				"displayName": "不灭之握",
+				"id": 8437,
+				"rawDescription": "perk_tooltip_GraspOfTheUndying",
+				"rawDisplayName": "perk_displayname_GraspOfTheUndying"
+			},
+			"primaryRuneTree": {
+				"displayName": "坚决",
+				"id": 8400,
+				"rawDescription": "perkstyle_tooltip_7204",
+				"rawDisplayName": "perkstyle_displayname_7204"
+			},
+			"secondaryRuneTree": {
+				"displayName": "巫术",
+				"id": 8200,
+				"rawDescription": "perkstyle_tooltip_7202",
+				"rawDisplayName": "perkstyle_displayname_7202"
+			}
+		},
+		"scores": {
+			"assists": 0,
+			"creepScore": 0,
+			"deaths": 0,
+			"kills": 0,
+			"wardScore": 0.0
+		},
+		"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"skinID": 0,
+		"summonerName": "荒漠屠夫（电脑）",
+		"summonerSpells": {
+			"summonerSpellOne": {
+				"displayName": "幽灵疾步",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+			},
+			"summonerSpellTwo": {
+				"displayName": "治疗术",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+			}
+		},
+		"team": "ORDER"
+	},
+	{
+		"championName": "牛头酋长",
+		"isBot": true,
+		"isDead": false,
+		"items": [
+			{
+				"canUse": false,
+				"consumable": false,
+				"count": 1,
+				"displayName": "圣物之盾",
+				"itemID": 3858,
+				"price": 400,
+				"rawDescription": "GeneratedTip_Item_3858_Description",
+				"rawDisplayName": "Item_3858_Name",
+				"slot": 0
+			},
+			{
+				"canUse": true,
+				"consumable": true,
+				"count": 2,
+				"displayName": "生命药水",
+				"itemID": 2003,
+				"price": 50,
+				"rawDescription": "GeneratedTip_Item_2003_Description",
+				"rawDisplayName": "Item_2003_Name",
+				"slot": 1
+			},
+			{
+				"canUse": true,
+				"consumable": false,
+				"count": 1,
+				"displayName": "侦查守卫",
+				"itemID": 3340,
+				"price": 0,
+				"rawDescription": "GeneratedTip_Item_3340_Description",
+				"rawDisplayName": "Item_3340_Name",
+				"slot": 6
+			}
+		],
+		"level": 1,
+		"position": "",
+		"rawChampionName": "game_character_displayname_Alistar",
+		"respawnTimer": 0.0,
+		"runes": {
+			"keystone": {
+				"displayName": "不灭之握",
+				"id": 8437,
+				"rawDescription": "perk_tooltip_GraspOfTheUndying",
+				"rawDisplayName": "perk_displayname_GraspOfTheUndying"
+			},
+			"primaryRuneTree": {
+				"displayName": "坚决",
+				"id": 8400,
+				"rawDescription": "perkstyle_tooltip_7204",
+				"rawDisplayName": "perkstyle_displayname_7204"
+			},
+			"secondaryRuneTree": {
+				"displayName": "巫术",
+				"id": 8200,
+				"rawDescription": "perkstyle_tooltip_7202",
+				"rawDisplayName": "perkstyle_displayname_7202"
+			}
+		},
+		"scores": {
+			"assists": 0,
+			"creepScore": 0,
+			"deaths": 0,
+			"kills": 0,
+			"wardScore": 0.0
+		},
+		"screenPositionBottom": "1360.7232666,958.6371460",
+		"screenPositionCenter": "1358.1630859,858.0562744",
+		"skinID": 0,
+		"summonerName": "牛头酋长（电脑）",
+		"summonerSpells": {
+			"summonerSpellOne": {
+				"displayName": "幽灵疾步",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+			},
+			"summonerSpellTwo": {
+				"displayName": "治疗术",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+			}
+		},
+		"team": "ORDER"
+	},
+	{
+		"championName": "寒冰射手",
+		"isBot": true,
+		"isDead": false,
+		"items": [
+			{
+				"canUse": false,
+				"consumable": false,
+				"count": 1,
+				"displayName": "萃取",
+				"itemID": 1083,
+				"price": 450,
+				"rawDescription": "GeneratedTip_Item_1083_Description",
+				"rawDisplayName": "Item_1083_Name",
+				"slot": 0
+			},
+			{
+				"canUse": true,
+				"consumable": true,
+				"count": 1,
+				"displayName": "生命药水",
+				"itemID": 2003,
+				"price": 50,
+				"rawDescription": "GeneratedTip_Item_2003_Description",
+				"rawDisplayName": "Item_2003_Name",
+				"slot": 1
+			},
+			{
+				"canUse": true,
+				"consumable": false,
+				"count": 1,
+				"displayName": "侦查守卫",
+				"itemID": 3340,
+				"price": 0,
+				"rawDescription": "GeneratedTip_Item_3340_Description",
+				"rawDisplayName": "Item_3340_Name",
+				"slot": 6
+			}
+		],
+		"level": 1,
+		"position": "",
+		"rawChampionName": "game_character_displayname_Ashe",
+		"respawnTimer": 0.0,
+		"runes": {
+			"keystone": {
+				"displayName": "强攻",
+				"id": 8005,
+				"rawDescription": "perk_tooltip_PressTheAttack",
+				"rawDisplayName": "perk_displayname_PressTheAttack"
+			},
+			"primaryRuneTree": {
+				"displayName": "精密",
+				"id": 8000,
+				"rawDescription": "perkstyle_tooltip_7201",
+				"rawDisplayName": "perkstyle_displayname_7201"
+			},
+			"secondaryRuneTree": {
+				"displayName": "巫术",
+				"id": 8200,
+				"rawDescription": "perkstyle_tooltip_7202",
+				"rawDisplayName": "perkstyle_displayname_7202"
+			}
+		},
+		"scores": {
+			"assists": 0,
+			"creepScore": 0,
+			"deaths": 0,
+			"kills": 0,
+			"wardScore": 0.0
+		},
+		"screenPositionBottom": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"screenPositionCenter": "340282346638528859811704183484516925440.0000000,340282346638528859811704183484516925440.0000000",
+		"skinID": 0,
+		"summonerName": "寒冰射手（电脑）",
+		"summonerSpells": {
+			"summonerSpellOne": {
+				"displayName": "幽灵疾步",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+			},
+			"summonerSpellTwo": {
+				"displayName": "治疗术",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+			}
+		},
+		"team": "ORDER"
+	},
+	{
+		"championName": "巨魔之王",
+		"isBot": true,
+		"isDead": false,
+		"items": [
+			{
+				"canUse": false,
+				"consumable": false,
+				"count": 1,
+				"displayName": "多兰之盾",
+				"itemID": 1054,
+				"price": 450,
+				"rawDescription": "GeneratedTip_Item_1054_Description",
+				"rawDisplayName": "Item_1054_Name",
+				"slot": 0
+			},
+			{
+				"canUse": true,
+				"consumable": true,
+				"count": 1,
+				"displayName": "生命药水",
+				"itemID": 2003,
+				"price": 50,
+				"rawDescription": "GeneratedTip_Item_2003_Description",
+				"rawDisplayName": "Item_2003_Name",
+				"slot": 1
+			},
+			{
+				"canUse": true,
+				"consumable": false,
+				"count": 1,
+				"displayName": "侦查守卫",
+				"itemID": 3340,
+				"price": 0,
+				"rawDescription": "GeneratedTip_Item_3340_Description",
+				"rawDisplayName": "Item_3340_Name",
+				"slot": 6
+			}
+		],
+		"level": 1,
+		"position": "",
+		"rawChampionName": "game_character_displayname_Trundle",
+		"respawnTimer": 0.0,
+		"runes": {
+			"keystone": {
+				"displayName": "不灭之握",
+				"id": 8437,
+				"rawDescription": "perk_tooltip_GraspOfTheUndying",
+				"rawDisplayName": "perk_displayname_GraspOfTheUndying"
+			},
+			"primaryRuneTree": {
+				"displayName": "坚决",
+				"id": 8400,
+				"rawDescription": "perkstyle_tooltip_7204",
+				"rawDisplayName": "perkstyle_displayname_7204"
+			},
+			"secondaryRuneTree": {
+				"displayName": "巫术",
+				"id": 8200,
+				"rawDescription": "perkstyle_tooltip_7202",
+				"rawDisplayName": "perkstyle_displayname_7202"
+			}
+		},
+		"scores": {
+			"assists": 0,
+			"creepScore": 0,
+			"deaths": 0,
+			"kills": 0,
+			"wardScore": 0.0
+		},
+		"screenPositionBottom": "1259.5327148,708.6849976",
+		"screenPositionCenter": "1259.9559326,648.2762451",
+		"skinID": 0,
+		"summonerName": "巨魔之王（电脑）",
+		"summonerSpells": {
+			"summonerSpellOne": {
+				"displayName": "幽灵疾步",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHaste_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHaste_DisplayName"
+			},
+			"summonerSpellTwo": {
+				"displayName": "治疗术",
+				"rawDescription": "GeneratedTip_SummonerSpell_SummonerHeal_Description",
+				"rawDisplayName": "GeneratedTip_SummonerSpell_SummonerHeal_DisplayName"
+			}
+		},
+		"team": "ORDER"
+	}
+]

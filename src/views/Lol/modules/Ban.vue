@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-[100vw] absolute bottom-[156px]">
+  <div class="w-full flex justify-between absolute bottom-[219px]">
     <BanItems :banLimit="banLimit" :banChamps="champs" />
     <BanItems :banLimit="banLimit" :banChamps="champs" :team="LolSpace.TeamType.red" />
   </div>
