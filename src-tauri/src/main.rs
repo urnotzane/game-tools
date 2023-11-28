@@ -9,7 +9,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             cmds::greet,
-            cmds::get_token
+            cmds::get_token,
+						// cmds::send_req,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
