@@ -7,7 +7,7 @@
     }" v-for="pickIndex in pickLimit" :key="pickIndex">
       <img class="w-full h-full" v-if="pickChamps[pickIndex - 1]" :src="pickChamps[pickIndex - 1].imgUrl" />
       <div class="" v-else>
-        <div class="pl-2 pt-2">{{ LolSpace.PlayerPositions[pickIndex] }}</div>
+        <div class="pl-2 pt-2">{{ LolSpace.PlayerPositions[pickIndex - 1] }}</div>
       </div>
       <div class="absolute pl-2 bottom-2">
         player {{ pickIndex }}
