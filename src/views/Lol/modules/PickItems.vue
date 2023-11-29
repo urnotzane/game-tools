@@ -6,8 +6,10 @@
       'border-l border-r-0': isRedTeam
     }" v-for="pickIndex in pickLimit" :key="pickIndex">
       <img class="w-full h-full" v-if="pickChamps[pickIndex - 1]" :src="pickChamps[pickIndex - 1].imgUrl" />
-      <div class="" v-else></div>
-      <div class="pl-3 absolute bottom-2">
+      <div class="" v-else>
+        <div class="pl-2 pt-2">{{ LolSpace.PlayerPositions[pickIndex] }}</div>
+      </div>
+      <div class="absolute pl-2 bottom-2">
         player {{ pickIndex }}
       </div>
     </div>
