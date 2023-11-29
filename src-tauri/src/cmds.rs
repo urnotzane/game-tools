@@ -17,3 +17,8 @@ pub async fn current_summoner() -> String {
     send_lol_req(Method::GET, "/lol-summoner/v1/current-summoner").await.unwrap()
 }
 
+#[tauri::command]
+pub async fn champ_select_session() -> String {
+    send_lol_req(Method::GET, "/lol-champ-select/v1/session").await.unwrap()
+}
+
