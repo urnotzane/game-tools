@@ -30,12 +30,18 @@ const currentSummoner = ref<LolSpace.Summoner>();
 const bpSession = ref<LolSpace.ChampSelectSession>();
 
 const getCurrentSummoner = async () => {
-  const res = await lolServices<LolSpace.Summoner>('current_summoner');
+  const res = await lolServices<LolSpace.Summoner>({
+    method: LolSpace.Method.get,
+    url: "/lol-summoner/v1/current-summoner"
+  });
   if (res?.httpStatus) return;
   currentSummoner.value = res;
 }
 const getChampSelectSession = async () => {
-  const res = await lolServices<LolSpace.ChampSelectSession>('champ_select_session');
+  const res = await lolServices<LolSpace.ChampSelectSession>({
+    method: LolSpace.Method.get,
+    url: "/lol-champ-select/v1/session"
+  });
   if (res?.httpStatus) return;
   bpSession.value = {
   "actions": [

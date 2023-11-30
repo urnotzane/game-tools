@@ -1,4 +1,6 @@
-use crate::{lol::{self, get_remote_data, RemoteData}, utils::send_lol_req};
+use crate::{
+    lol::{self, get_remote_data, RemoteData}, utils::send_lol_req,
+};
 use reqwest::{self, Method};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -13,12 +15,8 @@ pub async fn get_token() -> RemoteData {
 }
 
 #[tauri::command]
-pub async fn current_summoner() -> String {
-    send_lol_req(Method::GET, "/lol-summoner/v1/current-summoner").await.unwrap()
+pub async fn send_lol_req_cmd(method: &str, url: &str, data: Option<String>) -> Result<String, String> {
+  let res_str = send_lol_req(method, url, data).await.unwrap();
+  Ok(res_str)
 }
-
-#[tauri::command]
-pub async fn champ_select_session() -> String {
-    send_lol_req(Method::GET, "/lol-champ-select/v1/session").await.unwrap()
-}
-
+// Method::from_bytes(b"GET").unwrap();

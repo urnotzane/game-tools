@@ -1,4 +1,15 @@
 export namespace LolSpace {
+  export enum Method {
+    get = 'GET',
+    post = "POST",
+    put = "PUT",
+    delete = "DELETE"
+  }
+  export interface ServiceParams<P> {
+    method: Method,
+    url: string;
+    data?: P;
+  }
   export interface BanChamp {
     id: number;
     imgUrl: string;
