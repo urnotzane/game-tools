@@ -2,13 +2,7 @@
   <div class="relative">
     <!-- ban高度为5vw，那么pick高度为15vw，所以整个BP部分高度为20vw，因此，直播画面高度为100% - 20vw -->
     <div class="w-full live p-4">
-      <div class="">
-        <div class="text-lg">
-          当前账号：
-          <span class="text-blue-500" v-if="currentSummoner">{{ currentSummoner?.displayName }}</span>
-          <span class="text-red-500" v-else>未登录</span>
-        </div>
-      </div>
+      <Utils />
     </div>
     <!-- 根据LOL S13需要展示的内容，将横向屏幕分为12份
         分别对应是个Pick英雄和两个中间比分位
@@ -24,127 +18,121 @@ import Ban from './modules/Ban.vue'
 import Pick from './modules/Pick.vue'
 import { computed, onMounted, ref } from 'vue';
 import { LolSpace } from '@/types/lol.ts';
-import { lolServices } from './services/client';
+import { lolServices } from './services/client.ts';
+import Utils from './modules/Utils.vue';
 
-const currentSummoner = ref<LolSpace.Summoner>();
 const bpSession = ref<LolSpace.ChampSelectSession>();
 
 const banSession = computed(() => bpSession.value?.bans);
 const blueTeam = computed(() => bpSession.value?.myTeam);
 const redTeam = computed(() => bpSession.value?.theirTeam);
 
-const getCurrentSummoner = async () => {
-  const res = await lolServices<LolSpace.Summoner>({
-    method: LolSpace.Method.get,
-    url: "/lol-summoner/v1/current-summoner"
-  });
-  if (res?.httpStatus) return;
-  currentSummoner.value = res;
-}
 const getChampSelectSession = async () => {
   const res = await lolServices<LolSpace.ChampSelectSession>({
     method: LolSpace.Method.get,
     url: "/lol-champ-select/v1/session"
   });
-  if (res?.httpStatus) return;
+  console.log(res);
+  
+  // if (res?.httpStatus) return;
   bpSession.value = {
   "actions": [
     [
       {
-        "actorCellId": 0,
-        "championId": 86,
+        "actorCellId": 1,
+        "championId": 45,
         "completed": true,
         "id": 1,
         "isAllyAction": true,
         "isInProgress": false,
-        "pickTurn": 2,
-        "type": "pick"
-      },
-      {
-        "actorCellId": 1,
-        "championId": 115,
-        "completed": true,
-        "id": 2,
-        "isAllyAction": true,
-        "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 2,
-        "championId": 19,
+        "championId": 62,
         "completed": true,
-        "id": 3,
+        "id": 2,
         "isAllyAction": true,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 3,
-        "championId": 12,
+        "championId": 99,
         "completed": true,
-        "id": 4,
+        "id": 3,
         "isAllyAction": true,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 4,
-        "championId": 21,
+        "championId": 13,
         "completed": true,
-        "id": 5,
+        "id": 4,
         "isAllyAction": true,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 6,
-        "championId": 32,
+        "championId": 236,
         "completed": true,
-        "id": 6,
+        "id": 5,
         "isAllyAction": false,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 7,
-        "championId": 122,
+        "championId": 96,
         "completed": true,
-        "id": 7,
+        "id": 6,
         "isAllyAction": false,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 8,
-        "championId": 86,
+        "championId": 51,
         "completed": true,
-        "id": 8,
+        "id": 7,
         "isAllyAction": false,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
       },
       {
         "actorCellId": 9,
-        "championId": 48,
+        "championId": 16,
         "completed": true,
-        "id": 9,
+        "id": 8,
         "isAllyAction": false,
         "isInProgress": false,
-        "pickTurn": 2,
+        "pickTurn": 1,
         "type": "pick"
+      },
+      {
+        "actorCellId": 0,
+        "championId": 113,
+        "completed": true,
+        "id": 9,
+        "isAllyAction": true,
+        "isInProgress": false,
+        "pickTurn": 1,
+        "type": "ban"
       }
     ],
     [
       {
         "actorCellId": 5,
-        "championId": 523,
+        "championId": 895,
         "completed": true,
         "id": 10,
         "isAllyAction": false,
@@ -155,10 +143,22 @@ const getChampSelectSession = async () => {
     ],
     [
       {
+        "actorCellId": 0,
+        "championId": 876,
+        "completed": true,
+        "id": 11,
+        "isAllyAction": true,
+        "isInProgress": false,
+        "pickTurn": 3,
+        "type": "ban"
+      }
+    ],
+    [
+      {
         "actorCellId": 5,
         "championId": 0,
         "completed": true,
-        "id": 11,
+        "id": 12,
         "isAllyAction": false,
         "isInProgress": false,
         "pickTurn": 4,
@@ -167,10 +167,22 @@ const getChampSelectSession = async () => {
     ],
     [
       {
-        "actorCellId": 5,
-        "championId": 105,
+        "actorCellId": 0,
+        "championId": 25,
         "completed": true,
-        "id": 12,
+        "id": 13,
+        "isAllyAction": true,
+        "isInProgress": false,
+        "pickTurn": 5,
+        "type": "ban"
+      }
+    ],
+    [
+      {
+        "actorCellId": 5,
+        "championId": 950,
+        "completed": true,
+        "id": 14,
         "isAllyAction": false,
         "isInProgress": false,
         "pickTurn": 6,
@@ -179,10 +191,22 @@ const getChampSelectSession = async () => {
     ],
     [
       {
-        "actorCellId": 5,
-        "championId": 11,
+        "actorCellId": 0,
+        "championId": 21,
         "completed": true,
-        "id": 13,
+        "id": 15,
+        "isAllyAction": true,
+        "isInProgress": false,
+        "pickTurn": 1,
+        "type": "pick"
+      }
+    ],
+    [
+      {
+        "actorCellId": 5,
+        "championId": 147,
+        "completed": true,
+        "id": 16,
         "isAllyAction": false,
         "isInProgress": false,
         "pickTurn": 1,
@@ -196,11 +220,15 @@ const getChampSelectSession = async () => {
   "allowRerolling": false,
   "allowSkinSelection": true,
   "bans": {
-    "myTeamBans": [],
+    "myTeamBans": [
+      113,
+      876,
+      25
+    ],
     "numBans": 6,
     "theirTeamBans": [
-      523,
-      105
+      895,
+      950
     ]
   },
   "benchChampions": [],
@@ -213,46 +241,46 @@ const getChampSelectSession = async () => {
       "jwt": "",
       "targetRegion": ""
     },
-    "multiUserChatId": "",
-    "multiUserChatPassword": ""
+    "multiUserChatId": "c1~72b0895c0b0d27c805577a012f02bf8a154cf822",
+    "multiUserChatPassword": "W6UMGivaOFNUGNUg"
   },
   "counter": -1,
   "gameId": 0,
   "hasSimultaneousBans": false,
   "hasSimultaneousPicks": false,
   "isCustomGame": true,
-  "isSpectating": true,
-  "localPlayerCellId": -1,
+  "isSpectating": false,
+  "localPlayerCellId": 0,
   "lockedEventIndex": -1,
   "myTeam": [
     {
       "assignedPosition": "",
       "cellId": 0,
-      "championId": 86,
+      "championId": 21,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
-      "puuid": "",
-      "selectedSkinId": 86000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
-      "summonerId": 0,
+      "puuid": "9393dd66-5b25-5c7e-84dc-9cc2edb1f9cf",
+      "selectedSkinId": 21000,
+      "spell1Id": 1,
+      "spell2Id": 3,
+      "summonerId": 4001675596,
       "team": 1,
       "wardSkinId": -1
     },
     {
       "assignedPosition": "",
       "cellId": 1,
-      "championId": 115,
+      "championId": 45,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 115000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 45000,
+      "spell1Id": 18446744073709552000,
+      "spell2Id": 18446744073709552000,
       "summonerId": 0,
       "team": 1,
       "wardSkinId": -1
@@ -260,15 +288,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 2,
-      "championId": 19,
+      "championId": 62,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 19000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 62000,
+      "spell1Id": 18446744073709552000,
+      "spell2Id": 18446744073709552000,
       "summonerId": 0,
       "team": 1,
       "wardSkinId": -1
@@ -276,15 +304,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 3,
-      "championId": 12,
+      "championId": 99,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 12000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 99000,
+      "spell1Id": 18446744073709552000,
+      "spell2Id": 18446744073709552000,
       "summonerId": 0,
       "team": 1,
       "wardSkinId": -1
@@ -292,15 +320,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 4,
-      "championId": 21,
+      "championId": 13,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 21000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 13000,
+      "spell1Id": 18446744073709552000,
+      "spell2Id": 18446744073709552000,
       "summonerId": 0,
       "team": 1,
       "wardSkinId": -1
@@ -314,15 +342,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 5,
-      "championId": 11,
+      "championId": 147,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "560bd6df-cfb5-53a0-bc29-9b471b17224d",
-      "selectedSkinId": 11000,
-      "spell1Id": 1,
-      "spell2Id": 3,
+      "selectedSkinId": 147000,
+      "spell1Id": 0,
+      "spell2Id": 0,
       "summonerId": 2946916313,
       "team": 2,
       "wardSkinId": -1
@@ -330,15 +358,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 6,
-      "championId": 32,
+      "championId": 236,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 32000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 236000,
+      "spell1Id": 0,
+      "spell2Id": 0,
       "summonerId": 0,
       "team": 2,
       "wardSkinId": -1
@@ -346,15 +374,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 7,
-      "championId": 122,
+      "championId": 96,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 122000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 96000,
+      "spell1Id": 0,
+      "spell2Id": 0,
       "summonerId": 0,
       "team": 2,
       "wardSkinId": -1
@@ -362,15 +390,15 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 8,
-      "championId": 86,
+      "championId": 51,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 86000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 51000,
+      "spell1Id": 0,
+      "spell2Id": 0,
       "summonerId": 0,
       "team": 2,
       "wardSkinId": -1
@@ -378,33 +406,28 @@ const getChampSelectSession = async () => {
     {
       "assignedPosition": "",
       "cellId": 9,
-      "championId": 48,
+      "championId": 16,
       "championPickIntent": 0,
       "nameVisibilityType": "",
       "obfuscatedPuuid": "",
       "obfuscatedSummonerId": 0,
       "puuid": "",
-      "selectedSkinId": 48000,
-      "spell1Id": 18446744073709551615,
-      "spell2Id": 18446744073709551615,
+      "selectedSkinId": 16000,
+      "spell1Id": 0,
+      "spell2Id": 0,
       "summonerId": 0,
       "team": 2,
       "wardSkinId": -1
     }
   ],
   "timer": {
-    "adjustedTimeLeftInPhase": 29860,
-    "internalNowInEpochMs": 1701141709685,
+    "adjustedTimeLeftInPhase": 29865,
+    "internalNowInEpochMs": 1701333541699,
     "isInfinite": false,
     "phase": "FINALIZATION",
-    "totalTimeInPhase": 32860
+    "totalTimeInPhase": 32865
   },
   "trades": [
-    {
-      "cellId": 0,
-      "id": 100,
-      "state": "INVALID"
-    },
     {
       "cellId": 1,
       "id": 101,
@@ -429,8 +452,9 @@ const getChampSelectSession = async () => {
 };
 }
 onMounted(async () => {
-  getCurrentSummoner();
-  getChampSelectSession();
+  await getChampSelectSession();
+  console.log(bpSession.value);
+  
 })
 </script>
 <style scoped lang="scss">
