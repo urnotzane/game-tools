@@ -46,7 +46,7 @@ const getChampSelectSession = async () => {
     method: LolSpace.Method.get,
     url: "/lol-champ-select/v1/session"
   });
-  // if (res?.httpStatus) return;
+  if (res?.httpStatus) return;
   bpSession.value = {
   "actions": [
     [

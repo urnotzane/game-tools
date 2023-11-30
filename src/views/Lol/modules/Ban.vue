@@ -25,5 +25,5 @@ const props = defineProps<{
   banSession?: LolSpace.IBan;
 }>()
 
-const banLimit = computed(() => props.banSession?.numBans || 0)
+const banLimit = computed(() => (props.banSession?.numBans || 0) / 2)
 </script>
