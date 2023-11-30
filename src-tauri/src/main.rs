@@ -13,6 +13,7 @@ fn main() {
 			cmds::greet,
 			cmds::get_token,
 			cmds::send_lol_req_cmd,
+			cmds::get_champs,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");

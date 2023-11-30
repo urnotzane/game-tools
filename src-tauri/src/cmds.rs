@@ -1,7 +1,8 @@
+use serde_json::{Map, Value};
+
 use crate::{
-    lol::{self, get_remote_data, RemoteData}, utils::send_lol_req,
+    lol::{get_remote_data, RemoteData, get_champions}, utils::send_lol_req,
 };
-use reqwest::{self, Method};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -19,4 +20,9 @@ pub async fn send_lol_req_cmd(method: &str, url: &str, data: Option<String>) -> 
   let res_str = send_lol_req(method, url, data).await.unwrap();
   Ok(res_str)
 }
-// Method::from_bytes(b"GET").unwrap();
+
+#[tauri::command]
+pub async fn get_champs() -> Result<Map<String, Value>, String> {
+  let res = get_champions().await.unwrap();
+  Ok(res)
+}

@@ -22,6 +22,11 @@
 import { LolSpace } from '@/types/lol.ts';
 import PickItems from './PickItems.vue';
 
+defineProps<{
+  blueTeam: LolSpace.TeamItem[];
+  redTeam: LolSpace.TeamItem[];
+}>()
+
 const pickLimit = 5;
 const champs: LolSpace.BanChamp[] = [
   {

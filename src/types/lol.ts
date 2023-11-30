@@ -77,12 +77,12 @@ export namespace LolSpace {
     isSpectating:boolean;
     localPlayerCellId:number;
     lockedEventIndex:number;
-    myTeam:IMyTeam[];
+    myTeam:TeamItem[];
     pickOrderSwaps:void /* undefined */[];
     recoveryCounter:number;
     rerollsRemaining:number;
     skipChampionSelect:boolean;
-    theirTeam:ITheirTeam[];
+    theirTeam:TeamItem[];
     timer:ITimer;
     trades:ITrad[];
   }
@@ -101,24 +101,7 @@ export namespace LolSpace {
     totalTimeInPhase:number;
   }
   
-  export interface ITheirTeam {
-    assignedPosition:string;
-    cellId:number;
-    championId:number;
-    championPickIntent:number;
-    nameVisibilityType:string;
-    obfuscatedPuuid:string;
-    obfuscatedSummonerId:number;
-    puuid:string;
-    selectedSkinId:number;
-    spell1Id:number;
-    spell2Id:number;
-    summonerId:number;
-    team:number;
-    wardSkinId:number;
-  }
-  
-  export interface IMyTeam {
+  export interface TeamItem {
     assignedPosition:string;
     cellId:number;
     championId:number;

@@ -14,20 +14,24 @@
         分别对应是个Pick英雄和两个中间比分位
     -->
     <div class="w-full h-[3px] bg-white" />
-    <Ban />
-    <Pick />
+    <Ban :banSession="banSession" />
+    <Pick :blueTeam="blueTeam" :redTeam="redTeam" />
   </div>
 </template>
 
 <script setup lang="ts">
 import Ban from './modules/Ban.vue'
 import Pick from './modules/Pick.vue'
-import { onMounted, ref } from 'vue';
-import { LolSpace } from '@/types/lol';
+import { computed, onMounted, ref } from 'vue';
+import { LolSpace } from '@/types/lol.ts';
 import { lolServices } from './services/client';
 
 const currentSummoner = ref<LolSpace.Summoner>();
 const bpSession = ref<LolSpace.ChampSelectSession>();
+
+const banSession = computed(() => bpSession.value?.bans);
+const blueTeam = computed(() => bpSession.value?.myTeam);
+const redTeam = computed(() => bpSession.value?.theirTeam);
 
 const getCurrentSummoner = async () => {
   const res = await lolServices<LolSpace.Summoner>({
@@ -42,7 +46,7 @@ const getChampSelectSession = async () => {
     method: LolSpace.Method.get,
     url: "/lol-champ-select/v1/session"
   });
-  if (res?.httpStatus) return;
+  // if (res?.httpStatus) return;
   bpSession.value = {
   "actions": [
     [
