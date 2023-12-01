@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between bg-gray-950 text-white">
-    <PickItems :pickChamps="champs" :pickLimit="pickLimit" />
+    <PickItems :teamMembers="blueTeam" :pickLimit="pickLimit" />
     <div class="flex-1 text-center text-lg relative">
       <div class="m-4">决赛</div>
       <div class="absolute top-1/2 w-full">VS</div>
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <PickItems :team="LolSpace.TeamType.red" :pickChamps="champs" :pickLimit="pickLimit" />
+    <PickItems :team="LolSpace.TeamType.red" :teamMembers="redTeam" :pickLimit="pickLimit" />
   </div>
 </template>
 <script setup lang="ts">
@@ -28,16 +28,4 @@ defineProps<{
 }>()
 
 const pickLimit = 5;
-const champs: LolSpace.BanChamp[] = [
-  {
-    id: 1,
-    imgUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg",
-    name: '暗裔剑魔'
-  },
-  {
-    id: 2,
-    imgUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg",
-    name: '暗裔剑魔'
-  },
-]
 </script>
