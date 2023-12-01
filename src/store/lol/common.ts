@@ -51,7 +51,6 @@ export const useLobbyStore = defineStore('lolLobby', () => {
       method: LolSpace.Method.get,
       url: "/lol-lobby/v2/lobby"
     });
-    console.log('getLobbySession', res);
 
     if (res?.httpStatus) {
       gameConfig.value = undefined
@@ -59,20 +58,29 @@ export const useLobbyStore = defineStore('lolLobby', () => {
       gameConfig.value = res?.gameConfig;
     }
   }
-
-  onMounted(() => {
+  const startRefresh = () => {
     interval.value = setInterval(() => {
       getLobbySession();
     }, 500);
+  }
+  const stopRefresh = () => {
+    clearInterval(interval.value);
+    interval.value = undefined;
+  }
+  onMounted(() => {
+    startRefresh();
   })
 
   onUnmounted(() => {
-    clearInterval(interval.value);
+    stopRefresh();
   });
 
   watch(() => selectTimerStore.selectStage, (selectStage) => {
     if (selectStage) {
-      clearInterval(interval.value);
+      stopRefresh();
+    } else {
+      if (interval.value) return;
+      startRefresh();
     }
   })
   return {
@@ -92,7 +100,7 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
       method: LolSpace.Method.get,
       url: "/lol-champ-select/v1/session/timer"
     });
-    console.log('getSelectTimer', res);
+    
     if (res?.httpStatus) {
       selectStage.value = undefined
     } else {

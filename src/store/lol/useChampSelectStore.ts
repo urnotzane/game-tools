@@ -32,7 +32,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
   });
   const blueTeam = computed(() => bpSession.value?.myTeam);
   const redTeam = computed(() => bpSession.value?.theirTeam);
-  
+
   const banActions = computed((): Record<string, LolSpace.IAction[]> => {
     const actions = bpSession.value?.actions;
     const red: LolSpace.IAction[] = [];
@@ -57,12 +57,12 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     const red: LolSpace.IAction[] = [];
     const blue: LolSpace.IAction[] = [];
     actions?.forEach((action) => {
-      const banAction = action?.find((item) => item.type === 'pick')
-      if (!banAction) return;
-      if (banAction.pickTurn % 2) {
-        blue.push(banAction)
+      const pickAction = action?.findLast((item) => item.type === 'pick');
+      if (!pickAction) return;
+      if (pickAction.pickTurn % 2) {
+        blue.push(pickAction)
       } else {
-        red.push(banAction)
+        red.push(pickAction)
       }
     })
     return {
@@ -76,15 +76,13 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       method: LolSpace.Method.get,
       url: "/lol-champ-select/v1/session"
     });
-    console.log('getChampSelectSession', res);
-
     if (res?.httpStatus) {
       bpSession.value = undefined;
     } else {
       bpSession.value = res;
     }
   }
-  
+
   watch(() => selectStore.selectStage, (selectStage) => {
     if (selectStage === 'BAN_PICK') {
       interval.value = setInterval(() => {
