@@ -59,6 +59,7 @@ export const useLobbyStore = defineStore('lolLobby', () => {
     }
   }
   const startRefresh = () => {
+    if (interval.value) return;
     interval.value = setInterval(() => {
       getLobbySession();
     }, 500);
@@ -79,7 +80,6 @@ export const useLobbyStore = defineStore('lolLobby', () => {
     if (selectStage) {
       stopRefresh();
     } else {
-      if (interval.value) return;
       startRefresh();
     }
   })
@@ -108,14 +108,23 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
     }
   }
 
-  onMounted(() => {
+  const startRefresh = () => {
+    if (interval.value) return;
     interval.value = setInterval(() => {
       getSelectTimer();
     }, 500);
+  }
+  const stopRefresh = () => {
+    clearInterval(interval.value);
+    interval.value = undefined;
+  }
+
+  onMounted(() => {
+    startRefresh();
   })
 
   onUnmounted(() => {
-    clearInterval(interval.value);
+    stopRefresh();
   })
   return {
     selectStage,

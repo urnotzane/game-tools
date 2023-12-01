@@ -83,13 +83,21 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     }
   }
 
+  const startRefresh = () => {
+    if (interval.value) return;
+    interval.value = setInterval(() => {
+      getChampSelectSession();
+    }, 500);
+  }
+  const stopRefresh = () => {
+    clearInterval(interval.value);
+    interval.value = undefined;
+  }
   watch(() => selectStore.selectStage, (selectStage) => {
     if (selectStage === 'BAN_PICK') {
-      interval.value = setInterval(() => {
-        getChampSelectSession();
-      }, 500)
+      startRefresh();
     } else {
-      clearInterval(interval.value);
+      stopRefresh();
     }
   })
 
