@@ -9,6 +9,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
 
   const bpSession = ref<LolSpace.ChampSelectSession>();
   const interval = ref<number>();
+  const banLimit = computed(() => (bpSession.value?.bans.numBans || 10) / 2);
 
   const banSession = computed((): LolSpace.IBan => {
     const actions = bpSession.value?.actions;
@@ -31,6 +32,44 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
   });
   const blueTeam = computed(() => bpSession.value?.myTeam);
   const redTeam = computed(() => bpSession.value?.theirTeam);
+  
+  const banActions = computed((): Record<string, LolSpace.IAction[]> => {
+    const actions = bpSession.value?.actions;
+    const red: LolSpace.IAction[] = [];
+    const blue: LolSpace.IAction[] = [];
+    actions?.forEach((action) => {
+      const banAction = action?.find((item) => item.type === 'ban')
+      if (!banAction) return;
+      if (banAction.pickTurn % 2) {
+        blue.push(banAction)
+      } else {
+        red.push(banAction)
+      }
+    })
+    return {
+      blue,
+      red,
+    }
+  });
+
+  const pickActions = computed((): Record<string, LolSpace.IAction[]> => {
+    const actions = bpSession.value?.actions;
+    const red: LolSpace.IAction[] = [];
+    const blue: LolSpace.IAction[] = [];
+    actions?.forEach((action) => {
+      const banAction = action?.find((item) => item.type === 'pick')
+      if (!banAction) return;
+      if (banAction.pickTurn % 2) {
+        blue.push(banAction)
+      } else {
+        red.push(banAction)
+      }
+    })
+    return {
+      blue,
+      red,
+    }
+  });
 
   const getChampSelectSession = async () => {
     const res = await lolServices<LolSpace.ChampSelectSession>({
@@ -61,5 +100,9 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     banSession,
     blueTeam,
     redTeam,
+    banLimit,
+    banActions,
+    pickActions,
+    getChampSelectSession,
   }
 });

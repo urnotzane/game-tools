@@ -10,3 +10,12 @@ html, body {
 #app {
   // padding: 20px;
 }
+
+.blink-animation {
+  animation: blink 1.5s infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}

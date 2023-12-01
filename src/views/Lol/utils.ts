@@ -1,3 +1,5 @@
+import { LolSpace } from "@/types/lol.ts";
+
 /** 头像 */
 export const formatChampIcon = (iconName:string) => `https://ddragon.leagueoflegends.com/cdn/13.23.1/img/champion/${iconName}`;
 
@@ -6,3 +8,13 @@ export const formatChampLoading = (champIdText:string) => `https://ddragon.leagu
 
 /** 壁纸 */
 export const formatChampSplash = (champIdText: string) => `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champIdText}_0.jpg`;
+
+export const formatBanActions = (actions:LolSpace.IAction[], champs:Record<string, LolSpace.Champion>): LolSpace.BanChamp[] => actions.map((action) => {
+  const champ = champs[action.championId];
+  return {
+    id: action.championId,
+    imgUrl: formatChampIcon(champ?.image?.full),
+    name: champ?.name || '',
+    isInProgress: action.isInProgress,
+  };
+})

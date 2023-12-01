@@ -3,7 +3,7 @@
       [
           {
               "actorCellId": 1,
-              "championId": 31,
+              "championId": 44,
               "completed": true,
               "id": 1,
               "isAllyAction": true,
@@ -13,7 +13,7 @@
           },
           {
               "actorCellId": 2,
-              "championId": 13,
+              "championId": 30,
               "completed": true,
               "id": 2,
               "isAllyAction": true,
@@ -33,7 +33,7 @@
           },
           {
               "actorCellId": 4,
-              "championId": 45,
+              "championId": 18,
               "completed": true,
               "id": 4,
               "isAllyAction": true,
@@ -53,7 +53,7 @@
           },
           {
               "actorCellId": 6,
-              "championId": 89,
+              "championId": 15,
               "completed": true,
               "id": 6,
               "isAllyAction": false,
@@ -63,7 +63,7 @@
           },
           {
               "actorCellId": 7,
-              "championId": 236,
+              "championId": 44,
               "completed": true,
               "id": 7,
               "isAllyAction": false,
@@ -73,7 +73,7 @@
           },
           {
               "actorCellId": 8,
-              "championId": 69,
+              "championId": 104,
               "completed": true,
               "id": 8,
               "isAllyAction": false,
@@ -83,7 +83,7 @@
           },
           {
               "actorCellId": 9,
-              "championId": 98,
+              "championId": 24,
               "completed": true,
               "id": 9,
               "isAllyAction": false,
@@ -93,7 +93,7 @@
           },
           {
               "actorCellId": 0,
-              "championId": 523,
+              "championId": 67,
               "completed": true,
               "id": 10,
               "isAllyAction": true,
@@ -105,7 +105,7 @@
       [
           {
               "actorCellId": 0,
-              "championId": 5,
+              "championId": 523,
               "completed": true,
               "id": 11,
               "isAllyAction": true,
@@ -117,7 +117,7 @@
       [
           {
               "actorCellId": 0,
-              "championId": 523,
+              "championId": 266,
               "completed": true,
               "id": 12,
               "isAllyAction": true,
@@ -129,7 +129,7 @@
       [
           {
               "actorCellId": 0,
-              "championId": 1,
+              "championId": 51,
               "completed": false,
               "id": 13,
               "isAllyAction": true,
@@ -146,8 +146,9 @@
   "allowSkinSelection": true,
   "bans": {
       "myTeamBans": [
+          67,
           523,
-          5
+          266
       ],
       "numBans": 6,
       "theirTeamBans": []
@@ -163,7 +164,7 @@
           "targetRegion": ""
       },
       "multiUserChatId": "c1~72b0895c0b0d27c805577a012f02bf8a154cf822",
-      "multiUserChatPassword": "OCzDgV5cD5MUnmqt"
+      "multiUserChatPassword": "W3Uf3dJROvrahkHg"
   },
   "counter": -1,
   "gameId": 0,
@@ -177,13 +178,13 @@
       {
           "assignedPosition": "",
           "cellId": 0,
-          "championId": 1,
+          "championId": 51,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "9393dd66-5b25-5c7e-84dc-9cc2edb1f9cf",
-          "selectedSkinId": 1000,
+          "selectedSkinId": 51000,
           "spell1Id": 1,
           "spell2Id": 3,
           "summonerId": 4001675596,
@@ -193,13 +194,13 @@
       {
           "assignedPosition": "",
           "cellId": 1,
-          "championId": 31,
+          "championId": 44,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 31000,
+          "selectedSkinId": 44000,
           "spell1Id": 18446744073709552000,
           "spell2Id": 18446744073709552000,
           "summonerId": 0,
@@ -209,13 +210,13 @@
       {
           "assignedPosition": "",
           "cellId": 2,
-          "championId": 13,
+          "championId": 30,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 13000,
+          "selectedSkinId": 30000,
           "spell1Id": 18446744073709552000,
           "spell2Id": 18446744073709552000,
           "summonerId": 0,
@@ -241,13 +242,13 @@
       {
           "assignedPosition": "",
           "cellId": 4,
-          "championId": 45,
+          "championId": 18,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 45000,
+          "selectedSkinId": 18000,
           "spell1Id": 18446744073709552000,
           "spell2Id": 18446744073709552000,
           "summonerId": 0,
@@ -279,13 +280,13 @@
       {
           "assignedPosition": "",
           "cellId": 6,
-          "championId": 89,
+          "championId": 15,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 89000,
+          "selectedSkinId": 15000,
           "spell1Id": 0,
           "spell2Id": 0,
           "summonerId": 0,
@@ -295,13 +296,13 @@
       {
           "assignedPosition": "",
           "cellId": 7,
-          "championId": 236,
+          "championId": 44,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 236000,
+          "selectedSkinId": 44000,
           "spell1Id": 0,
           "spell2Id": 0,
           "summonerId": 0,
@@ -311,13 +312,13 @@
       {
           "assignedPosition": "",
           "cellId": 8,
-          "championId": 69,
+          "championId": 104,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 69000,
+          "selectedSkinId": 104000,
           "spell1Id": 0,
           "spell2Id": 0,
           "summonerId": 0,
@@ -327,13 +328,13 @@
       {
           "assignedPosition": "",
           "cellId": 9,
-          "championId": 98,
+          "championId": 24,
           "championPickIntent": 0,
           "nameVisibilityType": "",
           "obfuscatedPuuid": "",
           "obfuscatedSummonerId": 0,
           "puuid": "",
-          "selectedSkinId": 98000,
+          "selectedSkinId": 24000,
           "spell1Id": 0,
           "spell2Id": 0,
           "summonerId": 0,
@@ -342,11 +343,11 @@
       }
   ],
   "timer": {
-      "adjustedTimeLeftInPhase": 0,
-      "internalNowInEpochMs": 1701410461561,
+      "adjustedTimeLeftInPhase": 31934,
+      "internalNowInEpochMs": 1701415297143,
       "isInfinite": false,
       "phase": "BAN_PICK",
-      "totalTimeInPhase": 37693
+      "totalTimeInPhase": 37706
   },
   "trades": [
       {

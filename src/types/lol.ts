@@ -18,6 +18,7 @@ export namespace LolSpace {
     id: number;
     imgUrl: string;
     name: string;
+    isInProgress?: boolean;
   }
   export enum TeamType {
     blue = 100,
@@ -142,6 +143,11 @@ export namespace LolSpace {
   }
 
   export interface IAction {
+    /** 
+     * - 从1开始，从左往右依次递增
+     * - 蓝方1~5
+     * - 红方6~10
+     */
     actorCellId: number;
     championId: number;
     completed: boolean;
