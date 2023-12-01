@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="bg-white p-3 w-[400px] rounded">
         <div class="text-lg">
           当前账号：
           <span class="text-blue-500" v-if="currentSummoner">{{ currentSummoner?.displayName }}</span>
