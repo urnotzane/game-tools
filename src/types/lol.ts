@@ -359,4 +359,15 @@ export namespace LolSpace {
     jwt: string;
     targetRegion: string;
   }
+  export interface ChampSelectTimer {
+    adjustedTimeLeftInPhase:number;
+    internalNowInEpochMs:number;
+    isInfinite:boolean;
+    phase:"GAME_STARTING" | "BAN_PICK";
+    totalTimeInPhase:number;
+  }
+  export enum SelectStageText {
+    BAN_PICK = "BP进行中",
+    GAME_STARTING = "比赛进行中"
+  }
 }

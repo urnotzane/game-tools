@@ -3,7 +3,7 @@ import { lolServices } from "@/views/Lol/services/client.ts";
 import { formatChampSplash } from "@/views/Lol/utils.ts";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 export const useLolChampsStore = defineStore("lolChamps", () => {
   const champs = ref<Record<string, LolSpace.Champion>>({});
@@ -22,9 +22,8 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     }, {} as typeof champs.value);
 
     lolVersion.value = res.version;
-    const random = Math.round(Math.random() *  champsList.length);
-    console.log('random', random);
-    
+
+    const random = Math.round(Math.random() * champsList.length);
     randomChampBg.value = formatChampSplash(champsList[random].id);
   }
 
@@ -40,7 +39,9 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
 });
 
 export const useLobbyStore = defineStore('lolLobby', () => {
+  const selectTimerStore = useSelectTimerStore();
   const gameConfig = ref<LolSpace.GameConfig>();
+  const interval = ref<number>();
 
   const blueMembers = computed(() => gameConfig.value?.customTeam100);
   const redMembers = computed(() => gameConfig.value?.customTeam200);
@@ -50,12 +51,29 @@ export const useLobbyStore = defineStore('lolLobby', () => {
       method: LolSpace.Method.get,
       url: "/lol-lobby/v2/lobby"
     });
-    if (res?.httpStatus) return;
-    gameConfig.value = res?.gameConfig;
+    console.log('getLobbySession', res);
+
+    if (res?.httpStatus) {
+      gameConfig.value = undefined
+    } else {
+      gameConfig.value = res?.gameConfig;
+    }
   }
 
   onMounted(() => {
-    getLobbySession();
+    interval.value = setInterval(() => {
+      getLobbySession();
+    }, 500);
+  })
+
+  onUnmounted(() => {
+    clearInterval(interval.value);
+  });
+
+  watch(() => selectTimerStore.selectStage, (selectStage) => {
+    if (selectStage) {
+      clearInterval(interval.value);
+    }
   })
   return {
     gameConfig,
@@ -64,3 +82,35 @@ export const useLobbyStore = defineStore('lolLobby', () => {
     getLobbySession
   }
 });
+
+export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
+  const selectStage = ref<LolSpace.ChampSelectTimer['phase']>();
+  const interval = ref<number>();
+
+  const getSelectTimer = async () => {
+    const res = await lolServices<LolSpace.ChampSelectTimer>({
+      method: LolSpace.Method.get,
+      url: "/lol-champ-select/v1/session/timer"
+    });
+    console.log('getSelectTimer', res);
+    if (res?.httpStatus) {
+      selectStage.value = undefined
+    } else {
+      selectStage.value = res?.phase;
+    }
+  }
+
+  onMounted(() => {
+    interval.value = setInterval(() => {
+      getSelectTimer();
+    }, 500);
+  })
+
+  onUnmounted(() => {
+    clearInterval(interval.value);
+  })
+  return {
+    selectStage,
+    getSelectTimer,
+  }
+})

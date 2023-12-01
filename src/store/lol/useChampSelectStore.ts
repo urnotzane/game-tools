@@ -1,11 +1,14 @@
 import { LolSpace } from "@/types/lol.ts";
 import { lolServices } from "@/views/Lol/services/client.ts";
 import { defineStore } from "pinia";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, watch } from "vue";
+import { useSelectTimerStore } from "./common.ts";
 
 export const useChampSelectStore = defineStore('lolChampSelect', () => {
+  const selectStore = useSelectTimerStore();
 
   const bpSession = ref<LolSpace.ChampSelectSession>();
+  const interval = ref<number>();
 
   const banSession = computed((): LolSpace.IBan => {
     const actions = bpSession.value?.actions;
@@ -34,13 +37,23 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       method: LolSpace.Method.get,
       url: "/lol-champ-select/v1/session"
     });
-    console.log(res);
+    console.log('getChampSelectSession', res);
 
-    if (res?.httpStatus) return;
-    bpSession.value = res;
+    if (res?.httpStatus) {
+      bpSession.value = undefined;
+    } else {
+      bpSession.value = res;
+    }
   }
-  onMounted(async () => {
-    getChampSelectSession();
+  
+  watch(() => selectStore.selectStage, (selectStage) => {
+    if (selectStage === 'BAN_PICK') {
+      interval.value = setInterval(() => {
+        getChampSelectSession();
+      }, 500)
+    } else {
+      clearInterval(interval.value);
+    }
   })
 
   return {

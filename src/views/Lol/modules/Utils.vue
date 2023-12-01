@@ -1,33 +1,41 @@
 <template>
-  <div class="bg-white p-3 w-[400px] rounded">
-        <div class="text-lg">
-          当前账号：
-          <span class="text-blue-500" v-if="currentSummoner">{{ currentSummoner?.displayName }}</span>
-          <span class="text-red-500" v-else>未登录</span>
-        </div>
-        <div class="text-lg">
-          版本：
-          <span class="text-blue-500">{{ champsStore.lolVersion }}</span>
-        </div>
-        <div class="text-lg">
-          接口地址：
-          <span class="text-blue-500">{{ url }}</span>
-        </div>
-        <div class="text-lg">
-          Token：
-          <span class="text-blue-500">{{ token }}</span>
-        </div>
-      </div>
+  <div class="bg-white p-3 w-[400px] rounded text-lg">
+    <div>
+      当前账号：
+      <span class="text-blue-500" v-if="currentSummoner">{{ currentSummoner?.displayName }}</span>
+      <span class="text-red-500" v-else>未登录</span>
+    </div>
+    <div>
+      版本：
+      <span class="text-blue-500">{{ champsStore.lolVersion }}</span>
+    </div>
+    <div>
+      接口地址：
+      <span class="text-blue-500">{{ url }}</span>
+    </div>
+    <div>
+      Token：
+      <span class="text-blue-500">{{ token }}</span>
+    </div>
+    <div>
+      房间状态：{{ lobbyStore.gameConfig?.customLobbyName || "未创建" }}
+    </div>
+    <div v-if="selectTimerStore.selectStage">
+      比赛状态：{{ LolSpace.SelectStageText[selectTimerStore.selectStage] }}
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
 
 import { onMounted, ref } from 'vue';
 import { LolSpace } from '@/types/lol.ts';
 import { lolServices } from '../services/client.ts';
-import { useLolChampsStore } from '@/store/lol/common.ts';
+import { useLobbyStore, useLolChampsStore, useSelectTimerStore } from '@/store/lol/common.ts';
 import { invoke } from '@tauri-apps/api';
 
 const champsStore = useLolChampsStore();
+const lobbyStore = useLobbyStore();
+const selectTimerStore = useSelectTimerStore();
 
 const currentSummoner = ref<LolSpace.Summoner>();
 const url = ref("");
@@ -41,7 +49,7 @@ const getCurrentSummoner = async () => {
   if (res?.httpStatus) return;
   currentSummoner.value = res;
 }
-const getRemoteData = async() => {
+const getRemoteData = async () => {
   const res = await invoke<LolSpace.RemoteData>('get_token');
   url.value = `https://127.0.0.1:${res.port}`;
   token.value = res.remote_token;
