@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between bg-gray-950 text-white">
-    <PickItems :teamMembers="blueTeam" :pickLimit="pickLimit" />
+  <div class="flex justify-between bg-gray-950 text-white text-sm">
+    <PickItems :teamMembers="selectStore.blueTeam" :pickLimit="pickLimit" />
     <div class="flex-1 text-center text-lg relative">
       <div class="m-4">决赛</div>
       <div class="absolute top-1/2 w-full">VS</div>
@@ -15,17 +15,15 @@
         </div>
       </div>
     </div>
-    <PickItems :team="LolSpace.TeamType.red" :teamMembers="redTeam" :pickLimit="pickLimit" />
+    <PickItems :team="LolSpace.TeamType.red" :teamMembers="selectStore.redTeam" :pickLimit="pickLimit" />
   </div>
 </template>
 <script setup lang="ts">
 import { LolSpace } from '@/types/lol.ts';
 import PickItems from './PickItems.vue';
+import { useChampSelectStore } from '@/store/lol/useChampSelectStore.ts';
+import { computed } from 'vue';
 
-defineProps<{
-  blueTeam: LolSpace.TeamItem[];
-  redTeam: LolSpace.TeamItem[];
-}>()
-
-const pickLimit = 5;
+const selectStore = useChampSelectStore();
+const pickLimit = computed(() => selectStore.blueTeam?.length || 5);
 </script>

@@ -8,30 +8,28 @@
 import { LolSpace } from '@/types/lol.ts';
 import BanItems from './BanItems.vue'
 import { computed } from 'vue';
-import { useLolChampsStore } from '@/store/lol.ts';
+import { useLolChampsStore } from '@/store/lol/common.ts';
 import { formatChampIcon } from '../utils.ts';
-
-const props = defineProps<{
-  banSession?: LolSpace.IBan;
-}>()
+import { useChampSelectStore } from '@/store/lol/useChampSelectStore.ts';
 
 const champsStore = useLolChampsStore();
+const selectStore = useChampSelectStore();
 
-const banLimit = computed(() => (props.banSession?.numBans || 0) / 2);
-const blueBans = computed(() => props.banSession?.myTeamBans.map((id) => {
+const banLimit = computed(() => (selectStore.banSession?.numBans || 0) / 2);
+const blueBans = computed(() => selectStore.banSession?.myTeamBans.map((id) => {
   const champ = champsStore.champs[id];
   return {
     id,
     imgUrl: formatChampIcon(champ?.image?.full),
-    name: champ.name,
+    name: champ?.name,
   } as LolSpace.BanChamp;
 }));
-const redBans = computed(() => props.banSession?.theirTeamBans.map((id) => {
+const redBans = computed(() => selectStore.banSession?.theirTeamBans.map((id) => {
   const champ = champsStore.champs[id];
   return {
     id,
     imgUrl: formatChampIcon(champ?.image?.full),
-    name: champ.name,
+    name: champ?.name,
   } as LolSpace.BanChamp;
 }));
 </script>

@@ -6,7 +6,7 @@
 		<div class="border-r w-[72px] h-full box-content" :class="{
 			'border-l border-r-0': isRedTeam
 		}" v-for="banIndex in banLimit" :key="banIndex">
-			<img class="w-full h-full" v-if="banChamps[banIndex -1]" :src="banChamps[banIndex - 1].imgUrl" />
+			<img class="w-full h-full" v-if="banChamps?.[banIndex -1]?.id" :src="banChamps[banIndex - 1].imgUrl" />
 			<div class="w-full h-full bg-gray-100 relative" v-else>
 				<div class="w-[1px] bg-red-600 h-[80%] -rotate-45 absolute left-[50%] top-[50%] translate-y-[-50%]" />
 			</div>
@@ -20,7 +20,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
 	banLimit: number;
-	banChamps: LolSpace.BanChamp[];
+	banChamps?: LolSpace.BanChamp[];
 	team?: LolSpace.TeamType;
 }>()
 

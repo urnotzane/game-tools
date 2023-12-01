@@ -24,7 +24,7 @@
 import { onMounted, ref } from 'vue';
 import { LolSpace } from '@/types/lol.ts';
 import { lolServices } from '../services/client.ts';
-import { useLolChampsStore } from '@/store/lol.ts';
+import { useLolChampsStore } from '@/store/lol/common.ts';
 import { invoke } from '@tauri-apps/api';
 
 const champsStore = useLolChampsStore();
