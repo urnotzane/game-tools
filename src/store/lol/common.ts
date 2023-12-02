@@ -3,7 +3,7 @@ import { lolServices } from "@/views/Lol/services/client";
 import { formatChampSplash } from "@/views/Lol/utils";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 export const useLolChampsStore = defineStore("lolChamps", () => {
   const champs = ref<Record<string, LolSpace.Champion>>({});
@@ -39,9 +39,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
 });
 
 export const useLobbyStore = defineStore('lolLobby', () => {
-  const selectTimerStore = useSelectTimerStore();
   const gameConfig = ref<LolSpace.GameConfig>();
-  const interval = ref<number>();
 
   const blueMembers = computed(() => gameConfig.value?.customTeam100);
   const redMembers = computed(() => gameConfig.value?.customTeam200);
@@ -58,31 +56,7 @@ export const useLobbyStore = defineStore('lolLobby', () => {
       gameConfig.value = res?.gameConfig;
     }
   }
-  const startRefresh = () => {
-    if (interval.value) return;
-    interval.value = setInterval(() => {
-      getLobbySession();
-    }, 500);
-  }
-  const stopRefresh = () => {
-    clearInterval(interval.value);
-    interval.value = undefined;
-  }
-  onMounted(() => {
-    startRefresh();
-  })
 
-  onUnmounted(() => {
-    stopRefresh();
-  });
-
-  watch(() => selectTimerStore.selectStage, (selectStage) => {
-    if (selectStage) {
-      stopRefresh();
-    } else {
-      startRefresh();
-    }
-  })
   return {
     gameConfig,
     blueMembers,
@@ -93,7 +67,6 @@ export const useLobbyStore = defineStore('lolLobby', () => {
 
 export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
   const selectStage = ref<LolSpace.ChampSelectTimer['phase']>();
-  const interval = ref<number>();
 
   const getSelectTimer = async () => {
     const res = await lolServices<LolSpace.ChampSelectTimer>({
@@ -108,24 +81,6 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
     }
   }
 
-  const startRefresh = () => {
-    if (interval.value) return;
-    interval.value = setInterval(() => {
-      getSelectTimer();
-    }, 500);
-  }
-  const stopRefresh = () => {
-    clearInterval(interval.value);
-    interval.value = undefined;
-  }
-
-  onMounted(() => {
-    startRefresh();
-  })
-
-  onUnmounted(() => {
-    stopRefresh();
-  })
   return {
     selectStage,
     getSelectTimer,

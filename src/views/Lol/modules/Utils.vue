@@ -11,52 +11,30 @@
     </div>
     <div>
       接口地址：
-      <span class="text-blue-500">{{ url }}</span>
+      <span class="text-blue-500">{{ clientUrl }}</span>
     </div>
     <div>
       Token：
-      <span class="text-blue-500">{{ token }}</span>
+      <span class="text-blue-500">{{ clientToken }}</span>
     </div>
     <div>
-      房间状态：{{ lobbyStore.gameConfig?.customLobbyName || "未创建" }}
+      房间名称：{{ lobbyStore.gameConfig?.customLobbyName || "未创建" }}
     </div>
-    <div v-if="selectTimerStore.selectStage">
-      比赛状态：{{ LolSpace.SelectStageText[selectTimerStore.selectStage] }}
+    <div>
+      比赛状态：{{ selectTimerStore.selectStage ? LolSpace.SelectStageText[selectTimerStore.selectStage] : "未开始" }}
     </div>
   </div>
 </template>
 <script setup lang="ts">
 
-import { onMounted, ref } from 'vue';
 import { LolSpace } from '@/types/lol';
-import { lolServices } from '../services/client';
 import { useLobbyStore, useLolChampsStore, useSelectTimerStore } from '@/store/lol/common';
-import { invoke } from '@tauri-apps/api';
+import { useLolMatch } from '@/hooks/useLolMatch';
 
 const champsStore = useLolChampsStore();
 const lobbyStore = useLobbyStore();
 const selectTimerStore = useSelectTimerStore();
 
-const currentSummoner = ref<LolSpace.Summoner>();
-const url = ref("");
-const token = ref("")
+const { currentSummoner, clientToken, clientUrl } = useLolMatch();
 
-const getCurrentSummoner = async () => {
-  const res = await lolServices<LolSpace.Summoner>({
-    method: LolSpace.Method.get,
-    url: "/lol-summoner/v1/current-summoner"
-  });
-  if (res?.httpStatus) return;
-  currentSummoner.value = res;
-}
-const getRemoteData = async () => {
-  const res = await invoke<LolSpace.RemoteData>('get_token');
-  url.value = `https://127.0.0.1:${res.port}`;
-  token.value = res.remote_token;
-}
-
-onMounted(() => {
-  getCurrentSummoner();
-  getRemoteData();
-})
 </script>

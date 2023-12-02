@@ -1,14 +1,10 @@
 import { LolSpace } from "@/types/lol";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import { useSelectTimerStore } from "./common";
+import { ref, computed } from "vue";
 
 export const useChampSelectStore = defineStore('lolChampSelect', () => {
-  const selectStore = useSelectTimerStore();
-
   const bpSession = ref<LolSpace.ChampSelectSession>();
-  const interval = ref<number>();
   const banLimit = computed(() => (bpSession.value?.bans.numBans || 10) / 2);
 
   const banSession = computed((): LolSpace.IBan => {
@@ -82,24 +78,6 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       bpSession.value = res;
     }
   }
-
-  const startRefresh = () => {
-    if (interval.value) return;
-    interval.value = setInterval(() => {
-      getChampSelectSession();
-    }, 500);
-  }
-  const stopRefresh = () => {
-    clearInterval(interval.value);
-    interval.value = undefined;
-  }
-  watch(() => selectStore.selectStage, (selectStage) => {
-    if (selectStage === 'BAN_PICK') {
-      startRefresh();
-    } else {
-      stopRefresh();
-    }
-  })
 
   return {
     bpSession,

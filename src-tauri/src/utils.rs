@@ -27,13 +27,13 @@ pub fn execute_command(cmd_str: &str) -> String {
 pub async fn send_lol_req(method: &str, url: &str, data: Option<String>) -> Result<String, reqwest::Error> {
   let remote_data: RemoteData = get_remote_data();
   let method_byte = method.as_bytes();
+  let base_url = format!("https://127.0.0.1:{}", remote_data.port);
 
   let client = reqwest::Client::builder()
       .danger_accept_invalid_certs(true)
       .no_proxy()
       .build()
       .unwrap();
-  let base_url = format!("https://127.0.0.1:{}", remote_data.port);
   let response = client
       .request(Method::from_bytes(method_byte).unwrap(), format!("{}{}", base_url, url))
       .basic_auth("riot", Some(remote_data.remote_token))

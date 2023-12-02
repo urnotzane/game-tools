@@ -1,5 +1,13 @@
 # Game Tools
 
+## 对局流程
+1. 打开客户端；
+2. 创建房间；
+3. 邀请双方队伍；
+4. 开始游戏；
+5. 进入BP；
+6. 进入对局。
+
 ## 征召模式
 ### 比赛服
 |  Ban位   | BP顺序  |
@@ -13,6 +21,7 @@
 | 6  | 单元格 |
 
 以下为网络搜索到的资源参考：
+
 问：LOL英雄联盟征召模式是什么？
 
 答：第一阶段：禁选英雄
@@ -81,3 +90,10 @@ pnpm : 无法加载文件 C:\Users\username\AppData\Roaming\npm\pnpm.ps1，因�
 ```
 管理员权限运行powershell，执行`set-ExecutionPolicy RemoteSigned`，输入Y，即可解决。
 
+## 获取客户端数据
+
+```bash
+wmic PROCESS WHERE name='LeagueClientUx.exe' GET commandline
+```
+
+c:/wegameapps/英雄联盟/LeagueClient/LeagueClientUx.exe "--riotclient-auth-token=dZ14Szqm70FGmO3NHV5u4Q" "--riotclient-app-port=59237" "--riotclient-tencent" "--no-rads" "--disable-self-update" "--region=TENCENT" "--locale=zh_CN" "--t.lcdshost=wt1-cloud-feapp.lol.qq.com" "--t.chathost=wt1-cloud-ejabberd.lol.qq.com" "--t.lq=https://wt1-cloud-login.lol.qq.com:8443" "--t.storeurl=https://wt1-cloud-sr.lol.qq.com:8443" "--t.rmsurl=wss://wt1-cloud-rms.lol.qq.com:443" "--rso-auth.url=https://prod-rso.lol.qq.com:3000" "--rso_platform_id=WT1_NEW" "--rso-auth.client=lol" "--t.location=loltencent.tjkg.WT1_NEW" "--tglog-endpoint=https://tglogsz.datamore.qq.com/lolcli/report/" "--t.league_edge_url=https://ledge-wt1cloud.lol.qq.com:22019" "--ccs=https://cc-wt1-cloud.lol.qq.com:8093" "--entitlements-url=https://wt1-entitlements.lol.qq.com:28088/api/token/v1" "--dradis-endpoint=http://some.url" "--remoting-auth-token=_BkC3zoDF6600gmlQdUs6w" "--app-port=58929" "--install-directory=c:\wegameapps\鑻遍泟鑱旂洘\LeagueClient" "--app-name=LeagueClient" "--ux-name=LeagueClientUx" "--ux-helper-name=LeagueClientUxHelper" "--log-dir=LeagueClient Logs" "--crash-reporting=" "--crash-environment=WT1_NEW" "--app-log-file-path=c:/wegameapps/英雄联盟/LeagueClient/../Game/Logs/LeagueClient Logs/2023-12-02T14-44-47_24992_LeagueClient.log" "--app-pid=24992" "--output-base-dir=c:/wegameapps/鑻遍泟鑱旂洘/LeagueClient/../Game" "--no-proxy-server" "--ignore-certificate-errors"

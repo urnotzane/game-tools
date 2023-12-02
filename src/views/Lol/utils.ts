@@ -17,4 +17,4 @@ export const formatBanActions = (actions:LolSpace.IAction[], champs:Record<strin
     name: champ?.name || '',
     isInProgress: action.isInProgress,
   };
-})
+});
