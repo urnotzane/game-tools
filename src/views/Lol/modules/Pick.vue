@@ -19,9 +19,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { LolSpace } from '@/types/lol.ts';
+import { LolSpace } from '@/types/lol';
 import PickItems from './PickItems.vue';
-import { useChampSelectStore } from '@/store/lol/useChampSelectStore.ts';
+import { useChampSelectStore } from '@/store/lol/useChampSelectStore';
 import { computed } from 'vue';
 
 const selectStore = useChampSelectStore();

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLolChampsStore } from '@/store/lol/common.ts';
+import { useLolChampsStore } from '@/store/lol/common';
 import Ban from './modules/Ban.vue'
 import Pick from './modules/Pick.vue'
 import Utils from './modules/Utils.vue';

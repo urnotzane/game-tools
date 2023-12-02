@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { LolSpace } from '@/types/lol.ts';
+import { LolSpace } from '@/types/lol';
 import { computed } from 'vue';
 
 const props = defineProps<{

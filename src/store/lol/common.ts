@@ -1,6 +1,6 @@
-import { LolSpace } from "@/types/lol.ts";
-import { lolServices } from "@/views/Lol/services/client.ts";
-import { formatChampSplash } from "@/views/Lol/utils.ts";
+import { LolSpace } from "@/types/lol";
+import { lolServices } from "@/views/Lol/services/client";
+import { formatChampSplash } from "@/views/Lol/utils";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";

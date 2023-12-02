@@ -28,9 +28,9 @@
 <script setup lang="ts">
 
 import { onMounted, ref } from 'vue';
-import { LolSpace } from '@/types/lol.ts';
-import { lolServices } from '../services/client.ts';
-import { useLobbyStore, useLolChampsStore, useSelectTimerStore } from '@/store/lol/common.ts';
+import { LolSpace } from '@/types/lol';
+import { lolServices } from '../services/client';
+import { useLobbyStore, useLolChampsStore, useSelectTimerStore } from '@/store/lol/common';
 import { invoke } from '@tauri-apps/api';
 
 const champsStore = useLolChampsStore();

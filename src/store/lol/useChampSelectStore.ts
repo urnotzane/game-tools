@@ -1,8 +1,8 @@
-import { LolSpace } from "@/types/lol.ts";
-import { lolServices } from "@/views/Lol/services/client.ts";
+import { LolSpace } from "@/types/lol";
+import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
-import { useSelectTimerStore } from "./common.ts";
+import { useSelectTimerStore } from "./common";
 
 export const useChampSelectStore = defineStore('lolChampSelect', () => {
   const selectStore = useSelectTimerStore();

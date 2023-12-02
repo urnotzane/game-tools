@@ -16,11 +16,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useLobbyStore, useLolChampsStore } from '@/store/lol/common.ts';
-import { LolSpace } from '@/types/lol.ts';
+import { useLobbyStore, useLolChampsStore } from '@/store/lol/common';
+import { LolSpace } from '@/types/lol';
 import { computed } from 'vue';
-import { formatChampLoading } from '../utils.ts';
-import { useChampSelectStore } from '@/store/lol/useChampSelectStore.ts';
+import { formatChampLoading } from '../utils';
+import { useChampSelectStore } from '@/store/lol/useChampSelectStore';
 
 const props = defineProps<{
   pickLimit: number;
