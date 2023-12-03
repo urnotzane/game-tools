@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 w-[400px] rounded text-white text-lg mx-auto bg-black bg-opacity-30">
+  <div class="">
     <div class="grid grid-cols-10">
       <div class="col-span-3">当前账号</div>
       <div class="col-span-7">{{ currentSummoner?.displayName || '-' }}</div>

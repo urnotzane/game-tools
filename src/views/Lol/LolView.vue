@@ -4,7 +4,8 @@
     <div class="w-full live p-4 z-0">
       <img class="absolute w-full h-full z-0 left-0 top-0 object-cover object-top" :src="champsStore.randomChampBg" />
       <div class="relative z-10">
-        <Utils />
+        <Utils class="p-4 w-[400px] rounded text-white text-lg mx-auto bg-black bg-opacity-30" />
+        <LobbyOperator class="mt-3 p-4 w-[400px] rounded text-white text-lg mx-auto bg-black bg-opacity-30" />
       </div>
     </div>
     <!-- 根据LOL S13需要展示的内容，将横向屏幕分为12份
@@ -21,6 +22,7 @@
 <script setup lang="ts">
 import { useLolChampsStore } from '@/store/lol/common';
 import Ban from './modules/Ban.vue'
+import LobbyOperator from './modules/LobbyOperator.vue';
 import Pick from './modules/Pick.vue'
 import Utils from './modules/Utils.vue';
 

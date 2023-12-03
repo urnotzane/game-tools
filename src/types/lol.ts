@@ -376,4 +376,161 @@ export namespace LolSpace {
     BAN_PICK = "BP进行中",
     GAME_STARTING = "比赛进行中"
   }
+
+  export interface LobbyBody {
+    customGameLobby:ICustomGameLobby;
+    gameCustomization:IGameCustomization;
+    isCustom:boolean;
+    queueId:number;
+  }
+  
+  export interface IGameCustomization {
+    additionalProp1:string;
+    additionalProp2:string;
+    additionalProp3:string;
+  }
+  
+  export interface ICustomGameLobby {
+    configuration:IConfiguration;
+    gameId:number;
+    lobbyName:string;
+    lobbyPassword:string;
+    practiceGameRewardsDisabledReasons:string[];
+    spectators:ISpectator[];
+    teamOne:ITeamOne[];
+    teamTwo:ITeamTwo[];
+  }
+  
+  export interface ITeamTwo {
+    autoFillEligible:boolean;
+    autoFillProtectedForPromos:boolean;
+    autoFillProtectedForSoloing:boolean;
+    autoFillProtectedForStreaking:boolean;
+    botChampionId:number;
+    botDifficulty:string;
+    canInviteOthers:boolean;
+    excludedPositionPreference:string;
+    id:number;
+    isBot:boolean;
+    isOwner:boolean;
+    isSpectator:boolean;
+    positionPreferences:IPositionPreferenc_2;
+    showPositionExcluder:boolean;
+    summonerInternalName:string;
+  }
+  
+  export interface IPositionPreferenc_2 {
+    firstPreference:string;
+    secondPreference:string;
+  }
+  
+  export interface ITeamOne {
+    autoFillEligible:boolean;
+    autoFillProtectedForPromos:boolean;
+    autoFillProtectedForSoloing:boolean;
+    autoFillProtectedForStreaking:boolean;
+    botChampionId:number;
+    botDifficulty:string;
+    canInviteOthers:boolean;
+    excludedPositionPreference:string;
+    id:number;
+    isBot:boolean;
+    isOwner:boolean;
+    isSpectator:boolean;
+    positionPreferences:IPositionPreferenc_1;
+    showPositionExcluder:boolean;
+    summonerInternalName:string;
+  }
+  
+  export interface IPositionPreferenc_1 {
+    firstPreference:string;
+    secondPreference:string;
+  }
+  
+  export interface ISpectator {
+    autoFillEligible:boolean;
+    autoFillProtectedForPromos:boolean;
+    autoFillProtectedForSoloing:boolean;
+    autoFillProtectedForStreaking:boolean;
+    botChampionId:number;
+    botDifficulty:string;
+    canInviteOthers:boolean;
+    excludedPositionPreference:string;
+    id:number;
+    isBot:boolean;
+    isOwner:boolean;
+    isSpectator:boolean;
+    positionPreferences:IPositionPreferenc;
+    showPositionExcluder:boolean;
+    summonerInternalName:string;
+  }
+  
+  export interface IPositionPreferenc {
+    firstPreference:string;
+    secondPreference:string;
+  }
+  
+  export interface IConfiguration {
+    gameMode:string;
+    gameServerRegion:string;
+    gameTypeConfig:IGameTypeConfig;
+    mapId:number;
+    maxPlayerCount:number;
+    mutators:IMutator;
+    spectatorPolicy:string;
+    teamSize:number;
+    tournamentGameMode:string;
+    tournamentPassbackDataPacket:string;
+    tournamentPassbackUrl:string;
+  }
+  
+  export interface IMutator {
+    advancedLearningQuests:boolean;
+    allowTrades:boolean;
+    banMode:string;
+    banTimerDuration:number;
+    battleBoost:boolean;
+    crossTeamChampionPool:boolean;
+    deathMatch:boolean;
+    doNotRemove:boolean;
+    duplicatePick:boolean;
+    exclusivePick:boolean;
+    gameModeOverride:string;
+    id:number;
+    learningQuests:boolean;
+    mainPickTimerDuration:number;
+    maxAllowableBans:number;
+    name:string;
+    numPlayersPerTeamOverride:number;
+    onboardCoopBeginner:boolean;
+    pickMode:string;
+    postPickTimerDuration:number;
+    reroll:boolean;
+    teamChampionPool:boolean;
+  }
+  
+  export interface IGameTypeConfig {
+    advancedLearningQuests:boolean;
+    allowTrades:boolean;
+    banMode:string;
+    banTimerDuration:number;
+    battleBoost:boolean;
+    crossTeamChampionPool:boolean;
+    deathMatch:boolean;
+    doNotRemove:boolean;
+    duplicatePick:boolean;
+    exclusivePick:boolean;
+    gameModeOverride:string;
+    id:number;
+    learningQuests:boolean;
+    mainPickTimerDuration:number;
+    maxAllowableBans:number;
+    name:string;
+    numPlayersPerTeamOverride:number;
+    onboardCoopBeginner:boolean;
+    pickMode:string;
+    postPickTimerDuration:number;
+    reroll:boolean;
+    teamChampionPool:boolean;
+  }
 }

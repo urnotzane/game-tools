@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde_json::{Map, Value};
 
 use crate::{
@@ -16,7 +18,7 @@ pub async fn get_token() -> RemoteData {
 }
 
 #[tauri::command]
-pub async fn send_lol_req_cmd(method: &str, url: &str, data: Option<String>) -> Result<String, String> {
+pub async fn send_lol_req_cmd(method: &str, url: &str, data: Option<HashMap<String, Value>>) -> Result<String, String> {
   let res_str = send_lol_req(method, url, data).await.unwrap();
   Ok(res_str)
 }

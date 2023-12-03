@@ -10,7 +10,6 @@ mod utils;
 
 #[tokio::main]
 async fn main() {
-    send_ws().await;
     Builder::default()
         .invoke_handler(tauri::generate_handler![
             cmds::greet,
@@ -20,6 +19,7 @@ async fn main() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+    send_ws().await;
 }
 
 async fn send_ws() {

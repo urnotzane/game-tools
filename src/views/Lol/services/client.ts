@@ -6,7 +6,7 @@ export const lolServices = async <D, P = Record<string, unknown>>(config:LolSpac
   const resStr = await invoke<string>("send_lol_req_cmd", {
     method: config.method,
     url: config.url,
-    data: JSON.stringify(config.data)
+    data: config.data,
   });
   try {
     return JSON.parse(resStr) as (D & RiotError)
