@@ -155,7 +155,7 @@ export namespace LolSpace {
     isAllyAction: boolean;
     isInProgress: boolean;
     pickTurn: number;
-    type: "pick"|"ban";
+    type: "pick" | "ban";
   }
   export interface Champion {
     version: string;
@@ -210,7 +210,7 @@ export namespace LolSpace {
     magic: number;
     difficulty: number;
   }
-  
+
   export interface LobbySession {
     canStartActivity: boolean;
     gameConfig: GameConfig;
@@ -258,7 +258,7 @@ export namespace LolSpace {
     teamId: number;
     tftNPEQueueBypass?: any;
   }
-  
+
   export interface GameConfig {
     allowablePremadeSizes: any[];
     customLobbyName: string;
@@ -283,7 +283,7 @@ export namespace LolSpace {
     showPositionSelector: boolean;
     showQuickPlaySlotSelection: boolean;
   }
-  
+
   export interface Invitation {
     invitationId: string;
     invitationType: string;
@@ -292,7 +292,7 @@ export namespace LolSpace {
     toSummonerId: number;
     toSummonerName: string;
   }
-  
+
   export interface LocalMember {
     allowedChangeActivity: boolean;
     allowedInviteOthers: boolean;
@@ -325,7 +325,7 @@ export namespace LolSpace {
     teamId: number;
     tftNPEQueueBypass?: any;
   }
-  
+
   export interface Member {
     allowedChangeActivity: boolean;
     allowedInviteOthers: boolean;
@@ -358,7 +358,7 @@ export namespace LolSpace {
     teamId: number;
     tftNPEQueueBypass?: any;
   }
-  
+
   export interface MucJwtDto {
     channelClaim: string;
     domain: string;
@@ -366,171 +366,442 @@ export namespace LolSpace {
     targetRegion: string;
   }
   export interface ChampSelectTimer {
-    adjustedTimeLeftInPhase:number;
-    internalNowInEpochMs:number;
-    isInfinite:boolean;
-    phase:"GAME_STARTING" | "BAN_PICK";
-    totalTimeInPhase:number;
+    adjustedTimeLeftInPhase: number;
+    internalNowInEpochMs: number;
+    isInfinite: boolean;
+    phase: "GAME_STARTING" | "BAN_PICK";
+    totalTimeInPhase: number;
   }
   export enum SelectStageText {
     BAN_PICK = "BP进行中",
     GAME_STARTING = "比赛进行中"
   }
 
+  /** @POST lol-lobby/v2/lobby 创建房间 */
   export interface LobbyBody {
-    customGameLobby:ICustomGameLobby;
-    gameCustomization:IGameCustomization;
-    isCustom:boolean;
-    queueId:number;
+    customGameLobby?: ICustomGameLobby;
+    gameCustomization?: IGameCustomization;
+    isCustom?: boolean;
+    queueId?: number;
   }
-  
+
   export interface IGameCustomization {
-    additionalProp1:string;
-    additionalProp2:string;
-    additionalProp3:string;
+    additionalProp1: string;
+    additionalProp2: string;
+    additionalProp3: string;
   }
-  
+
   export interface ICustomGameLobby {
-    configuration:IConfiguration;
-    gameId:number;
-    lobbyName:string;
-    lobbyPassword:string;
-    practiceGameRewardsDisabledReasons:string[];
-    spectators:ISpectator[];
-    teamOne:ITeamOne[];
-    teamTwo:ITeamTwo[];
+    configuration?: IConfiguration;
+    gameId?: number;
+    lobbyName: string;
+    lobbyPassword?: string;
+    practiceGameRewardsDisabledReasons?: string[];
+    spectators?: ISpectator[];
+    teamOne?: ITeamOne[];
+    teamTwo?: ITeamTwo[];
   }
-  
+
   export interface ITeamTwo {
-    autoFillEligible:boolean;
-    autoFillProtectedForPromos:boolean;
-    autoFillProtectedForSoloing:boolean;
-    autoFillProtectedForStreaking:boolean;
-    botChampionId:number;
-    botDifficulty:string;
-    canInviteOthers:boolean;
-    excludedPositionPreference:string;
-    id:number;
-    isBot:boolean;
-    isOwner:boolean;
-    isSpectator:boolean;
-    positionPreferences:IPositionPreferenc_2;
-    showPositionExcluder:boolean;
-    summonerInternalName:string;
+    autoFillEligible: boolean;
+    autoFillProtectedForPromos: boolean;
+    autoFillProtectedForSoloing: boolean;
+    autoFillProtectedForStreaking: boolean;
+    botChampionId: number;
+    botDifficulty: string;
+    canInviteOthers: boolean;
+    excludedPositionPreference: string;
+    id: number;
+    isBot: boolean;
+    isOwner: boolean;
+    isSpectator: boolean;
+    positionPreferences: IPositionPreferenc_2;
+    showPositionExcluder: boolean;
+    summonerInternalName: string;
   }
-  
+
   export interface IPositionPreferenc_2 {
-    firstPreference:string;
-    secondPreference:string;
+    firstPreference: string;
+    secondPreference: string;
   }
-  
+
   export interface ITeamOne {
-    autoFillEligible:boolean;
-    autoFillProtectedForPromos:boolean;
-    autoFillProtectedForSoloing:boolean;
-    autoFillProtectedForStreaking:boolean;
-    botChampionId:number;
-    botDifficulty:string;
-    canInviteOthers:boolean;
-    excludedPositionPreference:string;
-    id:number;
-    isBot:boolean;
-    isOwner:boolean;
-    isSpectator:boolean;
-    positionPreferences:IPositionPreferenc_1;
-    showPositionExcluder:boolean;
-    summonerInternalName:string;
+    autoFillEligible: boolean;
+    autoFillProtectedForPromos: boolean;
+    autoFillProtectedForSoloing: boolean;
+    autoFillProtectedForStreaking: boolean;
+    botChampionId: number;
+    botDifficulty: string;
+    canInviteOthers: boolean;
+    excludedPositionPreference: string;
+    id: number;
+    isBot: boolean;
+    isOwner: boolean;
+    isSpectator: boolean;
+    positionPreferences: IPositionPreferenc_1;
+    showPositionExcluder: boolean;
+    summonerInternalName: string;
   }
-  
+
   export interface IPositionPreferenc_1 {
-    firstPreference:string;
-    secondPreference:string;
+    firstPreference: string;
+    secondPreference: string;
   }
-  
+
   export interface ISpectator {
-    autoFillEligible:boolean;
-    autoFillProtectedForPromos:boolean;
-    autoFillProtectedForSoloing:boolean;
-    autoFillProtectedForStreaking:boolean;
-    botChampionId:number;
-    botDifficulty:string;
-    canInviteOthers:boolean;
-    excludedPositionPreference:string;
-    id:number;
-    isBot:boolean;
-    isOwner:boolean;
-    isSpectator:boolean;
-    positionPreferences:IPositionPreferenc;
-    showPositionExcluder:boolean;
-    summonerInternalName:string;
+    autoFillEligible: boolean;
+    autoFillProtectedForPromos: boolean;
+    autoFillProtectedForSoloing: boolean;
+    autoFillProtectedForStreaking: boolean;
+    botChampionId: number;
+    botDifficulty: string;
+    canInviteOthers: boolean;
+    excludedPositionPreference: string;
+    id: number;
+    isBot: boolean;
+    isOwner: boolean;
+    isSpectator: boolean;
+    positionPreferences: IPositionPreferenc;
+    showPositionExcluder: boolean;
+    summonerInternalName: string;
   }
-  
+
   export interface IPositionPreferenc {
-    firstPreference:string;
-    secondPreference:string;
+    firstPreference: string;
+    secondPreference: string;
   }
-  
+
   export interface IConfiguration {
-    gameMode:string;
-    gameServerRegion:string;
-    gameTypeConfig:IGameTypeConfig;
-    mapId:number;
-    maxPlayerCount:number;
-    mutators:IMutator;
-    spectatorPolicy:string;
-    teamSize:number;
-    tournamentGameMode:string;
-    tournamentPassbackDataPacket:string;
-    tournamentPassbackUrl:string;
+    gameMode: string;
+    gameServerRegion?: string;
+    gameTypeConfig?: GameTypeConfig;
+    mapId: number;
+    maxPlayerCount?: number;
+    mutators?: Partial<IMutator>;
+    spectatorPolicy?: string;
+    teamSize: number;
+    tournamentGameMode?: string;
+    tournamentPassbackDataPacket?: string;
+    tournamentPassbackUrl?: string;
   }
-  
+
   export interface IMutator {
-    advancedLearningQuests:boolean;
-    allowTrades:boolean;
-    banMode:string;
-    banTimerDuration:number;
-    battleBoost:boolean;
-    crossTeamChampionPool:boolean;
-    deathMatch:boolean;
-    doNotRemove:boolean;
-    duplicatePick:boolean;
-    exclusivePick:boolean;
-    gameModeOverride:string;
-    id:number;
-    learningQuests:boolean;
-    mainPickTimerDuration:number;
-    maxAllowableBans:number;
-    name:string;
-    numPlayersPerTeamOverride:number;
-    onboardCoopBeginner:boolean;
-    pickMode:string;
-    postPickTimerDuration:number;
-    reroll:boolean;
-    teamChampionPool:boolean;
+    advancedLearningQuests: boolean;
+    allowTrades: boolean;
+    banMode: string;
+    banTimerDuration: number;
+    battleBoost: boolean;
+    crossTeamChampionPool: boolean;
+    deathMatch: boolean;
+    doNotRemove: boolean;
+    duplicatePick: boolean;
+    exclusivePick: boolean;
+    gameModeOverride: string;
+    id: number;
+    learningQuests: boolean;
+    mainPickTimerDuration: number;
+    maxAllowableBans: number;
+    name: string;
+    numPlayersPerTeamOverride: number;
+    onboardCoopBeginner: boolean;
+    pickMode: string;
+    postPickTimerDuration: number;
+    reroll: boolean;
+    teamChampionPool: boolean;
+  }
+
+  /** @GET /lol-game-queues/v1/queues 获取游戏模式 */
+  export interface Queue {
+    allowablePremadeSizes: number[]
+    areFreeChampionsAllowed: boolean
+    assetMutator: string
+    category: string
+    championsRequiredToPlay: number
+    description: string
+    detailedDescription: string
+    gameMode: string
+    gameTypeConfig: GameTypeConfig
+    id: number
+    isRanked: boolean
+    isTeamBuilderManaged: boolean
+    lastToggledOffTime: number
+    lastToggledOnTime: number
+    mapId: number
+    maxDivisionForPremadeSize2: string
+    maxTierForPremadeSize2: string
+    maximumParticipantListSize: number
+    minLevel: number
+    minimumParticipantListSize: number
+    name: string
+    numPlayersPerTeam: number
+    queueAvailability: "Available" | "PlatformDisabled",
+    queueRewards: QueueRewards
+    removalFromGameAllowed: boolean
+    removalFromGameDelayMinutes: number
+    shortName: string
+    showPositionSelector: boolean
+    showQuickPlaySlotSelection: boolean
+    spectatorEnabled: boolean
+    type: string
+  }
+
+  export interface GameTypeConfig {
+    advancedLearningQuests: boolean
+    allowTrades: boolean
+    banMode: string
+    banTimerDuration: number
+    battleBoost: boolean
+    crossTeamChampionPool: boolean
+    deathMatch: boolean
+    doNotRemove: boolean
+    duplicatePick: boolean
+    exclusivePick: boolean
+    gameModeOverride: any
+    id: number
+    learningQuests: boolean
+    mainPickTimerDuration: number
+    maxAllowableBans: number
+    name: string
+    numPlayersPerTeamOverride: any
+    onboardCoopBeginner: boolean
+    pickMode: string
+    postPickTimerDuration: number
+    reroll: boolean
+    teamChampionPool: boolean
+  }
+
+  export interface QueueRewards {
+    isChampionPointsEnabled: boolean
+    isIpEnabled: boolean
+    isXpEnabled: boolean
+    partySizeIpRewards: any[]
+  }
+
+  export interface GameMap {
+    assets: Assets
+    categorizedContentBundles: CategorizedContentBundles
+    description: string
+    gameMode: string
+    gameModeDescription: string
+    gameModeName: string
+    gameModeShortName: string
+    gameMutator: string
+    id: number
+    isDefault: boolean
+    isRGM: boolean
+    locStrings: LocStrings
+    mapStringId: string
+    name: string
+    perPositionDisallowedSummonerSpells: PerPositionDisallowedSummonerSpells
+    perPositionRequiredSummonerSpells: PerPositionRequiredSummonerSpells
+    platformId: string
+    platformName: string
+    properties: Properties
+    tutorialCards: TutorialCard[]
+  }
+
+  export interface Assets {
+    "champ-select-background-sound"?: string
+    "champ-select-flyout-background"?: string
+    "game-select-icon-active": string
+    "game-select-icon-active-video": string
+    "game-select-icon-default": string
+    "game-select-icon-disabled": string
+    "game-select-icon-hover": string
+    "game-select-icon-intro-video": string
+    "gameflow-background": string
+    "gameflow-background-dark"?: string
+    "gameselect-button-hover-sound": string
+    "icon-defeat": string
+    "icon-defeat-v2"?: string
+    "icon-defeat-video"?: string
+    "icon-empty": string
+    "icon-hover"?: string
+    "icon-leaver"?: string
+    "icon-leaver-v2"?: string
+    "icon-loss-forgiven-v2"?: string
+    "icon-v2"?: string
+    "icon-victory": string
+    "icon-victory-video"?: string
+    "music-inqueue-loop-sound": string
+    "notification-background"?: string
+    "notification-icon"?: string
+    "parties-background": string
+    "postgame-ambience-loop-sound"?: string
+    "ready-check-background": string
+    "ready-check-background-sound"?: string
+    "sfx-ambience-pregame-loop-sound": string
+    "social-icon-leaver"?: string
+    "social-icon-victory"?: string
+    "tutorial-bg"?: string
+    "champ-select-skip-bg"?: string
+    "set-announcement-background"?: string
+    "set-announcement-right-panel-background"?: string
+    "champ-select-planning-intro"?: string
+    "map-north"?: string
+    "map-south"?: string
+    "champ-select-banphase-background-sound"?: string
+    "generic-event-icon"?: string
+  }
+
+  export interface CategorizedContentBundles {
+    set_announcement_modal?: SetAnnouncementModal
+    GameEventInfoCards?: GameEventInfoCards
+  }
+
+  export interface SetAnnouncementModal {
+    item1: Item1
+    item2: Item2
+    item3: Item3
+  }
+
+  export interface Item1 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface Item2 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface Item3 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface GameEventInfoCards {
+    "0": N0
+    "1": N1
+    "2": N2
+    "3": N3
+    "4": N4
+    "5": N5
+    "6": N6
+    IconSubtext: IconSubtext
+  }
+
+  export interface N0 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N1 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N2 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N3 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N4 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N5 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface N6 {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface IconSubtext {
+    body: string
+    footer: string
+    header: string
+    imagePath: string
+  }
+
+  export interface LocStrings {
+    tutorial_subheader?: string
+    tutorial_title?: string
+    set_announcement_confirm_button?: string
+    set_announcement_set_name?: string
+    set_announcement_splash_footer?: string
+  }
+
+  export interface PerPositionDisallowedSummonerSpells {
+    bottom?: Bottom
+    lane?: Lane
+    middle?: Middle
+    top?: Top
+    utility?: Utility
+  }
+
+  export interface Bottom {
+    spells: number[]
+  }
+
+  export interface Lane {
+    spells: number[]
+  }
+
+  export interface Middle {
+    spells: number[]
+  }
+
+  export interface Top {
+    spells: number[]
+  }
+
+  export interface Utility {
+    spells: number[]
+  }
+
+  export interface PerPositionRequiredSummonerSpells {
+    any?: Any
+    jungle?: Jungle
+  }
+
+  export interface Any {
+    spells: number[]
+  }
+
+  export interface Jungle {
+    spells: number[]
+  }
+
+  export interface Properties {
+    suppressRunesMasteriesPerks: boolean
+  }
+
+  export interface TutorialCard {
+    description: string
+    footer: string
+    header: string
+    imagePath: string
   }
   
-  export interface IGameTypeConfig {
-    advancedLearningQuests:boolean;
-    allowTrades:boolean;
-    banMode:string;
-    banTimerDuration:number;
-    battleBoost:boolean;
-    crossTeamChampionPool:boolean;
-    deathMatch:boolean;
-    doNotRemove:boolean;
-    duplicatePick:boolean;
-    exclusivePick:boolean;
-    gameModeOverride:string;
-    id:number;
-    learningQuests:boolean;
-    mainPickTimerDuration:number;
-    maxAllowableBans:number;
-    name:string;
-    numPlayersPerTeamOverride:number;
-    onboardCoopBeginner:boolean;
-    pickMode:string;
-    postPickTimerDuration:number;
-    reroll:boolean;
-    teamChampionPool:boolean;
-  }
 }
+
