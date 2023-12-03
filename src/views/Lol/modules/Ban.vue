@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex justify-between absolute bottom-[219px]" v-if="banLimit > 0">
-    <BanItems :banLimit="banLimit" :banChamps="blueBans" />
-    <BanItems :banLimit="banLimit" :banChamps="redBans" :team="LolSpace.TeamType.red" />
+    <BanItems class="bg-black bg-opacity-50" :banLimit="banLimit" :banChamps="blueBans" />
+    <BanItems class="bg-black bg-opacity-50" :banLimit="banLimit" :banChamps="redBans" :team="LolSpace.TeamType.red" />
   </div>
 </template>
 <script lang="ts" setup>

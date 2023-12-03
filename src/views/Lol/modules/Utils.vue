@@ -1,27 +1,30 @@
 <template>
-  <div class="bg-white p-3 w-[400px] rounded text-lg">
-    <div>
-      当前账号：
-      <span class="text-blue-500" v-if="currentSummoner">{{ currentSummoner?.displayName }}</span>
-      <span class="text-red-500" v-else>未登录</span>
+  <div class="p-4 w-[400px] rounded text-white text-lg mx-auto bg-black bg-opacity-30">
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">当前账号</div>
+      <div class="col-span-7">{{ currentSummoner?.displayName || '-' }}</div>
     </div>
-    <div>
-      游戏版本：
-      <span class="text-blue-500">{{ champsStore.lolVersion }}</span>
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">游戏版本</div>
+      <div class="col-span-7">{{ champsStore.lolVersion || '-' }}</div>
     </div>
-    <div>
-      接口地址：
-      <span class="text-blue-500">{{ clientUrl }}</span>
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">接口地址</div>
+      <div class="col-span-7">{{ clientUrl || '-' }}</div>
     </div>
-    <div>
-      Token：
-      <span class="text-blue-500">{{ clientToken }}</span>
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">Token</div>
+      <div class="col-span-7">{{ clientToken || '-' }}</div>
     </div>
-    <div>
-      房间名称：{{ lobbyStore.gameConfig?.customLobbyName || "未创建" }}
+    <hr class="my-3" />
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">房间名称</div>
+      <div class="col-span-7">{{ lobbyStore.gameConfig?.customLobbyName || '-' }}</div>
     </div>
-    <div>
-      比赛状态：{{ selectTimerStore.selectStage ? LolSpace.SelectStageText[selectTimerStore.selectStage] : "未开始" }}
+    <div class="grid grid-cols-10">
+      <div class="col-span-3">对局状态</div>
+      <div class="col-span-7">{{ selectTimerStore.selectStage ? LolSpace.SelectStageText[selectTimerStore.selectStage] :
+        "-" }}</div>
     </div>
   </div>
 </template>

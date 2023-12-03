@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between bg-gray-950 text-white text-sm">
+  <div class="flex justify-between bg-black bg-opacity-50 text-white text-sm">
     <PickItems :teamMembers="selectStore.blueTeam" :pickLimit="pickLimit" />
     <div class="flex-1 text-center text-lg relative">
       <div class="m-4">决赛</div>
