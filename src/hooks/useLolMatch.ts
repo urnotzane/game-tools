@@ -55,12 +55,22 @@ export const useLolMatch = () => {
 
   const lolLifeTimer = useIntervalFn(async() => {
     lolLifeTimer.pause();
-    await checkClient();
-    await checkMatchStatus();
-    await checkSelect();
-    await checkLobby();
+    try {
+      console.time('checkClient');
+      await checkClient();
+      console.timeEnd('checkClient');
+      console.time('checkMatchStatus');
+      await checkMatchStatus();
+      console.timeEnd('checkMatchStatus');
+      await checkSelect();
+      console.time('checkLobby');
+      await checkLobby();
+      console.timeEnd('checkLobby');
+    } catch (error) {
+      console.log(error);
+    }
     lolLifeTimer.resume();
-  }, 600, {
+  }, 500, {
     immediate: true,
   });
 
