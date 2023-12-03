@@ -25,6 +25,8 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
 
     const random = Math.round(Math.random() * champsList.length);
     randomChampBg.value = formatChampSplash(champsList[random].id);
+    
+    return res;
   }
 
   onMounted(() => {
@@ -55,6 +57,7 @@ export const useLobbyStore = defineStore('lolLobby', () => {
     } else {
       gameConfig.value = res?.gameConfig;
     }
+    return res;
   }
 
   return {
@@ -73,12 +76,12 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
       method: LolSpace.Method.get,
       url: "/lol-champ-select/v1/session/timer"
     });
-    
     if (res?.httpStatus) {
       selectStage.value = undefined
     } else {
       selectStage.value = res?.phase;
     }
+    return res;
   }
 
   return {

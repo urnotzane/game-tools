@@ -10,11 +10,11 @@ export const useLolMatch = () => {
   const lobbyStore = useLobbyStore();
   const selectTimerStore = useSelectTimerStore();
   const selectStore = useChampSelectStore();
-  
+
   const currentSummoner = ref<LolSpace.Summoner>();
   const clientUrl = ref("");
   const clientToken = ref("")
-  
+
   const getCurrentSummoner = async () => {
     const res = await lolServices<LolSpace.Summoner>({
       method: LolSpace.Method.get,
@@ -33,19 +33,31 @@ export const useLolMatch = () => {
   }
 
   const checkClient = async () => {
+    if (clientToken.value) return;
+    console.time('checkClient');
     await getRemoteData();
     if (!clientToken.value) {
       throw new Error('未找到客户端');
     }
     await getCurrentSummoner();
+    console.timeEnd('checkClient');
   }
 
   const checkLobby = async () => {
+    if (lobbyStore.gameConfig) return;
+    console.time('checkLobby');
     await lobbyStore.getLobbySession();
+    console.timeEnd('checkLobby');
   }
 
   const checkMatchStatus = async () => {
-    await selectTimerStore.getSelectTimer();
+    if (selectTimerStore?.selectStage) return;
+    console.time('checkMatchStatus');
+    const timer = await selectTimerStore.getSelectTimer();
+    if (timer?.httpStatus === 404) {
+      selectTimerStore.selectStage = undefined;
+    }
+    console.timeEnd('checkMatchStatus');
   }
 
   const checkSelect = async () => {
@@ -53,23 +65,21 @@ export const useLolMatch = () => {
     await selectStore?.getChampSelectSession();
   }
 
-  const lolLifeTimer = useIntervalFn(async() => {
+  const lolLifeTimer = useIntervalFn(async () => {
+    console.time('lolLifeTimer');
     lolLifeTimer.pause();
     try {
-      console.time('checkClient');
       await checkClient();
-      console.timeEnd('checkClient');
-      console.time('checkMatchStatus');
-      await checkMatchStatus();
-      console.timeEnd('checkMatchStatus');
-      await checkSelect();
-      console.time('checkLobby');
-      await checkLobby();
-      console.timeEnd('checkLobby');
+      await Promise.all([
+        checkLobby(),
+        checkMatchStatus(),
+        checkSelect(),
+      ]);
     } catch (error) {
       console.log(error);
     }
     lolLifeTimer.resume();
+    console.timeEnd('lolLifeTimer');
   }, 500, {
     immediate: true,
   });

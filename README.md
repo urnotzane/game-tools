@@ -94,6 +94,8 @@ pnpm : 无法加载文件 C:\Users\username\AppData\Roaming\npm\pnpm.ps1，因�
 
 ## 获取客户端数据
 
+接口地址：https://lcu.vivide.re/
+
 ```bash
 wmic PROCESS WHERE name='LeagueClientUx.exe' GET commandline
 ```

@@ -34,13 +34,15 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     const red: LolSpace.IAction[] = [];
     const blue: LolSpace.IAction[] = [];
     actions?.forEach((action) => {
-      const banAction = action?.find((item) => item.type === 'ban')
-      if (!banAction) return;
-      if (banAction.pickTurn % 2) {
-        blue.push(banAction)
-      } else {
-        red.push(banAction)
-      }
+      const banAction = action?.filter((item) => item.type === 'ban');
+      if (!banAction.length) return;
+      banAction.forEach((item) => {
+        if (item.pickTurn % 2) {
+          blue.push(item)
+        } else {
+          red.push(item)
+        }
+      })
     })
     return {
       blue,
@@ -53,13 +55,15 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     const red: LolSpace.IAction[] = [];
     const blue: LolSpace.IAction[] = [];
     actions?.forEach((action) => {
-      const pickAction = action?.findLast((item) => item.type === 'pick');
-      if (!pickAction) return;
-      if (pickAction.pickTurn % 2) {
-        blue.push(pickAction)
-      } else {
-        red.push(pickAction)
-      }
+      const pickAction = action?.filter((item) => item.type === 'pick');
+      if (!pickAction.length) return;
+      pickAction.forEach((item) => {
+        if (item.pickTurn % 2) {
+          blue.push(item)
+        } else {
+          red.push(item)
+        }
+      })
     })
     return {
       blue,
@@ -77,6 +81,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     } else {
       bpSession.value = res;
     }
+    return res;
   }
 
   return {

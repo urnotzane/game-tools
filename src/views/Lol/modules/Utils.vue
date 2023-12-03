@@ -6,7 +6,7 @@
       <span class="text-red-500" v-else>未登录</span>
     </div>
     <div>
-      版本：
+      游戏版本：
       <span class="text-blue-500">{{ champsStore.lolVersion }}</span>
     </div>
     <div>

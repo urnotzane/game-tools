@@ -49,7 +49,8 @@ const formatChampImg = (champId: number) => {
 }
 const formatMemberName = (memberIndex: number) => {
   let members = isRedTeam.value ? lobbyStore.redMembers : lobbyStore.blueMembers;
-  return members?.[memberIndex]?.summonerName || `Bot ${memberIndex + 1}`;
+  const mem = members?.[memberIndex];
+  return mem?.summonerName || mem?.botId || `召唤师 ${memberIndex + 1}`;
 }
 const getIsInProgress = (index: number) => {
   return inProgressPlayers.value.includes(index)
