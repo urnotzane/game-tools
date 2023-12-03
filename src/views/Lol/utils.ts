@@ -7,7 +7,7 @@ export const formatChampIcon = (iconName:string) => `https://ddragon.leagueofleg
 export const formatChampLoading = (champIdText:string) => `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champIdText}_0.jpg`;
 
 /** 壁纸 */
-export const formatChampSplash = (champIdText: string) => `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champIdText}_0.jpg`;
+export const formatChampSplash = (champIdText: string, skinNum:number = 0) => `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champIdText}_${skinNum}.jpg`;
 
 export const formatBanActions = (actions:LolSpace.IAction[], champs:Record<string, LolSpace.Champion>): LolSpace.BanChamp[] => actions.map((action) => {
   const champ = champs[action.championId];
