@@ -5,9 +5,9 @@ import { computed, onMounted, ref } from "vue";
 
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
+  const customQueues = ref<LolSpace.Subcategory[]>();
 
   const availableQueues = computed(() => queues.value?.filter((item) => item.queueAvailability === "Available"));
-  const practiceQueues = computed(() => queues.value?.filter((item) => item.gameMode === "PRACTICETOOL"));
   const gameModes = computed(() => [...new Set(queues.value?.map((item) => item.gameMode))]);
 
   const getQueue = async () => {
@@ -22,15 +22,30 @@ export const useQueueStore = defineStore('lolQueue', () => {
     }
     return res;
   }
+  const getCustomQueues = async () => {
+    const res = await lolServices<LolSpace.CustomGame>({
+      method: LolSpace.Method.get,
+      url: "/lol-game-queues/v1/custom-non-default"
+    });
+    
+    if (res?.httpStatus) {
+      customQueues.value = undefined;
+    }
+    else {
+      customQueues.value = res?.subcategories;
+    }
+    return res;
+  }
 
   onMounted(() => {
-    getQueue();
+    getCustomQueues();
   });
   return {
     queues,
     availableQueues,
-    practiceQueues,
     gameModes,
+    customQueues,
     getQueue,
+    getCustomQueues,
   }
 });

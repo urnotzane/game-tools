@@ -485,6 +485,12 @@ export namespace LolSpace {
     tournamentPassbackUrl?: string;
   }
 
+  export enum MutatorName {
+    GAME_CFG_PICK_BLIND = "自选模式",
+    GAME_CFG_DRAFT_STD = '征召模式',
+    GAME_CFG_PICK_RANDOM = "全随机模式",
+  }
+
   export interface IMutator {
     advancedLearningQuests: boolean;
     allowTrades: boolean;
@@ -501,7 +507,7 @@ export namespace LolSpace {
     learningQuests: boolean;
     mainPickTimerDuration: number;
     maxAllowableBans: number;
-    name: string;
+    name: "GAME_CFG_PICK_BLIND"|"GAME_CFG_DRAFT_STD"|"GAME_CFG_PICK_RANDOM";
     numPlayersPerTeamOverride: number;
     onboardCoopBeginner: boolean;
     pickMode: string;
@@ -802,6 +808,31 @@ export namespace LolSpace {
     header: string
     imagePath: string
   }
+  export enum GameModes {
+    /** 训练模式 */
+    PRACTICETOOL = 'PRACTICETOOL',
+    /** 经典 */
+    CLASSIC = "CLASSIC",
+  }
+  export interface Subcategory {
+    customSpectatorPolicies: any[];
+    gameMode: GameModes;
+    mapId: number;
+    maxPlayerCount: number;
+    maximumParticipantListSize: number;
+    minLevel: number;
+    minimumParticipantListSize: number;
+    mutators: IMutator[];
+    numPlayersPerTeam: number;
+    queueAvailability: string;
+  }
   
+  export interface CustomGame {
+    gameServerRegions?: any;
+    queueAvailability: string;
+    spectatorPolicies: any[];
+    spectatorSlotLimit: number;
+    subcategories: Subcategory[];
+  }
 }
 

@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use lol::{get_remote_data, RemoteData};
 use tauri::Builder;
-use tokio_tungstenite::{connect_async};
+use tokio_tungstenite::connect_async;
 
 mod cmds;
 mod lol;

@@ -24,7 +24,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     lolVersion.value = res.version;
 
     const random = Math.round(Math.random() * champsList.length);
-    randomChampBg.value = formatChampSplash(champsList[random].id, 1);
+    randomChampBg.value = formatChampSplash(champsList[random].id);
 
     return res;
   }
