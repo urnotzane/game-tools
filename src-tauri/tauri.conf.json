@@ -35,6 +35,11 @@
     "bundle": {
       "active": true,
       "targets": "all",
+      "windows": {
+        "nsis": {
+          "installMode": "perMachine"
+        }
+      },
       "identifier": "urnotzane",
       "icon": [
         "icons/32x32.png",

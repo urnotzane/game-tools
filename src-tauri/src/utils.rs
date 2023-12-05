@@ -1,11 +1,10 @@
-use std::{collections::HashMap, os::windows::process::CommandExt, process::Command};
-
 use reqwest::Method;
 use serde_json::Value;
+use std::{collections::HashMap, os::windows::process::CommandExt, process::Command};
 
 use crate::lol::{get_remote_data, RemoteData};
-
-pub fn _execute_sys_cmd(cmd_str: &str) -> String {
+#[cfg(unix)]
+pub fn execute_sys_cmd(cmd_str: &str) -> String {
     let output = Command::new(cmd_str)
         .arg("-l")
         .output()
@@ -14,13 +13,12 @@ pub fn _execute_sys_cmd(cmd_str: &str) -> String {
     let stdout = String::from_utf8(output.stdout).unwrap();
     stdout
 }
-
+#[cfg(windows)]
 pub fn execute_command(cmd_str: &str) -> String {
     let output = Command::new("cmd")
         // 运行cmd时隐藏窗口
         .creation_flags(0x08000000)
-        .arg("/C")
-        .arg(cmd_str)
+        .args(["/C", cmd_str])
         .output()
         .expect("failed to execute process");
 
