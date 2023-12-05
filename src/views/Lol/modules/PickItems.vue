@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-[600px]">
-    <div class="flex-1 h-[216px] border-r border-gray-700 relative" :class="{
+    <div class="flex-1 h-[175px] border-r border-gray-700 relative" :class="{
       'border-l border-r-0': isRedTeam,
       'blink-animation': getIsInProgress(index - 1),
     }" v-for="index in pickLimit" :key="index">
@@ -57,6 +57,3 @@ const getIsInProgress = (index: number) => {
 }
 
 </script>
-
-<style scoped lang="ts">
-</style>

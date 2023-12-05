@@ -1,9 +1,9 @@
 <template>
 	<!-- 双方ban列表各占25vw，按照最多5个ban位计算，每个ban位为5vw宽度，因此高度也为5vw -->
-	<div class="flex h-[72px] border-t border-gray-400" :class="{
+	<div class="flex h-[58px] border-t border-gray-400" :class="{
 			'flex-row-reverse': isRedTeam,
 		}">
-		<div class="border-r w-[72px] h-full box-content border-gray-400" :class="{
+		<div class="border-r w-[58px] h-full box-content border-gray-400" :class="{
 			'border-l border-r-0': isRedTeam,
 			'blink-animation': banChamps?.[banIndex -1]?.isInProgress,
 		}" v-for="banIndex in banLimit" :key="banIndex">

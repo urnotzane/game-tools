@@ -11,7 +11,7 @@
     <!-- 根据LOL S13需要展示的内容，将横向屏幕分为12份
         分别对应是个Pick英雄和两个中间比分位
     -->
-    <div class="w-full h-[3px] bg-white" />
+    <div class="w-full h-[5px] bg-white" />
     <div class="relative z-10">
       <Ban />
       <Pick />
@@ -31,6 +31,6 @@ const champsStore = useLolChampsStore();
 </script>
 <style scoped lang="scss">
 .live {
-  height: calc(100vh - 219px);
+  height: calc(100vh - 180px);
 }
 </style>
