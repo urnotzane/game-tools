@@ -816,6 +816,8 @@ dependencies = [
 name = "game-tools"
 version = "0.1.0"
 dependencies = [
+ "futures-util",
+ "native-tls",
  "reqwest",
  "serde",
  "serde_json",
