@@ -5,7 +5,7 @@ import LolView from "./views/Lol/LolView.vue";
 </script>
 
 <template>
-  <div class="container">
+  <div>
     <LolView />
   </div>
 </template>

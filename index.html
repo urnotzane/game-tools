@@ -1,14 +1,48 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Tools</title>
-  </head>
 
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Tools</title>
+  <script>
+    var win = window;
+    var doc = win.document;
+    var docEl = doc.documentElement;
+    var tid;
+    /**
+     * 设计稿为 1440px * 810px，1rem = 16px
+     * */
+    function refreshRem() {
+      var width = docEl.clientWidth;
+      var height = docEl.clientHeight;
+      if ((width / height) > (1440 / 810)) {
+        var rem = height / (810 / 16);
+      } else {
+        var rem = width / (1440 / 16);
+      }
+      docEl.style.fontSize = rem + 'px';
+    }
+
+    win.addEventListener('resize', function () {
+      clearTimeout(tid);
+      tid = setTimeout(refreshRem, 300);
+    }, false);
+    win.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        clearTimeout(tid);
+        tid = setTimeout(refreshRem, 300);
+      }
+    }, false);
+
+    refreshRem();
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>

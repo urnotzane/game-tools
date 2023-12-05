@@ -49,8 +49,8 @@
     },
     "windows": [
       {
-        "fullscreen": false,
-        "resizable": false,
+        "fullscreen": true,
+        "resizable": true,
         "title": "Game Tools",
         "width": 1440,
         "height": 810
