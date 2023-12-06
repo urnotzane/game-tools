@@ -816,7 +816,9 @@ dependencies = [
 name = "game-tools"
 version = "0.1.0"
 dependencies = [
+ "base64 0.13.1",
  "futures-util",
+ "http",
  "native-tls",
  "reqwest",
  "serde",
@@ -825,6 +827,7 @@ dependencies = [
  "tauri-build",
  "tokio",
  "tokio-tungstenite",
+ "url",
 ]
 
 [[package]]

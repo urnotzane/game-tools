@@ -2,11 +2,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::fs;
 
+use base64::encode;
 use lol::{get_remote_data, RemoteData};
 use native_tls::TlsConnector;
 use tauri::Builder;
 use tokio_tungstenite::{connect_async_tls_with_config, Connector};
 use futures_util::StreamExt;
+use http::{Request, Response};
 
 mod cmds;
 mod lol;
@@ -30,8 +32,11 @@ async fn main() {
 
 async fn send_ws() {
     let remote_data: RemoteData = get_remote_data();
-    let base_url = format!("ws://127.0.0.1:{}", remote_data.port);
-    let url: String = format!("{}/lol-lobby/v2/lobby", base_url);
+    let base_url = &format!("wss://127.0.0.1:{}", remote_data.port);
+    // let url: String = format!("{}/lol-lobby/v2/lobby", base_url);
+
+    let url = url::Url::parse(base_url).unwrap();
+    let host = url.host_str().expect("Invalid host in WebSocket URL");
 
     // let cert_file = fs::read("src/riotgames.pem").unwrap();
     // let cert = native_tls::Certificate::from_pem(&cert_file).unwrap();
@@ -44,9 +49,21 @@ async fn send_ws() {
 
     let connector = Connector::NativeTls(connector);
 
-    println!("------开始连接{}------", url.as_str());
+    let auth_base64 = encode(format!("riot:{}", remote_data.remote_token));
+    let request = Request::builder()
+        .method("GET")
+        .uri(base_url)
+        .header("Host", host)
+        .header("Authorization", format!("Basic {}", auth_base64))
+        .header("Upgrade", "websocket")
+        .header("Connection", "upgrade")
+        .header("Sec-Websocket-Key", "key123")
+        .header("Sec-Websocket-Version", "13")
+        .body(())
+        .unwrap();
+    println!("------开始连接{}------", base_url.as_str());
     let (ws_stream, ws_res) = connect_async_tls_with_config(
-        url.as_str(), None, false, Some(connector))
+        request, None, false, Some(connector))
         .await.expect("------连接失败------");
     
     println!("-----连接成功：{}------", ws_res.status());
