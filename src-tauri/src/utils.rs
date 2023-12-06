@@ -1,10 +1,13 @@
 use reqwest::Method;
 use serde_json::Value;
+#[cfg(windows)]
 use std::{collections::HashMap, os::windows::process::CommandExt, process::Command};
+#[cfg(unix)]
+use std::{collections::HashMap, process::Command};
 
 use crate::lol::{get_remote_data, RemoteData};
 #[cfg(unix)]
-pub fn execute_sys_cmd(cmd_str: &str) -> String {
+pub fn execute_command(cmd_str: &str) -> String {
     let output = Command::new(cmd_str)
         .arg("-l")
         .output()
