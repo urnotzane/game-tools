@@ -104,3 +104,112 @@ c:/wegameapps/英雄联盟/LeagueClient/LeagueClientUx.exe "--riotclient-auth-to
 
 ## 自动以管理员身份运行应用
 https://github.com/tauri-apps/tauri/issues/7173#issuecomment-1584928815
+
+## LCU Websocket
+https://hextechdocs.dev/getting-started-with-the-lcu-websocket/
+
+# 悠米or提莫
+```json
+{
+  "version": "13.23.1",
+  "id": "Teemo",
+  "key": "17",
+  "name": "迅捷斥候",
+  "title": "提莫",
+  "blurb": "不畏艰难险阻、不惧坎坷危途，提莫怀着无比的热情和欢欣的精神探索着整个世界。作为一个约德尔人，他对自己的道德观坚定不移，也对班德尔斥候的信条倍感自豪，有时候，过分的热忱甚至会让他无法看到自己的行为将会导致什么样的后果。虽然有人认为，“班德尔斥候小队”是否真实存在还有待商榷，但有一件事可以肯定，那就是提莫的信念。",
+  "info": {
+    "attack": 5,
+    "defense": 3,
+    "magic": 7,
+    "difficulty": 6
+  },
+  "image": {
+    "full": "Teemo.png",
+    "sprite": "champion4.png",
+    "group": "champion",
+    "x": 48,
+    "y": 48,
+    "w": 48,
+    "h": 48
+  },
+  "tags": [
+    "Marksman",
+    "Assassin"
+  ],
+  "partype": "法力",
+  "stats": {
+    "hp": 598,
+    "hpperlevel": 104,
+    "mp": 334,
+    "mpperlevel": 25,
+    "movespeed": 330,
+    "armor": 24,
+    "armorperlevel": 4.95,
+    "spellblock": 30,
+    "spellblockperlevel": 1.3,
+    "attackrange": 500,
+    "hpregen": 5.5,
+    "hpregenperlevel": 0.65,
+    "mpregen": 9.6,
+    "mpregenperlevel": 0.45,
+    "crit": 0,
+    "critperlevel": 0,
+    "attackdamage": 54,
+    "attackdamageperlevel": 3,
+    "attackspeedperlevel": 3.38,
+    "attackspeed": 0.69
+  }
+}
+```
+```json
+{
+  "version": "13.23.1",
+  "id": "Yuumi",
+  "key": "350",
+  "name": "魔法猫咪",
+  "title": "悠米",
+  "blurb": "作为一只来自班德尔城的魔法猫咪，悠米曾是一名约德尔魔女的守护灵，她的主人名叫诺拉。而当主人神秘消失以后，悠米就成为了《门扉魔典》的守护者，这是诺拉留下的一本有灵性的书，他们一起穿越书页中的传送门，共同寻找诺拉。渴望被宠爱的悠米在她的旅途中寻找着友善的同伴，为同伴们提供闪光护盾和坚决意志作为保护。虽然魔典竭尽全力让她把注意力留在最初的任务上，但悠米经常会被世俗的安逸所吸引，比如打盹和吃鱼。但安逸过后，她总是会回归自己的任务，找寻自己的朋友。",
+  "info": {
+    "attack": 5,
+    "defense": 1,
+    "magic": 8,
+    "difficulty": 2
+  },
+  "image": {
+    "full": "Yuumi.png",
+    "sprite": "champion5.png",
+    "group": "champion",
+    "x": 336,
+    "y": 0,
+    "w": 48,
+    "h": 48
+  },
+  "tags": [
+    "Support",
+    "Mage"
+  ],
+  "partype": "法力",
+  "stats": {
+    "hp": 500,
+    "hpperlevel": 69,
+    "mp": 440,
+    "mpperlevel": 45,
+    "movespeed": 330,
+    "armor": 25,
+    "armorperlevel": 4.2,
+    "spellblock": 25,
+    "spellblockperlevel": 1.1,
+    "attackrange": 425,
+    "hpregen": 5,
+    "hpregenperlevel": 0.55,
+    "mpregen": 10,
+    "mpregenperlevel": 0.4,
+    "crit": 0,
+    "critperlevel": 0,
+    "attackdamage": 49,
+    "attackdamageperlevel": 3.1,
+    "attackspeedperlevel": 1,
+    "attackspeed": 0.625
+  }
+}
+```

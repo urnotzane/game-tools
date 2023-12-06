@@ -1,8 +1,13 @@
+use base64::encode;
+use http::Request;
+use native_tls::TlsConnector;
 use reqwest::Method;
 use serde_json::Value;
+use tokio_tungstenite::{Connector, connect_async_tls_with_config, tungstenite::Message};
 use std::{collections::HashMap, os::windows::process::CommandExt, process::Command};
-
+use futures_util::{StreamExt, SinkExt};
 use crate::lol::{get_remote_data, RemoteData};
+
 #[cfg(unix)]
 pub fn execute_sys_cmd(cmd_str: &str) -> String {
     let output = Command::new(cmd_str)
@@ -52,4 +57,50 @@ pub async fn send_lol_req(
         .text()
         .await?;
     Ok(response)
+}
+
+pub async fn send_lol_ws()  {
+    let remote_data: RemoteData = get_remote_data();
+    let base_url = &format!("wss://127.0.0.1:{}", remote_data.port);
+
+    let url = url::Url::parse(base_url).unwrap();
+    let host = url.host_str().expect("Invalid host in WebSocket URL");
+
+    let connector = TlsConnector::builder()
+        .danger_accept_invalid_certs(true)
+        .build()
+        .unwrap();
+    let connector = Connector::NativeTls(connector);
+
+    let auth_base64 = encode(format!("riot:{}", remote_data.remote_token));
+    let request = Request::builder()
+        .method("GET")
+        .uri(base_url)
+        // LCU API认证
+        .header("Authorization", format!("Basic {}", auth_base64))
+        .header("Host", host)
+        .header("Upgrade", "websocket")
+        .header("Connection", "upgrade")
+        .header("Sec-Websocket-Key", "lcu")
+        .header("Sec-Websocket-Version", "13")
+        .body(())
+        .unwrap();
+    println!("------开始连接{}------", base_url.as_str());
+    let (mut ws_stream, ws_res) = connect_async_tls_with_config(
+        request, None, false, Some(connector))
+        .await.expect("连接失败");
+    
+    println!("-----连接成功：{:#?}------", ws_res);
+    
+    let msgs = "[5,\"OnJsonApiEvent\"]".to_string();
+
+    let _ = ws_stream.send(Message::Text(msgs)).await.unwrap();
+
+    while let Some(msg) = ws_stream.next().await {
+        let msg = msg.unwrap();
+        if msg.is_text() || msg.is_binary() {
+            // msg为空时表示ws_stream.send成功
+            println!("receive msg: {}", msg);
+        }
+    }
 }

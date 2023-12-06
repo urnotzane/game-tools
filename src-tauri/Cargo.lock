@@ -817,6 +817,7 @@ name = "game-tools"
 version = "0.1.0"
 dependencies = [
  "base64 0.13.1",
+ "futures-channel",
  "futures-util",
  "http",
  "native-tls",

@@ -24,6 +24,7 @@ http="*"
 base64="*"
 futures-util="*"
 url="*"
+futures-channel="*"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

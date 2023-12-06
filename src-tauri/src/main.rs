@@ -1,14 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use std::fs;
-
-use base64::encode;
-use lol::{get_remote_data, RemoteData};
-use native_tls::TlsConnector;
 use tauri::Builder;
-use tokio_tungstenite::{connect_async_tls_with_config, Connector};
-use futures_util::StreamExt;
-use http::{Request, Response};
+use utils::send_lol_ws;
 
 mod cmds;
 mod lol;
@@ -17,7 +10,7 @@ mod utils;
 #[tokio::main]
 async fn main() {
     tokio::spawn(async move {
-        send_ws().await;
+        send_lol_ws().await;
     });
     Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -30,50 +23,3 @@ async fn main() {
         .expect("error while running tauri application");
 }
 
-async fn send_ws() {
-    let remote_data: RemoteData = get_remote_data();
-    let base_url = &format!("wss://127.0.0.1:{}", remote_data.port);
-    // let url: String = format!("{}/lol-lobby/v2/lobby", base_url);
-
-    let url = url::Url::parse(base_url).unwrap();
-    let host = url.host_str().expect("Invalid host in WebSocket URL");
-
-    // let cert_file = fs::read("src/riotgames.pem").unwrap();
-    // let cert = native_tls::Certificate::from_pem(&cert_file).unwrap();
-
-    let connector = TlsConnector::builder()
-        // .add_root_certificate(cert)
-        .danger_accept_invalid_certs(true)
-        .build()
-        .unwrap();
-
-    let connector = Connector::NativeTls(connector);
-
-    let auth_base64 = encode(format!("riot:{}", remote_data.remote_token));
-    let request = Request::builder()
-        .method("GET")
-        .uri(base_url)
-        .header("Host", host)
-        .header("Authorization", format!("Basic {}", auth_base64))
-        .header("Upgrade", "websocket")
-        .header("Connection", "upgrade")
-        .header("Sec-Websocket-Key", "key123")
-        .header("Sec-Websocket-Version", "13")
-        .body(())
-        .unwrap();
-    println!("------开始连接{}------", base_url.as_str());
-    let (ws_stream, ws_res) = connect_async_tls_with_config(
-        request, None, false, Some(connector))
-        .await.expect("------连接失败------");
-    
-    println!("-----连接成功：{}------", ws_res.status());
-
-    let (_write, read) = ws_stream.split();
-    
-    let msg = read.for_each(|message| async {
-        let data = message.unwrap().into_data();
-        println!("{:#?}", data);
-    });
-
-    println!("{:#?}", msg.await);
-}
