@@ -1,5 +1,5 @@
 <template>
-  <Card>首页</Card>
+  <Card>首页首页首页首页首页首页首页首页首页首页首页首页</Card>
 </template>
 
 <script setup lang="ts">
