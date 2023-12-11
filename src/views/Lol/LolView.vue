@@ -25,9 +25,21 @@ import Ban from './modules/Ban.vue'
 import LobbyOperator from './modules/LobbyOperator.vue';
 import Pick from './modules/Pick.vue'
 import Utils from './modules/Utils.vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { UnlistenFn, listen } from '@tauri-apps/api/event';
 
 const champsStore = useLolChampsStore();
 
+let unlisten = ref<UnlistenFn>()
+
+onMounted(async() => {
+  unlisten.value = await listen<string>('lcu_loaded', (event) => {
+    console.log(`Got error in window ${event.windowLabel}, payload: ${event.payload}`);
+  });
+});
+onUnmounted(() => {
+  unlisten.value?.();
+})
 </script>
 <style scoped lang="scss">
 .live {

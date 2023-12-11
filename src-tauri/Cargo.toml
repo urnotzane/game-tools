@@ -25,6 +25,7 @@ base64="*"
 futures-util="*"
 url="*"
 futures-channel="*"
+teemo = "0.1.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
