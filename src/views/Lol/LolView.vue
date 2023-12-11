@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative h-full">
     <!-- ban高度为5vw，那么pick高度为15vw，所以整个BP部分高度为20vw，因此，直播画面高度为100% - 20vw -->
     <div class="w-full live p-4 z-0">
       <img class="absolute w-full h-full z-0 left-0 top-0 object-cover object-top" :src="champsStore.randomChampBg" />
@@ -43,6 +43,6 @@ onUnmounted(() => {
 </script>
 <style scoped lang="scss">
 .live {
-  height: calc(100vh - 180px);
+  height: calc(100% - 180px);
 }
 </style>
