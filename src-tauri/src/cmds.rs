@@ -1,9 +1,11 @@
-use std::collections::HashMap;
-
 use serde_json::{Map, Value};
+use std::{collections::HashMap, sync::Arc};
+use tauri::{Manager, Runtime};
+use teemo::Teemo;
 
 use crate::{
-    lol::{get_remote_data, RemoteData, get_champions}, utils::send_lol_req,
+    lol::{get_champions, get_remote_data, RemoteData},
+    utils::send_lol_req,
 };
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -18,13 +20,50 @@ pub async fn get_token() -> RemoteData {
 }
 
 #[tauri::command]
-pub async fn send_lol_req_cmd(method: &str, url: &str, data: Option<HashMap<String, Value>>) -> Result<String, String> {
-  let res_str = send_lol_req(method, url, data).await.unwrap();
-  Ok(res_str)
+pub async fn send_lol_req_cmd(
+    method: &str,
+    url: &str,
+    data: Option<HashMap<String, Value>>,
+) -> Result<String, String> {
+    let res_str = send_lol_req(method, url, data).await.unwrap();
+    Ok(res_str)
 }
 
 #[tauri::command]
 pub async fn get_champs() -> Result<Map<String, Value>, String> {
-  let res = get_champions().await.unwrap();
-  Ok(res)
+    let res = get_champions().await.unwrap();
+    Ok(res)
+}
+
+#[tauri::command]
+pub async fn initialize_lol<R: Runtime>(
+    _app: tauri::AppHandle<R>,
+    _window: tauri::Window<R>,
+) -> Result<(), String> {
+    let mut teemo = Teemo::new();
+
+    tauri::async_runtime::spawn(async move {
+        let window = _app.get_window("main").unwrap();
+        teemo.start();
+    
+        let mut lol_app = HashMap::new();
+        lol_app.insert("token", teemo.app_token.clone());
+        lol_app.insert("port", teemo.app_port.to_string());
+        lol_app.insert("url", teemo.url.to_string());
+        let _ = window.emit("lcu_loaded", lol_app);
+    
+        teemo.start_ws().await;
+    
+        let window2 = window.clone();
+        let cb = Arc::new(move |data:HashMap<String, Value>| {
+          let _ = window2.clone().emit(data.get("uri").unwrap().as_str().unwrap(), data.clone());
+        });
+    
+        teemo.subscribe("/lol-summoner/v1/current-summoner", cb.clone()).await;
+        teemo.subscribe("/lol-lobby/v2/lobby", cb.clone()).await;
+        teemo.subscribe("/lol-champ-select/v1/session", cb.clone()).await;
+        
+    });
+
+    Ok(())
 }

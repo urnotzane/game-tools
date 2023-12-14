@@ -27,14 +27,16 @@ import Pick from './modules/Pick.vue'
 import Utils from './modules/Utils.vue';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
+import { invoke } from '@tauri-apps/api';
 
 const champsStore = useLolChampsStore();
 
 let unlisten = ref<UnlistenFn>()
 
 onMounted(async() => {
+  await invoke("initialize_lol");
   unlisten.value = await listen<string>('lcu_loaded', (event) => {
-    console.log(`Got error in window ${event.windowLabel}, payload: ${event.payload}`);
+    console.log(event);
   });
 });
 onUnmounted(() => {

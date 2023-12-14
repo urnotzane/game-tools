@@ -830,7 +830,7 @@ dependencies = [
  "base64 0.21.5",
  "futures-channel",
  "futures-util",
- "http 0.2.11",
+ "http 1.0.0",
  "native-tls",
  "reqwest",
  "serde",
@@ -839,7 +839,7 @@ dependencies = [
  "tauri-build",
  "teemo",
  "tokio",
- "tokio-tungstenite 0.20.1",
+ "tokio-tungstenite",
  "url",
 ]
 
@@ -3224,9 +3224,9 @@ dependencies = [
 
 [[package]]
 name = "teemo"
-version = "0.1.1"
+version = "0.1.3-beta.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b32cc62cfa654ad2f9f8c60759839aa93a5ca78ffb789c99c87e7cbfe851c0d4"
+checksum = "564ad22cf82fccc0075636efd7ae65416d1995ac3bbf9ca3d76a51aad370f22a"
 dependencies = [
  "async-recursion",
  "base64 0.21.5",
@@ -3236,7 +3236,7 @@ dependencies = [
  "reqwest",
  "serde_json",
  "tokio",
- "tokio-tungstenite 0.21.0",
+ "tokio-tungstenite",
  "url",
 ]
 
@@ -3386,20 +3386,6 @@ dependencies = [
 
 [[package]]
 name = "tokio-tungstenite"
-version = "0.20.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "212d5dcb2a1ce06d81107c3d0ffa3121fe974b73f068c8282cb1c32328113b6c"
-dependencies = [
- "futures-util",
- "log",
- "native-tls",
- "tokio",
- "tokio-native-tls",
- "tungstenite 0.20.1",
-]
-
-[[package]]
-name = "tokio-tungstenite"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c83b561d025642014097b66e6c1bb422783339e0909e4429cde4749d1990bc38"
@@ -3409,7 +3395,7 @@ dependencies = [
  "native-tls",
  "tokio",
  "tokio-native-tls",
- "tungstenite 0.21.0",
+ "tungstenite",
 ]
 
 [[package]]
@@ -3575,26 +3561,6 @@ name = "try-lock"
 version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3528ecfd12c466c6f163363caf2d02a71161dd5e1cc6ae7b34207ea2d42d81ed"
-
-[[package]]
-name = "tungstenite"
-version = "0.20.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e3dac10fd62eaf6617d3a904ae222845979aec67c615d1c842b4002c7666fb9"
-dependencies = [
- "byteorder",
- "bytes",
- "data-encoding",
- "http 0.2.11",
- "httparse",
- "log",
- "native-tls",
- "rand 0.8.5",
- "sha1",
- "thiserror",
- "url",
- "utf-8",
-]
 
 [[package]]
 name = "tungstenite"
