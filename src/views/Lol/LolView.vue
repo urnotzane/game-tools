@@ -25,22 +25,17 @@ import Ban from './modules/Ban.vue'
 import LobbyOperator from './modules/LobbyOperator.vue';
 import Pick from './modules/Pick.vue'
 import Utils from './modules/Utils.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
-import { UnlistenFn, listen } from '@tauri-apps/api/event';
-import { invoke } from '@tauri-apps/api';
+import { useLolInitStore } from '@/store/lol/useLolInitStore';
+import { onMounted, onUnmounted } from 'vue';
 
 const champsStore = useLolChampsStore();
+const lolInitialStore = useLolInitStore();
 
-let unlisten = ref<UnlistenFn>()
-
-onMounted(async() => {
-  await invoke("initialize_lol");
-  unlisten.value = await listen<string>('lcu_loaded', (event) => {
-    console.log(event);
-  });
+onMounted(() => {
+  lolInitialStore.initialize();
 });
 onUnmounted(() => {
-  unlisten.value?.();
+  lolInitialStore?.unMountListeners?.();
 })
 </script>
 <style scoped lang="scss">

@@ -70,7 +70,10 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       red,
     }
   });
-
+  /**
+   * 
+   * @deprecated 已在ws中订阅
+   */
   const getChampSelectSession = async () => {
     const res = await lolServices<LolSpace.ChampSelectSession>({
       method: LolSpace.Method.get,

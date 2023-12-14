@@ -1,3 +1,4 @@
+#[warn(deprecated)]
 use base64::encode;
 use http::Request;
 use native_tls::TlsConnector;

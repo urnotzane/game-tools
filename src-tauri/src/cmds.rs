@@ -40,6 +40,12 @@ pub async fn initialize_lol<R: Runtime>(
     _app: tauri::AppHandle<R>,
     _window: tauri::Window<R>,
 ) -> Result<(), String> {
+    let events = [
+        "Exit",
+        "/lol-summoner/v1/current-summoner",
+        "/lol-lobby/v2/lobby",
+        "/lol-champ-select/v1/session"
+    ];
     let mut teemo = Teemo::new();
 
     tauri::async_runtime::spawn(async move {
@@ -56,12 +62,12 @@ pub async fn initialize_lol<R: Runtime>(
     
         let window2 = window.clone();
         let cb = Arc::new(move |data:HashMap<String, Value>| {
-          let _ = window2.clone().emit(data.get("uri").unwrap().as_str().unwrap(), data.clone());
+          let _ = window2.emit(data.get("uri").unwrap().as_str().unwrap(), data.clone());
         });
-    
-        teemo.subscribe("/lol-summoner/v1/current-summoner", cb.clone()).await;
-        teemo.subscribe("/lol-lobby/v2/lobby", cb.clone()).await;
-        teemo.subscribe("/lol-champ-select/v1/session", cb.clone()).await;
+
+        for event in events {
+            teemo.subscribe(event, cb.clone()).await;
+        }
         
     });
 

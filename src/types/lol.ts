@@ -507,7 +507,7 @@ export namespace LolSpace {
     learningQuests: boolean;
     mainPickTimerDuration: number;
     maxAllowableBans: number;
-    name: "GAME_CFG_PICK_BLIND"|"GAME_CFG_DRAFT_STD"|"GAME_CFG_PICK_RANDOM";
+    name: "GAME_CFG_PICK_BLIND" | "GAME_CFG_DRAFT_STD" | "GAME_CFG_PICK_RANDOM";
     numPlayersPerTeamOverride: number;
     onboardCoopBeginner: boolean;
     pickMode: string;
@@ -826,13 +826,19 @@ export namespace LolSpace {
     numPlayersPerTeam: number;
     queueAvailability: string;
   }
-  
+
   export interface CustomGame {
     gameServerRegions?: any;
     queueAvailability: string;
     spectatorPolicies: any[];
     spectatorSlotLimit: number;
     subcategories: Subcategory[];
+  }
+
+  export interface EventLcuLoaded {
+    url: string;
+    token: string;
+    port: string;
   }
 }
 
