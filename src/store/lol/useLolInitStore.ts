@@ -31,9 +31,9 @@ export const useLolInitStore = defineStore("lolInit", () => {
     clientToken.value = event.payload?.token;
     clientUrl.value = event.payload?.url;
   }
-  const _eventLoaded:GTEvent.LolEventCallback<LolSpace.Summoner> = (event) => {
-    console.log(event.id, event.payload);
-  }
+  // const _eventLoaded:GTEvent.LolEventCallback<LolSpace.Summoner> = (event) => {
+  //   console.log(event.id, event.payload);
+  // }
   const lobbyLoaded:GTEvent.LolEventCallback<LolSpace.LobbySession> = async(event) => {
     if (!event.payload?.data) return;
     lobbyStore.setLobbySession(event.payload?.data);

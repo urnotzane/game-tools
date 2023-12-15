@@ -17,6 +17,7 @@ async fn main() {
             if !window.is_devtools_open() {
                 window.open_devtools();
             }
+            let _ = window.emit("app_loaded", true);
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
