@@ -60,11 +60,16 @@ export const useLobbyStore = defineStore('lolLobby', () => {
     return res;
   }
 
+  const setLobbySession = (data?: LolSpace.LobbySession) => {
+    gameConfig.value = data?.gameConfig;
+  }
+
   return {
     gameConfig,
     blueMembers,
     redMembers,
-    getLobbySession
+    getLobbySession,
+    setLobbySession,
   }
 });
 

@@ -4,7 +4,7 @@
       'border-l border-r-0': isRedTeam,
       'blink-animation': getIsInProgress(index - 1),
     }" v-for="index in pickLimit" :key="index">
-      <img class="w-full h-full" v-if="teamMembers?.[index - 1]?.championId"
+      <img class="w-full h-full object-cover object-top" v-if="teamMembers?.[index - 1]?.championId"
         :src="formatChampImg(teamMembers?.[index - 1]?.championId)" />
       <div class="" v-else>
         <div class="pl-2 pt-2">{{ LolSpace.PlayerPositions[index - 1] }} </div>

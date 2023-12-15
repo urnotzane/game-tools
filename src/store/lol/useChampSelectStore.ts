@@ -86,6 +86,9 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     }
     return res;
   }
+  const setChampSelectSession = (data?: LolSpace.ChampSelectSession) => {
+    bpSession.value = data;
+  }
 
   return {
     bpSession,
@@ -96,5 +99,6 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     banActions,
     pickActions,
     getChampSelectSession,
+    setChampSelectSession,
   }
 });
