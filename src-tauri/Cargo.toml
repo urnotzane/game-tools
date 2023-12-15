@@ -1,6 +1,6 @@
 [package]
 name = "game-tools"
-version = "0.1.0"
+version = "0.2.0"
 description = "一个游戏辅助工具"
 authors = ["urnotzane"]
 license = "MIT"
