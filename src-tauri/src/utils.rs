@@ -1,16 +1,7 @@
-#[warn(deprecated)]
-use base64::encode;
-use http::Request;
-use native_tls::TlsConnector;
-use reqwest::Method;
-use serde_json::Value;
-use tokio_tungstenite::{Connector, connect_async_tls_with_config, tungstenite::Message};
-use std::{collections::HashMap, os::windows::process::CommandExt, process::Command};
-use futures_util::{StreamExt, SinkExt};
-use crate::lol::{get_remote_data, RemoteData};
+use std::{ os::windows::process::CommandExt, process::Command};
 
 #[cfg(unix)]
-pub fn execute_sys_cmd(cmd_str: &str) -> String {
+pub fn execute_command(cmd_str: &str) -> String {
     let output = Command::new(cmd_str)
         .arg("-l")
         .output()
