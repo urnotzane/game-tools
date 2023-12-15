@@ -2,7 +2,7 @@
   <div class="">
     <div class="grid grid-cols-10">
       <div class="col-span-3">当前账号</div>
-      <div class="col-span-7">{{ currentSummoner?.displayName || '-' }}</div>
+      <div class="col-span-7">{{ lolInitialStore.currentSummoner?.displayName || '-' }}</div>
     </div>
     <div class="grid grid-cols-10">
       <div class="col-span-3">游戏版本</div>
@@ -10,11 +10,11 @@
     </div>
     <div class="grid grid-cols-10">
       <div class="col-span-3">接口地址</div>
-      <div class="col-span-7">{{ clientUrl || '-' }}</div>
+      <div class="col-span-7">{{ lolInitialStore.clientUrl || '-' }}</div>
     </div>
     <div class="grid grid-cols-10">
       <div class="col-span-3">Token</div>
-      <div class="col-span-7">{{ clientToken || '-' }}</div>
+      <div class="col-span-7">{{ lolInitialStore.clientToken || '-' }}</div>
     </div>
     <hr class="my-3" />
     <div class="grid grid-cols-10">
@@ -32,12 +32,12 @@
 
 import { LolSpace } from '@/types/lol';
 import { useLobbyStore, useLolChampsStore, useSelectTimerStore } from '@/store/lol/common';
-import { useLolMatch } from '@/hooks/useLolMatch';
+import { useLolInitStore } from '@/store/lol/useLolInitStore';
 
 const champsStore = useLolChampsStore();
 const lobbyStore = useLobbyStore();
 const selectTimerStore = useSelectTimerStore();
 
-const { currentSummoner, clientToken, clientUrl } = useLolMatch();
+const lolInitialStore = useLolInitStore();
 
 </script>
