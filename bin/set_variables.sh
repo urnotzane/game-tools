@@ -20,6 +20,4 @@ echo "VERSION="$VERSION"" >> "$GITHUB_ENV"
 echo "TAG_UPDATED="$TAG_UPDATED"" >> "$GITHUB_ENV"
 echo "APP_NAME="$APP_NAME"" >> "$GITHUB_ENV"
 
-export VERSION=$VERSION
-export TAG_UPDATED=$TAG_UPDATED
-export APP_NAME=$APP_NAME
+echo "::set-env name=VERSION::$VERSION"
