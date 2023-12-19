@@ -33,6 +33,7 @@ jobs:
           echo "TAG_UPDATED=$TAG_UPDATED" >> $GITHUB_ENV
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           echo ${{ env.VERSION }}
+          echo $APP_NAME
 
   # build-tools:
   #   runs-on: windows-latest
