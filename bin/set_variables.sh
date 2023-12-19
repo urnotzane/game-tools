@@ -15,11 +15,7 @@ fi
 
 APP_NAME="Game Tools_"$VERSION"_x64"
 
-echo $env
-echo $GITHUB_ENV
-
-
 # 输出VERSION和TAG_UPDATED的值
-echo "VERSION=dfasdf" >> $GITHUB_ENV
+echo "VERSION=$VERSION" >> $GITHUB_ENV
 echo "TAG_UPDATED=$TAG_UPDATED" >> $GITHUB_ENV
 echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
