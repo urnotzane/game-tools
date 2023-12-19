@@ -68,6 +68,7 @@ jobs:
           name: game_tools
           path: ./
       - name: Unzip artifact
+        if: env.TAG_UPDATED == 'true'
         run: |
           unzip -l game_tools
       - name: Push to release
