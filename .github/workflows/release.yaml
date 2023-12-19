@@ -47,7 +47,7 @@ jobs:
             .\src-tauri\target\release\bundle\nsis\*
       - name: Delete exe
         run: |
-          rmdir /s/q '.\src-tauri\target\release\bundle'
+          rmdir /s /q .\src-tauri\target\release\bundle
           
 
   release: 
