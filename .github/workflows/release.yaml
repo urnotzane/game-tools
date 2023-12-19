@@ -16,20 +16,6 @@ env:
   VERSION: ""
 
 jobs:
-  set-envs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Set Variables
-        run: |
-          sh bin/set_variables.sh
-      - run: |
-          echo ${{ env.VERSION }}
-          echo ${{ env.TAG_UPDATED }}
-          echo ${{ env.APP_NAME }}
 
   build-tools:
     runs-on: windows-latest
@@ -63,11 +49,20 @@ jobs:
             .\src-tauri\target\release\Game Tools.exe
           
   release: 
-    needs: [build-tools, set-envs]
+    needs: [build-tools]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set Variables
+        run: |
+          sh bin/set_variables.sh
       - run: |
+          echo ${{ env.VERSION }}
           echo ${{ env.TAG_UPDATED }}
+          echo ${{ env.APP_NAME }}
       - name: Download artifact
         uses: actions/download-artifact@v3
         if: env.TAG_UPDATED == 'true'
