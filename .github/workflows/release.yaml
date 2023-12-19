@@ -60,7 +60,7 @@ jobs:
           
 
   release: 
-    needs: build-tools
+    needs: [build-tools, set-envs]
     runs-on: ubuntu-latest
     steps:
       - run: |
