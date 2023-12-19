@@ -35,6 +35,8 @@ jobs:
           sh bin/set_variables.sh
       - run: |
           echo ${{ env.VERSION }}
+          echo ${{ env.TAG_UPDATED }}
+          echo ${{ env.APP_NAME }}
 
   # build-tools:
   #   runs-on: windows-latest
