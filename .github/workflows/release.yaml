@@ -31,7 +31,7 @@ jobs:
         env:
           cache-name: cache-target
         with:
-          path: ~/src/tauri/target
+          path: .\src\tauri\target
           key: ${{ runner.os }}-build-${{ env.cache-name }}
       - name: Build tools
         run: |
