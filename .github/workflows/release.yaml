@@ -39,7 +39,8 @@ jobs:
           echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
       - name: Set Variables
         run: |
-          sh bin/get_version.sh
+          sh bin/set_variables.sh
+          echo ${{env.VERSION}}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         if: ${{ env.BUILD_SUCCESS }} == 'true'

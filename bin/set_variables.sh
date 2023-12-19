@@ -16,6 +16,6 @@ fi
 APP_NAME="Game Tools_"$VERSION"_x64"
 
 # 输出VERSION和TAG_UPDATED的值
-echo "VERSION: $VERSION"
-echo "TAG_UPDATED: $TAG_UPDATED"
-echo "APP_NAME: $APP_NAME"
+export VERSION
+export TAG_UPDATED
+export APP_NAME
