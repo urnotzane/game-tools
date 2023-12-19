@@ -1,7 +1,7 @@
 [package]
 name = "game-tools"
-version = "0.2.0"
-description = "一个游戏辅助工具"
+version = "0.2.1-beta.1"
+description = "Game Tools"
 authors = ["urnotzane"]
 license = "MIT"
 repository = "https://github.com/urnotzane/game-tools.git"
