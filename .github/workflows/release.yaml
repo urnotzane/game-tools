@@ -78,4 +78,4 @@ jobs:
           tag: v${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: false
-          artifacts: "game_tools/msi/*.msi,game_tools/msi/*.exe"
+          artifacts: "game_tools/Game Tools.exe"
