@@ -16,6 +16,21 @@ env:
   VERSION: ""
 
 jobs:
+  set-envs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # - name: For git tags
+      #   run: |
+      #     git fetch --prune --unshallow
+      - name: Set Variables
+        run: |
+          sh bin/set_variables.sh
+          echo ${{env.VERSION}}
+
   build-tools:
     runs-on: windows-latest
     steps:
@@ -50,17 +65,6 @@ jobs:
     needs: build-tools
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      # - name: For git tags
-      #   run: |
-      #     git fetch --prune --unshallow
-      - name: Set Variables
-        run: |
-          sh bin/set_variables.sh
-          echo ${{env.VERSION}}
       - name: Download artifact
         uses: actions/download-artifact@v3
         if: env.TAG_UPDATED == 'true'
