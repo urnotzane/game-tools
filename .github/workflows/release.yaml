@@ -43,7 +43,7 @@ jobs:
         with:
           name: game_tools
           path: |
-            .\src-tauri\target\Game Tools.exe
+            .\src-tauri\target\release\Game Tools.exe
           
 
   release: 
