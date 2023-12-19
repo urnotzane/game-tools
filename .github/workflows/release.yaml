@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+  BUILD_SUCCESS: false
+  TAG_UPDATED: false
+  VERSION: ""
+
+jobs:
+  build-tools:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          npm i pnpm -g
+          pnpm i
+      - name: Build Tools
+        run: |
+          pnpm tauri build
+          echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ env.BUILD_SUCCESS }} == 'true'
+        with:
+          name: game_tools
+          path: |
+            .\src-tauri\target\release\bundle\msi\*
+            .\src-tauri\target\release\bundle\nsis\*
+          
+  release:
+    needs: build-tools
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set Variables
+        run: |
+          sh bin/get_version.sh
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: game_tools
+          path: ./
+      - name: Push to release
+        uses: ncipollo/release-action@v1
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: v${{ env.VERSION }}
+          tag: v${{ env.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: false
+          artifacts: "*.msi.zip,*.exe.zip"
