@@ -71,6 +71,9 @@ jobs:
         with:
           name: game_tools
           path: ./
+      - name: Unzip artifact
+        run: |
+          unzip -l game_tools
       - name: Push to release
         uses: ncipollo/release-action@v1
         if: env.TAG_UPDATED == 'true'
@@ -79,4 +82,4 @@ jobs:
           tag: v${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: false
-          artifacts: "*.msi.zip,*.exe.zip"
+          artifacts: "game_tools/msi/*.msi,game_tools/msi/*.exe"
