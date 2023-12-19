@@ -16,78 +16,66 @@ env:
   VERSION: ""
 
 jobs:
-  sssss:
+  build-tools:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Delete exe
+      - name: Install web dependencies
         run: |
-          rmdir ".\vite.config.ts" /s /q 
-  # build-tools:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #     - name: Install web dependencies
-  #       run: |
-  #         npm i pnpm -g
-  #         pnpm i
-  #     - name: Cache Rust
-  #       id: cache-npm
-  #       uses: actions/cache@v3
-  #       env:
-  #         cache-name: cache-target
-  #       with:
-  #         path: ~/src/tauri/target
-  #         key: ${{ runner.os }}-build-${{ env.cache-name }}
-  #     - name: Build tools
-  #       run: |
-  #         pnpm tauri build
-  #         echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v3
-  #       if: ${{ env.BUILD_SUCCESS }} == 'true'
-  #       with:
-  #         name: game_tools
-  #         path: |
-  #           .\src-tauri\target\release\bundle\msi\*
-  #           .\src-tauri\target\release\bundle\nsis\*
-  #     - name: Delete exe
-  #       run: |
-  #         rmdir /s /q .\src-tauri\target\release\bundle
+          npm i pnpm -g
+          pnpm i
+      - name: Cache Rust
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-target
+        with:
+          path: ~/src/tauri/target
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Build tools
+        run: |
+          pnpm tauri build
+          echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ env.BUILD_SUCCESS }} == 'true'
+        with:
+          name: game_tools
+          path: |
+            .\src-tauri\target\Game Tools.exe
           
 
-  # release: 
-  #   needs: build-tools
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     # - name: For git tags
-  #     #   run: |
-  #     #     git fetch --prune --unshallow
-  #     - name: Set Variables
-  #       run: |
-  #         sh bin/set_variables.sh
-  #         echo ${{env.VERSION}}
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v3
-  #       if: env.TAG_UPDATED == 'true'
-  #       with:
-  #         name: game_tools
-  #         path: ./
-  #     - name: Unzip artifact
-  #       run: |
-  #         unzip -l game_tools
-  #     - name: Push to release
-  #       uses: ncipollo/release-action@v1
-  #       if: env.TAG_UPDATED == 'true'
-  #       with:
-  #         name: v${{ env.VERSION }}
-  #         tag: v${{ env.VERSION }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         replacesArtifacts: false
-  #         artifacts: "game_tools/msi/*.msi,game_tools/msi/*.exe"
+  release: 
+    needs: build-tools
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # - name: For git tags
+      #   run: |
+      #     git fetch --prune --unshallow
+      - name: Set Variables
+        run: |
+          sh bin/set_variables.sh
+          echo ${{env.VERSION}}
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: game_tools
+          path: ./
+      - name: Unzip artifact
+        run: |
+          unzip -l game_tools
+      - name: Push to release
+        uses: ncipollo/release-action@v1
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: v${{ env.VERSION }}
+          tag: v${{ env.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: false
+          artifacts: "game_tools/msi/*.msi,game_tools/msi/*.exe"
