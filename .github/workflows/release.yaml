@@ -21,7 +21,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install dependencies
+      - name: For git tags
+        run: |
+          git fetch --prune --unshallow
+      - name: Set Variables
+        run: |
+          sh bin/set_variables.sh
+          echo ${{env.VERSION}}
+      - name: Install web dependencies
         run: |
           npm i pnpm -g
           pnpm i
@@ -33,14 +40,10 @@ jobs:
         with:
           path: ~/src/tauri/target
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Build Tools
+      - name: Build tools
         run: |
           pnpm tauri build
           echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
-      - name: Set Variables
-        run: |
-          sh bin/set_variables.sh
-          echo ${{env.VERSION}}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         if: ${{ env.BUILD_SUCCESS }} == 'true'

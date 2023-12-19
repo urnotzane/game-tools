@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 读取package.json文件并提取version字段的值
-VERSION=$(cat ../package.json | jq -r '.version')
+VERSION="v$(cat package.json | jq -r '.version')"
 
 # 获取最新的git tag
 LATEST_TAG=$(git describe --tags --abbrev=0)
