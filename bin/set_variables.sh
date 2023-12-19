@@ -17,7 +17,6 @@ APP_NAME="Game Tools_"$VERSION"_x64"
 
 echo $env
 echo $GITHUB_ENV
-echo ${env.GITHUB_ENV}
 
 
 # 输出VERSION和TAG_UPDATED的值
