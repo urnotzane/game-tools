@@ -25,73 +25,65 @@ jobs:
           fetch-depth: 0
       - name: Set Variables
         run: |
-          # export VERSION=$(cat package.json | jq -r '.version')
-          # export LATEST_TAG=$(git describe --tags --abbrev=0)
-          # export TAG_UPDATED=$("v$VERSION" != "$LATEST_TAG")
-          # export APP_NAME="Game Tools_$VERSION_x64"
-          # echo "VERSION=$VERSION" >> $GITHUB_ENV
-          # echo "TAG_UPDATED=$TAG_UPDATED" >> $GITHUB_ENV
-          # echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
           sh bin/set_variables.sh
       - run: |
           echo ${{ env.VERSION }}
           echo ${{ env.TAG_UPDATED }}
           echo ${{ env.APP_NAME }}
 
-  # build-tools:
-  #   runs-on: windows-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #     - name: Install web dependencies
-  #       run: |
-  #         npm i pnpm -g
-  #         pnpm i
-  #     - name: Cache Rust
-  #       id: cache-npm
-  #       uses: actions/cache@v3
-  #       env:
-  #         cache-name: cache-target
-  #       with:
-  #         path: |
-  #           .\src-tauri\target
-  #           \.cargo
-  #         key: ${{ runner.os }}-build-${{ env.cache-name }}
-  #     - name: Build tools
-  #       run: |
-  #         pnpm tauri build
-  #         echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
-  #     - name: Upload artifact
-  #       uses: actions/upload-artifact@v3
-  #       if: ${{ env.BUILD_SUCCESS }} == 'true'
-  #       with:
-  #         name: game_tools
-  #         path: |
-  #           .\src-tauri\target\release\Game Tools.exe
+  build-tools:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install web dependencies
+        run: |
+          npm i pnpm -g
+          pnpm i
+      - name: Cache Rust
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-target
+        with:
+          path: |
+            .\src-tauri\target
+            \.cargo
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Build tools
+        run: |
+          pnpm tauri build
+          echo "BUILD_SUCCESS=true" >> $GITHUB_ENV
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ env.BUILD_SUCCESS }} == 'true'
+        with:
+          name: game_tools
+          path: |
+            .\src-tauri\target\release\Game Tools.exe
           
-
-  # release: 
-  #   needs: [build-tools, set-envs]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: |
-  #         echo ${{ env.VERSION }}
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v3
-  #       if: env.TAG_UPDATED == 'true'
-  #       with:
-  #         name: game_tools
-  #         path: ./
-  #     - name: Unzip artifact
-  #       if: env.TAG_UPDATED == 'true'
-  #       run: |
-  #         unzip -l game_tools
-  #     - name: Push to release
-  #       uses: ncipollo/release-action@v1
-  #       if: env.TAG_UPDATED == 'true'
-  #       with:
-  #         name: v${{ env.VERSION }}
-  #         tag: v${{ env.VERSION }}
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         replacesArtifacts: false
-  #         artifacts: "game_tools/Game Tools.exe"
+  release: 
+    needs: [build-tools, set-envs]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ env.TAG_UPDATED }}
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: game_tools
+          path: ./
+      - name: Unzip artifact
+        if: env.TAG_UPDATED == 'true'
+        run: |
+          unzip -l game_tools
+      - name: Push to release
+        uses: ncipollo/release-action@v1
+        if: env.TAG_UPDATED == 'true'
+        with:
+          name: v${{ env.VERSION }}
+          tag: v${{ env.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          replacesArtifacts: false
+          artifacts: "game_tools/Game Tools.exe"
