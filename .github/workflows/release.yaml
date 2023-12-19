@@ -21,13 +21,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: For git tags
-        run: |
-          git fetch --prune --unshallow
-      - name: Set Variables
-        run: |
-          sh bin/set_variables.sh
-          echo ${{env.VERSION}}
       - name: Install web dependencies
         run: |
           npm i pnpm -g
@@ -50,8 +43,12 @@ jobs:
         with:
           name: game_tools
           path: |
-            .\src-tauri\target\release\bundle\msi\${{ env.APP_NAME }}_en-US.msi
-            .\src-tauri\target\release\bundle\nsis\${{ env.APP_NAME }}-setup.exe
+            .\src-tauri\target\release\bundle\msi\*
+            .\src-tauri\target\release\bundle\nsis\*
+      - name: Delete exe
+        run: |
+          rmdir /s/q .\src-tauri\target\release\bundle
+          
 
   release: 
     needs: build-tools
@@ -61,6 +58,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      # - name: For git tags
+      #   run: |
+      #     git fetch --prune --unshallow
+      - name: Set Variables
+        run: |
+          sh bin/set_variables.sh
+          echo ${{env.VERSION}}
       - name: Download artifact
         uses: actions/download-artifact@v3
         if: env.TAG_UPDATED == 'true'
