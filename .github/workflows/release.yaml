@@ -26,7 +26,8 @@ jobs:
       - name: Set Variables
         run: |
           sh bin/set_variables.sh
-          echo ${{env.VERSION}}
+          echo ${{ env.VERSION }}
+          echo ${{ VERSION }}
 
   # build-tools:
   #   runs-on: windows-latest
