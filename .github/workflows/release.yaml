@@ -72,6 +72,7 @@ jobs:
       - name: Unzip artifact
         if: env.TAG_UPDATED == 'true'
         run: |
+          ls
           unzip -l game_tools
       - name: Push to release
         uses: ncipollo/release-action@v1
