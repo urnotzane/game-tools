@@ -75,6 +75,6 @@ jobs:
         with:
           name: v${{ env.VERSION }}
           tag: v${{ env.VERSION }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }}
           replacesArtifacts: false
           artifacts: "./Game Tools.exe"
