@@ -87,8 +87,11 @@
     "security": {
       "csp": null
     },
+    "macOSPrivateApi": true,
     "windows": [
       {
+        "url": "index.html",
+        "label": "main",
         "fullscreen": false,
         "resizable": true,
         "title": "GameTools",
@@ -96,6 +99,22 @@
         "height": 810,
         "minHeight": 810,
         "minWidth": 1440
+      },
+      {
+        "url": "pet.html",
+        "label": "pet",
+        "fullscreen": false,
+        "transparent": true,
+        "width": 315,
+        "height": 400,
+        "minWidth": 215,
+        "minHeight": 200,
+        "resizable": false,
+        "decorations": false,
+        "skipTaskbar": true,
+        "alwaysOnTop": true,
+        "x": 0,
+        "y": 0
       }
     ]
   }

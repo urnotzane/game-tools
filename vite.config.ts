@@ -34,4 +34,12 @@ export default defineConfig(async () => ({
   },
   // to access the Tauri environment variables set by the CLI with information about the current target
   envPrefix: ['VITE_', 'TAURI_PLATFORM', 'TAURI_ARCH', 'TAURI_FAMILY', 'TAURI_PLATFORM_VERSION', 'TAURI_PLATFORM_TYPE', 'TAURI_DEBUG'],
+  build: {
+    rollupOptions: {
+      input: {
+        index: path.resolve(__dirname, "index.html"),
+        pet: path.resolve(__dirname, "pet.html"),
+      }
+    }
+  }
 }));
