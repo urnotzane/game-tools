@@ -12,7 +12,7 @@ async fn main() {
     });
     Builder::default()
         .setup(|app| {
-            let window = app.get_window("main").unwrap();
+            let window = app.get_window("pet").unwrap();
             #[cfg(debug_assertions)]
             if !window.is_devtools_open() {
                 window.open_devtools();
