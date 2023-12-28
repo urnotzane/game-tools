@@ -49,7 +49,7 @@ export const useLobbyStore = defineStore('lolLobby', () => {
   const getLobbySession = async () => {
     const res = await lolServices<LolSpace.LobbySession>({
       method: LolSpace.Method.get,
-      url: "/lol-lobby/v2/lobby"
+      url: "lol-lobby/v2/lobby"
     });
 
     if (res?.httpStatus) {

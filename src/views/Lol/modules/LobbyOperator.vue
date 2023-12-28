@@ -89,7 +89,7 @@ const createRoom = async () => {
   }
   const res = await lolServices<LolSpace.LobbySession, LolSpace.LobbyBody>({
     method: LolSpace.Method['post'],
-    url: "/lol-lobby/v2/lobby",
+    url: "lol-lobby/v2/lobby",
     data,
   });
   if (res?.httpStatus) {
