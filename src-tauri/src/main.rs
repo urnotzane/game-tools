@@ -37,14 +37,22 @@ async fn main() {
 
 fn mouse_listener(window:Window) {
     tauri::async_runtime::spawn(async move {
+        let mut position_coord: HashMap<&str, i32> = HashMap::new();
         loop {
             let position = Mouse::get_mouse_position();
+            position_coord.insert("x", 0);
+            position_coord.insert("y", 0);
             match position {
                 Mouse::Position { x, y } => {
-                    let mut position = HashMap::new();
-                    position.insert("x", x);
-                    position.insert("y", y);
-                    let _ = window.emit("mouse_moved", position);
+                    let x_is_equal = position_coord.get("x") == Some(&x);
+                    let y_is_equal = position_coord.get("y") == Some(&y);
+                    // 同一个位置不重复触发事件
+                    if x_is_equal && y_is_equal {
+                        return;
+                    }
+                    position_coord.insert("x", x);
+                    position_coord.insert("y", y);
+                    let _ = window.emit("mouse_moved", position_coord.clone());
                 },
                 Mouse::Error => println!("Error getting mouse position"),
             }

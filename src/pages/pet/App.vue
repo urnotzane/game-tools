@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import * as PIXI from 'pixi.js';
 import { Live2DModel } from 'pixi-live2d-display';
-import { onMounted } from 'vue';
-import { listen } from '@tauri-apps/api/event';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { UnlistenFn, listen } from '@tauri-apps/api/event';
 
 // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
 (window as any).PIXI = PIXI;
 
+let removeListener = ref<UnlistenFn>()
 const initModel = async function () {
   const canvas = document.getElementById('canvas') as any;
   const app = new PIXI.Application({
@@ -35,12 +36,15 @@ const initModel = async function () {
       model.expression("f02");
     }, 5000);
   });
-  await listen<{x:number,y:number}>('mouse_moved', (event) => {
+  removeListener.value = await listen<{x:number,y:number}>('mouse_moved', (event) => {
     model.focus(event.payload?.x, event.payload?.y);
   })
 }
 onMounted(() => {
   initModel();
+});
+onUnmounted(() => {
+  removeListener.value?.();
 })
 </script>
 
