@@ -56,7 +56,7 @@ fn mouse_listener(window:Window) {
                 },
                 Mouse::Error => println!("Error getting mouse position"),
             }
-            thread::sleep(Duration::from_millis(200));
+            thread::sleep(Duration::from_millis(100));
         }
     });
 }
