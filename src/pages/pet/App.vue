@@ -61,5 +61,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <canvas id="canvas" class="!cursor-pointer"></canvas>
+  <canvas id="canvas"></canvas>
 </template>
