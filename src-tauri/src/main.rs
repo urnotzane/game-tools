@@ -22,6 +22,7 @@ async fn main() {
             }
 
             let _ = window.emit("app_loaded", true);
+            pet::init_pet_pos(pet_window.clone());
             pet::mouse_listener(pet_window.clone());
 
             Ok(())
