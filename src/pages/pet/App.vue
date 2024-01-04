@@ -3,12 +3,14 @@ import * as PIXI from 'pixi.js';
 import { InternalModel, Live2DModel } from 'pixi-live2d-display';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
+import { LEVELS_CONFIG, NORMAL_SIZE } from './configs';
 
 // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
 (window as any).PIXI = PIXI;
 
 const removeListener = ref<UnlistenFn>();
 const timer = ref<NodeJS.Timeout>();
+const curLevel = ref<number>(1);
 
 // 长时间未交互
 const longTimeNoInteraction = (model: Live2DModel<InternalModel>) => {
@@ -30,19 +32,20 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   longTimeNoInteraction(model);
 }
 const initModel = async function () {
+  const levelConfig = LEVELS_CONFIG[curLevel.value - 1];
   const canvas = document.getElementById('canvas') as any;
   const app = new PIXI.Application({
     view: canvas as any,
     // 背景透明
     backgroundAlpha: 0,
-    width: 300,
-    height: 400,
+    width: NORMAL_SIZE.width * levelConfig.sizeScale,
+    height: NORMAL_SIZE.height * levelConfig.sizeScale,
   });
 
   const model = await Live2DModel.from('https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json');
   app.stage.addChild(model);
 
-  model.scale.set(0.25);
+  model.scale.set(0.25 * levelConfig.sizeScale);
   // 点击
   (model as any).on('hit', (hitAreas: string[]) => modelHit(hitAreas, model));
 
