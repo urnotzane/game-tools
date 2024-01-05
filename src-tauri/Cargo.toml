@@ -20,6 +20,7 @@ reqwest = { version = "0.11.22", features = ["json"] }
 tokio = { version = "1.34.0", features = ["full"] }
 teemo = { version = "0.2.1" }
 mouse_position = "0.1.3"
+strum = { version = "0.25", features = ["derive"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

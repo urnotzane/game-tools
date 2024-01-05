@@ -1,5 +1,8 @@
 # Game Tools
 
+## 开发
+复制src_tauri下的assets并更名为local，保存本地数据
+
 ## 对局流程
 1. 打开客户端；
 2. 创建房间；

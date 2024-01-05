@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import * as PIXI from 'pixi.js';
 import { InternalModel, Live2DModel } from 'pixi-live2d-display';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
-import { LEVELS_CONFIG, NORMAL_SIZE } from './configs';
+import { LevelOperator, LevelOperatorData, LevelsConfig, NORMAL_SIZE } from './configs';
+import { service } from './service';
 
 // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
 (window as any).PIXI = PIXI;
 
 const removeListener = ref<UnlistenFn>();
 const timer = ref<NodeJS.Timeout>();
-const curLevel = ref<number>(1);
+const configs = ref<LevelsConfig>();
+// const model = ref<Live2DModel<InternalModel>>();
+
+const curLevel = computed(() => configs.value?.current_level || 1);
+const levelConfig = computed(() => configs.value?.levels_config[curLevel.value - 1]);
+const scale = computed(() => levelConfig.value?.size_scale || 0.5);
 
 // 长时间未交互
 const longTimeNoInteraction = (model: Live2DModel<InternalModel>) => {
@@ -31,21 +37,22 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   }
   longTimeNoInteraction(model);
 }
-const initModel = async function () {
-  const levelConfig = LEVELS_CONFIG[curLevel.value - 1];
+const setModel = async function () {
+  await get_levels_configs();
   const canvas = document.getElementById('canvas') as any;
+  
   const app = new PIXI.Application({
     view: canvas as any,
     // 背景透明
     backgroundAlpha: 0,
-    width: NORMAL_SIZE.width * levelConfig.sizeScale,
-    height: NORMAL_SIZE.height * levelConfig.sizeScale,
+    width: NORMAL_SIZE.width * scale.value,
+    height: NORMAL_SIZE.height * scale.value,
   });
 
   const model = await Live2DModel.from('https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json');
   app.stage.addChild(model);
 
-  model.scale.set(0.25 * levelConfig.sizeScale);
+  model.scale.set(0.25 * scale.value);
   // 点击
   (model as any).on('hit', (hitAreas: string[]) => modelHit(hitAreas, model));
 
@@ -54,9 +61,30 @@ const initModel = async function () {
     model.focus(event.payload?.x, event.payload?.y);
   })
   longTimeNoInteraction(model);
+};
+const get_levels_configs = async () => {
+  const res = await service<LevelsConfig>("get_levels");
+
+  if (!res.code) {
+    configs.value = res.data;
+  }
 }
-onMounted(async() => {
-  await initModel();
+const levelOperators = {
+  [LevelOperator.Addition]: async () => {
+    await service<number, LevelOperatorData>("set_level", {
+      operator: LevelOperator.Addition,
+    })
+    setModel();
+  },
+  [LevelOperator.Subtraction]: async () => {
+    await service<number, LevelOperatorData>("set_level", {
+      operator: LevelOperator.Subtraction,
+    });
+    setModel();
+  }
+}
+onMounted(async () => {
+  await setModel();
 });
 onUnmounted(() => {
   removeListener.value?.();
@@ -64,5 +92,12 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <div class=" bg-slate-400 p-[5px]">
+    <div>当前等级：{{ levelConfig?.name }}</div>
+    <div class="flex">
+      <div @click="levelOperators[LevelOperator.Subtraction]()">降级</div>
+      <div @click="levelOperators[LevelOperator.Addition]()" class="ml-[10px]">升级</div>
+    </div>
+  </div>
   <canvas id="canvas"></canvas>
 </template>

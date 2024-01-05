@@ -1,5 +1,10 @@
 use mouse_position::mouse_position::Mouse;
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
+use serde_json::Value;
+use strum::EnumString;
+use std::collections::HashMap;
+use std::fs::{self, File};
+use std::io::Write;
 use std::{thread, time::Duration};
 use tauri::{LogicalPosition, LogicalSize, Window};
 
@@ -9,7 +14,23 @@ pub struct MouseCoord {
     y: i32,
 }
 
+#[derive(Serialize)]
+pub struct ServicePet<T> {
+    code: i32,
+    data: T,
+    msg: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, EnumString)]
+pub enum LevelOperator {
+    #[strum(serialize = "Addition")]
+    Addition,
+    #[strum(serialize = "Subtraction")]
+    Subtraction,
+}
+
 static mut MOUSE_IN_WINDOW: bool = false;
+const CONFIG_FILE_URL:&str = "./local/pet_configs.json";
 
 /// 监听鼠标位置，执行对应事件
 pub fn mouse_listener(window: Window) {
@@ -89,7 +110,7 @@ pub fn init_pet_pos(window: Window) {
     let x = monitor_size.width - win_size.width;
     let y = monitor_size.height - win_size.height;
 
-    let _ = window.set_position(LogicalPosition {x, y});
+    let _ = window.set_position(LogicalPosition { x, y });
 }
 fn coord_in_zone(
     coord: MouseCoord,
@@ -133,4 +154,65 @@ fn it_works() {
     assert_eq!(in_zone, true);
     assert_eq!(out_zone, false);
     assert_eq!(out_y, false);
+}
+
+fn read_config() -> HashMap<String, Value> {
+    let file_contents = fs::read_to_string(CONFIG_FILE_URL).unwrap();
+    let mut config = HashMap::new();
+    let res = serde_json::from_str::<HashMap<String, Value>>(file_contents.as_str());
+    match res {
+        Ok(json) => {
+            config = json;
+        }
+        Err(err) => {
+            println!("read_config error: {:?}", err);
+        }
+    }
+    config
+}
+fn write_config(json_str: &str) {
+    let mut file = File::create(CONFIG_FILE_URL).unwrap();
+    let _ = file.write_all(json_str.as_bytes());
+}
+
+#[tauri::command]
+pub fn get_levels() -> ServicePet<HashMap<String, Value>> {
+    ServicePet {
+        code: 0,
+        data: read_config(),
+        msg: String::from(""),
+    }
+}
+#[tauri::command]
+pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
+    let mut config = read_config();
+    // 所有等级
+    let levels = config.get("levels").unwrap().as_array().unwrap();
+    // 当前等级
+    let mut level = config.get("current_level").unwrap().as_i64().unwrap();
+    match operator {
+        // 升级
+        LevelOperator::Addition => {
+            let max = levels[levels.len() - 1].as_i64().unwrap();
+            if level < max {
+                level += 1;
+            }
+        },
+        // 降级
+        LevelOperator::Subtraction => {
+            let min = levels[0].as_i64().unwrap();
+            if level > min {
+                level -= 1;
+            }
+        },
+    }
+    config.insert("current_level".to_string(), level.into());
+    // 保存等级
+    write_config(serde_json::to_string_pretty(&config).unwrap().as_str());
+
+    ServicePet {
+        code: 0,
+        data: level,
+        msg: "".to_string(),
+    }
 }
