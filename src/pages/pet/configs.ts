@@ -20,6 +20,7 @@ export interface LevelsConfig {
   levels: LEVELS[];
   levels_config: LevelConfig[];
   current_level: LEVELS;
+  current_experiences: number;
 }
 
 export enum LevelOperator {

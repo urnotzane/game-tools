@@ -83,6 +83,14 @@ const levelOperators = {
     setModel();
   }
 }
+const expOperator = {
+  firstBlood: async() => {
+    await service("obtain_experience", {
+      eventType: "FirstBlood",
+    })
+    setModel();
+  }
+}
 onMounted(async () => {
   await setModel();
 });
@@ -92,11 +100,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class=" bg-slate-400 p-[5px]">
+  <div class=" bg-slate-400 p-[5px] grid grid-cols-2 text-[12px]">
     <div>当前等级：{{ levelConfig?.name }}</div>
-    <div class="flex">
+    <div>当前经验：{{ configs?.current_experiences || 0 }}/{{ levelConfig?.experiences?.max }}</div>
+    <div class="flex col-span-2">
       <div @click="levelOperators[LevelOperator.Subtraction]()">降级</div>
       <div @click="levelOperators[LevelOperator.Addition]()" class="ml-[10px]">升级</div>
+      <div @click="expOperator.firstBlood()" class="ml-[10px]">一血</div>
     </div>
   </div>
   <canvas id="canvas"></canvas>

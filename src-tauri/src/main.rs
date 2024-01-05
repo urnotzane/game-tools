@@ -22,6 +22,7 @@ async fn main() {
             }
 
             let _ = window.emit("app_loaded", true);
+            pet::init_pet_size(pet_window.clone());
             pet::init_pet_pos(pet_window.clone());
             pet::mouse_listener(pet_window.clone());
             pet::get_levels();
@@ -36,6 +37,7 @@ async fn main() {
             cmds::initialize_lol,
             pet::get_levels,
             pet::set_level,
+            pet::obtain_experience,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

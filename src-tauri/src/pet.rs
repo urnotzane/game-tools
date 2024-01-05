@@ -1,11 +1,11 @@
 use mouse_position::mouse_position::Mouse;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use strum::EnumString;
 use std::collections::HashMap;
 use std::fs::{self, File};
 use std::io::Write;
 use std::{thread, time::Duration};
+use strum::{Display, EnumString};
 use tauri::{LogicalPosition, LogicalSize, Window};
 
 #[derive(Serialize, Clone)]
@@ -21,16 +21,31 @@ pub struct ServicePet<T> {
     msg: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, EnumString)]
+#[derive(Serialize, Deserialize, Debug, EnumString, Display)]
 pub enum LevelOperator {
     #[strum(serialize = "Addition")]
     Addition,
     #[strum(serialize = "Subtraction")]
     Subtraction,
 }
+#[derive(Serialize, Deserialize, Debug, EnumString, PartialEq, Display)]
+pub enum ExpEventType {
+    #[strum(serialize = "FirstBlood")]
+    FirstBlood,
+    // 一血塔
+    #[strum(serialize = "FirstBrick")]
+    FirstBrick,
+    #[strum(serialize = "Multikill")]
+    Multikill,
+    #[strum(serialize = "win")]
+    Win,
+}
 
 static mut MOUSE_IN_WINDOW: bool = false;
-const CONFIG_FILE_URL:&str = "./local/pet_configs.json";
+const CONFIG_FILE_URL: &str = "./local/pet_configs.json";
+const EXP_FILE_URL: &str = "./assets/exp_config.json";
+const PET_WIDTH: i32 = 310;
+const PET_HEIGHT: i32 = 410;
 
 /// 监听鼠标位置，执行对应事件
 pub fn mouse_listener(window: Window) {
@@ -112,6 +127,31 @@ pub fn init_pet_pos(window: Window) {
 
     let _ = window.set_position(LogicalPosition { x, y });
 }
+/// 设置窗口大小
+pub fn init_pet_size(window: Window) {
+    let config = read_json_file(CONFIG_FILE_URL);
+    // 所有等级配置项
+    let levels_config = config.get("levels_config").unwrap().as_array().unwrap();
+    // 当前等级
+    let level: usize = config
+        .get("current_level")
+        .unwrap()
+        .as_i64()
+        .unwrap()
+        .try_into()
+        .unwrap();
+    // 当前等级配置项
+    let level_config = &levels_config[level - 1];
+    // 当前等级pet缩放
+    let scale: f64 = level_config["size_scale"]
+        .as_f64()
+        .unwrap();
+
+    let width = (PET_WIDTH as f64) * scale;
+    let height = (PET_HEIGHT as f64) * scale + (50 as f64);
+
+    let _ = window.set_size(LogicalSize { width, height });
+}
 fn coord_in_zone(
     coord: MouseCoord,
     zone_coord: LogicalPosition<i32>,
@@ -155,20 +195,19 @@ fn it_works() {
     assert_eq!(out_zone, false);
     assert_eq!(out_y, false);
 }
-
-fn read_config() -> HashMap<String, Value> {
-    let file_contents = fs::read_to_string(CONFIG_FILE_URL).unwrap();
-    let mut config = HashMap::new();
+fn read_json_file(file_url: &str) -> HashMap<String, Value> {
+    let file_contents = fs::read_to_string(file_url).unwrap();
+    let mut file_json = HashMap::new();
     let res = serde_json::from_str::<HashMap<String, Value>>(file_contents.as_str());
     match res {
         Ok(json) => {
-            config = json;
+            file_json = json;
         }
         Err(err) => {
-            println!("read_config error: {:?}", err);
+            println!("read_json_file error: {:?}", err);
         }
     }
-    config
+    file_json
 }
 fn write_config(json_str: &str) {
     let mut file = File::create(CONFIG_FILE_URL).unwrap();
@@ -179,13 +218,13 @@ fn write_config(json_str: &str) {
 pub fn get_levels() -> ServicePet<HashMap<String, Value>> {
     ServicePet {
         code: 0,
-        data: read_config(),
+        data: read_json_file(CONFIG_FILE_URL),
         msg: String::from(""),
     }
 }
 #[tauri::command]
 pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
-    let mut config = read_config();
+    let mut config = read_json_file(CONFIG_FILE_URL);
     // 所有等级
     let levels = config.get("levels").unwrap().as_array().unwrap();
     // 当前等级
@@ -197,14 +236,14 @@ pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
             if level < max {
                 level += 1;
             }
-        },
+        }
         // 降级
         LevelOperator::Subtraction => {
             let min = levels[0].as_i64().unwrap();
             if level > min {
                 level -= 1;
             }
-        },
+        }
     }
     config.insert("current_level".to_string(), level.into());
     // 保存等级
@@ -215,4 +254,30 @@ pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
         data: level,
         msg: "".to_string(),
     }
+}
+/// 加减经验值
+fn calc_experiences(num: i64) {
+    let mut config = read_json_file(CONFIG_FILE_URL);
+    let mut exp = config.get("current_experiences").unwrap().as_i64().unwrap();
+    exp += num;
+
+    config.insert("current_experiences".to_string(), exp.into());
+    // 保存经验
+    write_config(serde_json::to_string_pretty(&config).unwrap().as_str());
+}
+#[tauri::command]
+/// 根据事件获取经验
+pub fn obtain_experience(event_type: ExpEventType, mut value: Option<i64>) {
+    let exp_config = read_json_file(EXP_FILE_URL);
+    let exp_unit = exp_config
+        .get(&event_type.to_string())
+        .unwrap()
+        .as_i64()
+        .unwrap();
+
+    if value == None {
+        value = Some(1);
+    }
+
+    calc_experiences(exp_unit * value.unwrap());
 }
