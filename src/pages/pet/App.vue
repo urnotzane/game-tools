@@ -26,6 +26,15 @@ const longTimeNoInteraction = (model: Live2DModel<InternalModel>) => {
     model.expression("f02");
   }, 10000);
 }
+const speak = async (text: string) => {
+  const synth = window.speechSynthesis;
+  const utterThis = new SpeechSynthesisUtterance(text);
+  // 获取所有支持的中文声音
+  let voices = synth.getVoices().filter(v => v.lang.indexOf('zh') === 0);
+  
+  utterThis.voice = voices[0];
+  synth.speak(utterThis);
+}
 const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   // 开心
   model.expression("f01");
@@ -35,12 +44,13 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   if (hitAreas.includes('head')) {
     model.motion('flick_head');
   }
+  speak("你是猎人还是猎物");
   longTimeNoInteraction(model);
 }
 const setModel = async function () {
   await get_levels_configs();
   const canvas = document.getElementById('canvas') as any;
-  
+
   const app = new PIXI.Application({
     view: canvas as any,
     // 背景透明
@@ -84,7 +94,7 @@ const levelOperators = {
   }
 }
 const expOperator = {
-  firstBlood: async() => {
+  firstBlood: async () => {
     await service("obtain_experience", {
       eventType: "FirstBlood",
     })
