@@ -143,9 +143,7 @@ pub fn init_pet_size(window: Window) {
     // 当前等级配置项
     let level_config = &levels_config[level - 1];
     // 当前等级pet缩放
-    let scale: f64 = level_config["size_scale"]
-        .as_f64()
-        .unwrap();
+    let scale: f64 = level_config["size_scale"].as_f64().unwrap();
 
     let width = (PET_WIDTH as f64) * scale;
     let height = (PET_HEIGHT as f64) * scale + (50 as f64);
@@ -223,7 +221,11 @@ pub fn get_levels() -> ServicePet<HashMap<String, Value>> {
     }
 }
 #[tauri::command]
-pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
+pub fn set_level(
+    operator: LevelOperator,
+    _app: tauri::AppHandle,
+    window: Window,
+) -> ServicePet<i64> {
     let mut config = read_json_file(CONFIG_FILE_URL);
     // 所有等级
     let levels = config.get("levels").unwrap().as_array().unwrap();
@@ -249,6 +251,9 @@ pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
     // 保存等级
     write_config(serde_json::to_string_pretty(&config).unwrap().as_str());
 
+    // 设置窗口大小
+    init_pet_size(window);
+
     ServicePet {
         code: 0,
         data: level,
@@ -259,15 +264,46 @@ pub fn set_level(operator: LevelOperator) -> ServicePet<i64> {
 fn calc_experiences(num: i64) {
     let mut config = read_json_file(CONFIG_FILE_URL);
     let mut exp = config.get("current_experiences").unwrap().as_i64().unwrap();
-    exp += num;
+    let levels_config = config
+        .get("levels_config")
+        .unwrap()
+        .as_array()
+        .unwrap()
+        .clone();
+    let level: usize = config
+        .get("current_level")
+        .unwrap()
+        .as_i64()
+        .unwrap()
+        .try_into()
+        .unwrap();
+    let max_level = levels_config.len();
+    let level_is_max = level >= max_level;
 
+    // 设置经验
+    exp += num;
     config.insert("current_experiences".to_string(), exp.into());
-    // 保存经验
+
+    // 根据经验计算等级
+    if !level_is_max {
+        let next_level_config: &Value = &levels_config[level];
+        let level_up_min_exps = next_level_config["experiences"]["min"].as_i64().unwrap();
+        if level_up_min_exps <= exp {
+            config.insert("current_level".to_string(), (level + 1).into());
+        }
+    }
+
+    // 保存修改的数据
     write_config(serde_json::to_string_pretty(&config).unwrap().as_str());
 }
 #[tauri::command]
 /// 根据事件获取经验
-pub fn obtain_experience(event_type: ExpEventType, mut value: Option<i64>) {
+pub fn obtain_experience(
+    event_type: ExpEventType,
+    mut value: Option<i64>,
+    _app: tauri::AppHandle,
+    window: Window,
+) {
     let exp_config = read_json_file(EXP_FILE_URL);
     let exp_unit = exp_config
         .get(&event_type.to_string())
@@ -280,4 +316,7 @@ pub fn obtain_experience(event_type: ExpEventType, mut value: Option<i64>) {
     }
 
     calc_experiences(exp_unit * value.unwrap());
+
+    // 设置窗口大小
+    init_pet_size(window);
 }
