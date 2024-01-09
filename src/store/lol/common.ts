@@ -3,12 +3,14 @@ import { lolServices } from "@/views/Lol/services/client";
 import { formatChampSplash } from "@/views/Lol/utils";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 export const useLolChampsStore = defineStore("lolChamps", () => {
-  const champs = ref<Record<string, LolSpace.Champion>>({});
+  const champs = ref<Record<number, LolSpace.Champion>>({});
   const lolVersion = ref<string>();
   const randomChampBg = ref();
+  const randomChampId = ref("");
+  const randomChamp = ref<LolSpace.ChampDetail>();
 
   const getChamps = async () => {
     const res = await invoke<{
@@ -16,19 +18,33 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
       version: string;
     }>("get_champs");
     const champsList = Object.values(res.data);
+
     champs.value = champsList.reduce((pre, cur) => {
-      pre[cur.key] = cur;
+      pre[+cur.key] = cur;
       return pre
     }, {} as typeof champs.value);
 
     lolVersion.value = res.version;
 
     const random = Math.round(Math.random() * champsList.length);
-    randomChampBg.value = formatChampSplash(champsList[random].id);
+    const id = champsList[random].id;
+    randomChampBg.value = formatChampSplash(id);
+    randomChampId.value = id;
 
     return res;
   }
+  const getChamp = async (id: string) => {
+    if (!id) return;
+    const res = await invoke<LolSpace.ChampWrapper>("get_champs", { id });
 
+    randomChamp.value = res.data[id];
+
+    return randomChamp.value;
+  }
+
+  watch(randomChampId, () => {
+    getChamp(randomChampId.value);
+  });
   onMounted(() => {
     getChamps();
   })
@@ -36,7 +52,10 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     champs,
     lolVersion,
     randomChampBg,
+    randomChampId,
+    randomChamp,
     getChamps,
+    getChamp,
   }
 });
 

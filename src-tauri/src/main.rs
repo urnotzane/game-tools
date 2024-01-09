@@ -17,8 +17,13 @@ async fn main() {
             let window = app.get_window("main").unwrap();
 
             #[cfg(debug_assertions)]
-            if !pet_window.is_devtools_open() {
-                pet_window.open_devtools();
+            {
+                if !pet_window.is_devtools_open() {
+                    pet_window.open_devtools();
+                }
+                if !window.is_devtools_open() {
+                    window.open_devtools();
+                }
             }
 
             let _ = window.emit("app_loaded", true);
@@ -34,6 +39,7 @@ async fn main() {
             cmds::get_token,
             cmds::send_lol_req_cmd,
             cmds::get_champs,
+            cmds::get_champ,
             cmds::initialize_lol,
             pet::get_levels,
             pet::set_level,

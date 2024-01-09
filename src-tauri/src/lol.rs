@@ -51,3 +51,15 @@ pub async fn get_champions() -> Result<Map<String, Value>, reqwest::Error> {
   let json_parsed: Result<Map<String, Value>, serde_json::Error> = serde_json::from_str(&res_str);
   Ok(json_parsed.unwrap())
 }
+
+pub async fn get_champion(champion_id: &str) -> Result<Map<String, Value>, reqwest::Error> {
+  let version = get_lol_version().await.unwrap();
+  let url = format!("https://ddragon.leagueoflegends.com/cdn/{}/data/zh_CN/champion/{}.json", version, champion_id);
+  let res_str = reqwest::get(url)
+    .await.unwrap()
+    .text()
+    .await.unwrap();
+
+  let json_parsed: Result<Map<String, Value>, serde_json::Error> = serde_json::from_str(&res_str);
+  Ok(json_parsed.unwrap())
+}

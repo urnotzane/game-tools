@@ -5,9 +5,12 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
 import { LevelOperator, LevelOperatorData, LevelsConfig, NORMAL_SIZE } from './configs';
 import { service } from './service';
+import { useLolChampsStore } from '@/store/lol/common';
 
 // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
 (window as any).PIXI = PIXI;
+
+const champsStore = useLolChampsStore();
 
 const removeListener = ref<UnlistenFn>();
 const timer = ref<NodeJS.Timeout>();
@@ -28,6 +31,7 @@ const longTimeNoInteraction = (model: Live2DModel<InternalModel>) => {
 }
 const speak = async (text: string) => {
   const synth = window.speechSynthesis;
+  synth.cancel();
   const utterThis = new SpeechSynthesisUtterance(text);
   // 获取所有支持的中文声音
   let voices = synth.getVoices().filter(v => v.lang.indexOf('zh') === 0);
@@ -44,7 +48,10 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   if (hitAreas.includes('head')) {
     model.motion('flick_head');
   }
-  speak("你是猎人还是猎物");
+  const text = champsStore.randomChamp?.blurb;
+  if (text) {
+    speak(text);
+  }
   longTimeNoInteraction(model);
 }
 const setModel = async function () {
@@ -106,6 +113,7 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   removeListener.value?.();
+  speechSynthesis.pause();
 })
 </script>
 

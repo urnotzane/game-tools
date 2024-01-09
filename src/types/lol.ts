@@ -170,7 +170,77 @@ export namespace LolSpace {
     partype: string;
     stats: ChampStat;
   }
-
+  
+  export interface Skin {
+    id: string;
+    num: number;
+    name: string;
+    chromas: boolean;
+  }
+  export interface Leveltip {
+    label: string[];
+    effect: string[];
+  }
+  
+  export interface Datavalue {}
+  
+  export interface Spell {
+    id: string;
+    name: string;
+    description: string;
+    tooltip: string;
+    leveltip: Leveltip;
+    maxrank: number;
+    cooldown: number[];
+    cooldownBurn: string;
+    cost: number[];
+    costBurn: string;
+    datavalues: Datavalue;
+    effect: any[];
+    effectBurn: any[];
+    vars: any[];
+    costType: string;
+    maxammo: string;
+    range: number[];
+    rangeBurn: string;
+    image: ChampImage;
+    resource: string;
+  }
+  
+  export interface Passive {
+    name: string;
+    description: string;
+    image: ChampImage;
+  }
+  
+  export interface ChampDetail {
+    id: string;
+    key: string;
+    name: string;
+    title: string;
+    image: ChampImage;
+    skins: Skin[];
+    lore: string;
+    blurb: string;
+    allytips: string[];
+    enemytips: string[];
+    tags: string[];
+    partype: string;
+    info: ChampInfo;
+    stats: ChampStat;
+    spells: Spell[];
+    passive: Passive;
+    recommended: any[];
+  }
+  
+  export type ChampData = Record<string, ChampDetail>
+  
+  export interface ChampWrapper {
+    type: string;
+    format: string;
+    version: string;
+    data: ChampData;
+  }
   export interface ChampStat {
     hp: number;
     hpperlevel: number;
