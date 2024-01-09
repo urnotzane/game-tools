@@ -2,11 +2,13 @@ use mouse_position::mouse_position::Mouse;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
-use std::fs::{self, File};
+use std::fs::File;
 use std::io::Write;
 use std::{thread, time::Duration};
 use strum::{Display, EnumString};
 use tauri::{LogicalPosition, LogicalSize, Window};
+
+use crate::utils::read_json_file;
 
 #[derive(Serialize, Clone)]
 pub struct MouseCoord {
@@ -192,20 +194,6 @@ fn it_works() {
     assert_eq!(in_zone, true);
     assert_eq!(out_zone, false);
     assert_eq!(out_y, false);
-}
-fn read_json_file(file_url: &str) -> HashMap<String, Value> {
-    let file_contents = fs::read_to_string(file_url).unwrap();
-    let mut file_json = HashMap::new();
-    let res = serde_json::from_str::<HashMap<String, Value>>(file_contents.as_str());
-    match res {
-        Ok(json) => {
-            file_json = json;
-        }
-        Err(err) => {
-            println!("read_json_file error: {:?}", err);
-        }
-    }
-    file_json
 }
 fn write_config(json_str: &str) {
     let mut file = File::create(CONFIG_FILE_URL).unwrap();

@@ -1,6 +1,8 @@
-use std::process::Command;
+use std::{process::Command, fs, collections::HashMap};
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
+
+use serde_json::Value;
 
 #[cfg(unix)]
 pub fn execute_command(cmd_str: &str) -> String {
@@ -22,4 +24,19 @@ pub fn execute_command(cmd_str: &str) -> String {
         .expect("failed to execute process");
 
     String::from_utf8_lossy(&output.stdout).to_string()
+}
+
+pub fn read_json_file(file_url: &str) -> HashMap<String, Value> {
+    let file_contents = fs::read_to_string(file_url).unwrap();
+    let mut file_json = HashMap::new();
+    let res = serde_json::from_str::<HashMap<String, Value>>(file_contents.as_str());
+    match res {
+        Ok(json) => {
+            file_json = json;
+        }
+        Err(err) => {
+            println!("read_json_file error: {:?}", err);
+        }
+    }
+    file_json
 }

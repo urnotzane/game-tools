@@ -11,6 +11,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
   const randomChampBg = ref();
   const randomChampId = ref("");
   const randomChamp = ref<LolSpace.ChampDetail>();
+  const randomChampSpellsSummary = ref<string>();
 
   const getChamps = async () => {
     const res = await invoke<{
@@ -41,9 +42,25 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
 
     return randomChamp.value;
   }
+  /**
+   * 通过gpt获取某个英雄技能简介
+   * @param id 英雄id
+   * @returns 
+   */
+  const getChampSpellsSummary = async(id: string) => {
+    if (!id) return;
+    const res = await invoke<LolSpace.GptRes>("get_spells_summary", { id });
+
+    randomChampSpellsSummary.value = res.data?.choices[0]?.message.content;
+
+    console.log('res.data', res);
+    
+
+    return randomChampSpellsSummary.value;
+  }
 
   watch(randomChampId, () => {
-    getChamp(randomChampId.value);
+    getChampSpellsSummary(randomChampId.value);
   });
   onMounted(() => {
     getChamps();
@@ -54,8 +71,10 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     randomChampBg,
     randomChampId,
     randomChamp,
+    randomChampSpellsSummary,
     getChamps,
     getChamp,
+    getChampSpellsSummary,
   }
 });
 

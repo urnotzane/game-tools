@@ -15,7 +15,6 @@ const champsStore = useLolChampsStore();
 const removeListener = ref<UnlistenFn>();
 const timer = ref<NodeJS.Timeout>();
 const configs = ref<LevelsConfig>();
-// const model = ref<Live2DModel<InternalModel>>();
 
 const curLevel = computed(() => configs.value?.current_level || 1);
 const levelConfig = computed(() => configs.value?.levels_config[curLevel.value - 1]);
@@ -48,7 +47,9 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   if (hitAreas.includes('head')) {
     model.motion('flick_head');
   }
-  const text = champsStore.randomChamp?.blurb;
+  const text = champsStore.randomChampSpellsSummary;
+  console.log('text', text);
+  
   if (text) {
     speak(text);
   }

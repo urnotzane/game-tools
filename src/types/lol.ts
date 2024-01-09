@@ -910,5 +910,39 @@ export namespace LolSpace {
     token: string;
     port: string;
   }
+  export interface GptMessage {
+    role: string;
+    content: string;
+  }
+  
+  export interface Choice {
+    finish_reason: string;
+    message: GptMessage;
+  }
+  
+  export interface Usage {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  }
+  
+  export interface GptData {
+    created: number;
+    id: string;
+    model: string;
+    version: string;
+    choices: Choice[];
+    usage: Usage;
+  }
+  
+  export interface Extra {}
+  
+  export interface GptRes {
+    data: GptData;
+    status: number;
+    extra: Extra;
+    message: string;
+    success: boolean;
+  }
 }
 

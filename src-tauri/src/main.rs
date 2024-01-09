@@ -40,6 +40,7 @@ async fn main() {
             cmds::send_lol_req_cmd,
             cmds::get_champs,
             cmds::get_champ,
+            cmds::get_spells_summary,
             cmds::initialize_lol,
             pet::get_levels,
             pet::set_level,
