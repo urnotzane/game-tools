@@ -53,7 +53,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
 
     randomChampSpellsSummary.value = res.data?.choices[0]?.message.content;
 
-    console.log('res.data', res);
+    console.log('answer', res.data?.choices[0]?.message?.content);
     
 
     return randomChampSpellsSummary.value;

@@ -48,8 +48,6 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
     model.motion('flick_head');
   }
   const text = champsStore.randomChampSpellsSummary;
-  console.log('text', text);
-  
   if (text) {
     speak(text);
   }
@@ -109,12 +107,15 @@ const expOperator = {
     setModel();
   }
 }
+const stopVoice = () => {
+  speechSynthesis.cancel();
+}
 onMounted(async () => {
   await setModel();
 });
 onUnmounted(() => {
   removeListener.value?.();
-  speechSynthesis.pause();
+  speechSynthesis.cancel();
 })
 </script>
 
@@ -126,6 +127,7 @@ onUnmounted(() => {
       <div @click="levelOperators[LevelOperator.Subtraction]()">降级</div>
       <div @click="levelOperators[LevelOperator.Addition]()" class="ml-[10px]">升级</div>
       <div @click="expOperator.firstBlood()" class="ml-[10px]">一血</div>
+      <div @click="stopVoice" class="ml-[10px]">闭嘴</div>
     </div>
   </div>
   <canvas id="canvas"></canvas>
