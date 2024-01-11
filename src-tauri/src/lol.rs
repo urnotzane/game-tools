@@ -90,11 +90,11 @@ pub async fn spells_summary(champ_id: &str) -> HashMap<String, Value> {
     let mut messages: Vec<GptMsg> = Vec::new();
     messages.push(GptMsg {
       role: "user".to_string(),
-      content: "给你一段关于英雄联盟里英雄技能的json数据，请为我提供一个如何使用这个英雄技能的建议，字数不超过150字。格式为：XXX是一个什么样的英雄，他的技能分别是什么，技能连招是怎样的。请直接将中文结果返回，禁止出现json、JSON、数据等字符，禁止特殊字符。".to_string(),
+      content: "给你一段关于英雄联盟里英雄技能的json数据，请为我提供一个如何使用这个英雄技能的建议，字数不超过120字，禁止出现json、JSON、数据等字符，禁止特殊字符。请直接将中文结果返回，格式为：XXX是一个什么样的英雄，他的技能连招是怎样的。".to_string(),
     });
     messages.push(GptMsg {
         role: "assistant".to_string(),
-        content: "当然可以！请您提供一段关于英雄联盟里英雄技能的JSON数据，然后我会为您详细解析并给出使用建议。"
+        content: "当然可以！请您提供一段关于英雄联盟里英雄技能的数据，然后我会为您详细解析技能连招。"
             .to_string(),
     });
     let champ_res = get_champion(champ_id).await;

@@ -19,7 +19,7 @@ const queuesStore = useQueueStore();
   const getGameMap = async () => {
     const res = await lolServices<LolSpace.GameMap[]>({
       method: LolSpace.Method.get,
-      url: "/lol-maps/v2/maps"
+      url: "lol-maps/v2/maps"
     });
     
     if (res?.httpStatus) {

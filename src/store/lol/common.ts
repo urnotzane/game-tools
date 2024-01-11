@@ -3,7 +3,10 @@ import { lolServices } from "@/views/Lol/services/client";
 import { formatChampSplash } from "@/views/Lol/utils";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { createPinia } from 'pinia'
+
+export const pinia = createPinia()
 
 export const useLolChampsStore = defineStore("lolChamps", () => {
   const champs = ref<Record<number, LolSpace.Champion>>({});
@@ -12,6 +15,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
   const randomChampId = ref("");
   const randomChamp = ref<LolSpace.ChampDetail>();
   const randomChampSpellsSummary = ref<string>();
+  const gptSpellsPending = ref(false);
 
   const getChamps = async () => {
     const res = await invoke<{
@@ -39,7 +43,6 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     const res = await invoke<LolSpace.ChampWrapper>("get_champs", { id });
 
     randomChamp.value = res.data[id];
-
     return randomChamp.value;
   }
   /**
@@ -48,20 +51,20 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
    * @returns 
    */
   const getChampSpellsSummary = async(id: string) => {
-    if (!id) return;
+    if (!id || gptSpellsPending.value) return;
+
+    gptSpellsPending.value = true;
     const res = await invoke<LolSpace.GptRes>("get_spells_summary", { id });
+    gptSpellsPending.value = false;
 
+    console.log('getChampSpellsSummary: ', id, res.data);
+    if (res.data?.active_job_id) {
+      return;
+    }
     randomChampSpellsSummary.value = res.data?.choices[0]?.message.content;
-
-    console.log('answer', res.data?.choices[0]?.message?.content);
-    
 
     return randomChampSpellsSummary.value;
   }
-
-  watch(randomChampId, () => {
-    getChampSpellsSummary(randomChampId.value);
-  });
   onMounted(() => {
     getChamps();
   })
@@ -117,7 +120,7 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
   const getSelectTimer = async () => {
     const res = await lolServices<LolSpace.ChampSelectTimer>({
       method: LolSpace.Method.get,
-      url: "/lol-champ-select/v1/session/timer"
+      url: "lol-champ-select/v1/session/timer"
     });
     if (res?.httpStatus) {
       selectStage.value = undefined

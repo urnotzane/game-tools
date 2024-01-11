@@ -934,11 +934,14 @@ export namespace LolSpace {
     choices: Choice[];
     usage: Usage;
   }
+  export interface GptDataWaiting {
+    active_job_id: string;
+  }
   
   export interface Extra {}
   
   export interface GptRes {
-    data: GptData;
+    data: GptData & GptDataWaiting;
     status: number;
     extra: Extra;
     message: string;

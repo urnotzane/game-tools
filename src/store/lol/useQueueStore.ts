@@ -13,7 +13,7 @@ export const useQueueStore = defineStore('lolQueue', () => {
   const getQueue = async () => {
     const res = await lolServices<LolSpace.Queue[]>({
       method: LolSpace.Method.get,
-      url: "/lol-game-queues/v1/queues"
+      url: "lol-game-queues/v1/queues"
     });
     if (res?.httpStatus) {
       queues.value = undefined
@@ -25,7 +25,7 @@ export const useQueueStore = defineStore('lolQueue', () => {
   const getCustomQueues = async () => {
     const res = await lolServices<LolSpace.CustomGame>({
       method: LolSpace.Method.get,
-      url: "/lol-game-queues/v1/custom-non-default"
+      url: "lol-game-queues/v1/custom-non-default"
     });
     
     if (res?.httpStatus) {

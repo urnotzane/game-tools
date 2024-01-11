@@ -77,7 +77,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
   const getChampSelectSession = async () => {
     const res = await lolServices<LolSpace.ChampSelectSession>({
       method: LolSpace.Method.get,
-      url: "/lol-champ-select/v1/session"
+      url: "lol-champ-select/v1/session"
     });
     if (res?.httpStatus) {
       bpSession.value = undefined;

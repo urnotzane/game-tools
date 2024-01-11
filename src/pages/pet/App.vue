@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import * as PIXI from 'pixi.js';
 import { InternalModel, Live2DModel } from 'pixi-live2d-display';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
 import { LevelOperator, LevelOperatorData, LevelsConfig, NORMAL_SIZE } from './configs';
 import { service } from './service';
 import { useLolChampsStore } from '@/store/lol/common';
+import { useChampSelectStore } from '@/store/lol/useChampSelectStore';
+import { useLolInitStore } from '@/store/lol/useLolInitStore';
 
 // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
 (window as any).PIXI = PIXI;
 
 const champsStore = useLolChampsStore();
+const champSelectStore = useChampSelectStore();
+const lolInitialStore = useLolInitStore();
 
 const removeListener = ref<UnlistenFn>();
 const timer = ref<NodeJS.Timeout>();
@@ -47,10 +51,7 @@ const modelHit = (hitAreas: string[], model: Live2DModel<InternalModel>) => {
   if (hitAreas.includes('head')) {
     model.motion('flick_head');
   }
-  const text = champsStore.randomChampSpellsSummary;
-  if (text) {
-    speak(text);
-  }
+  
   longTimeNoInteraction(model);
 }
 const setModel = async function () {
@@ -110,13 +111,33 @@ const expOperator = {
 const stopVoice = () => {
   speechSynthesis.cancel();
 }
+// pick时介绍此英雄
+watch(() => champSelectStore.bpSession, async(bpSession) => {
+  const latestActions = bpSession?.actions?.[(bpSession?.actions?.length || 1) - 1];
+  const latestAction = latestActions?.[(latestActions?.length || 1) - 1];
+  
+  const isFirstPlayer = latestAction?.actorCellId === 0;
+  // pick英雄时且最后一个action且时蓝色第一个英雄时
+  if (latestAction?.type === 'ban' || !latestAction ||!isFirstPlayer) return;
+  const champ = champsStore.champs[latestAction.championId];
+
+  if (!champ) return;
+
+  const text = await champsStore.getChampSpellsSummary(champ.id);
+  
+  if (!text) return;
+  speak(text);
+}, {immediate: true});
+
 onMounted(async () => {
+  lolInitialStore.initialize();
   await setModel();
 });
 onUnmounted(() => {
   removeListener.value?.();
   speechSynthesis.cancel();
-})
+  lolInitialStore?.unMountListeners?.();
+});
 </script>
 
 <template>
