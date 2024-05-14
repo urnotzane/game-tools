@@ -1,7 +1,7 @@
 import { LolSpace } from "@/types/lol";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { useQueueStore } from "./useQueueStore";
 
 export const useGameMapStore = defineStore('lolGameMap', () => {
@@ -30,10 +30,6 @@ const queuesStore = useQueueStore();
     }
     return res;
   };
-
-  onMounted(() => {
-    getGameMap();
-  })
   return {
     gameMaps,
     customMaps,

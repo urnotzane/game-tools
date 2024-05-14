@@ -3238,9 +3238,9 @@ dependencies = [
 
 [[package]]
 name = "teemo"
-version = "0.2.3"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "303d90e63132e16cedace87cdbc22dbbc6a1da19ad4de6b07129c16ae63f1529"
+checksum = "ed6b0367129f614e6fcf0123f593c67b14ba1a2d22072a8810f0f79ae4e3ee46"
 dependencies = [
  "async-recursion",
  "base64 0.21.5",

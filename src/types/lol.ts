@@ -588,6 +588,7 @@ export namespace LolSpace {
 
   /** @GET /lol-game-queues/v1/queues 获取游戏模式 */
   export interface Queue {
+    /** 允许组队的人数，比如匹配就是 `[1,2,3,4,5]` */
     allowablePremadeSizes: number[]
     areFreeChampionsAllowed: boolean
     assetMutator: string
@@ -598,8 +599,10 @@ export namespace LolSpace {
     gameMode: string
     gameTypeConfig: GameTypeConfig
     id: number
+    /** 是不是排位 */
     isRanked: boolean
     isTeamBuilderManaged: boolean
+    isVisible: boolean;
     lastToggledOffTime: number
     lastToggledOnTime: number
     mapId: number

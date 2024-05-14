@@ -40,7 +40,7 @@
 import { useGameMapStore } from '@/store/lol/useMapStore';
 import { LolSpace } from '@/types/lol';
 import { nextTick, ref, watch } from 'vue';
-import { lolServices } from '../services/client';
+import { lolServices } from '../../services/client';
 import { message } from '@tauri-apps/api/dialog';
 
 const rowClass = "grid grid-cols-10 my-2";

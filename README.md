@@ -1,7 +1,8 @@
 # Game Tools
 
 ## 开发
-复制src_tauri下的assets并更名为local，保存本地数据
+1. 复制src_tauri下的assets并更名为local，保存本地数据
+2. 运行`pnpm tauri dev`即可启动项目
 
 ## 对局流程
 1. 打开客户端；

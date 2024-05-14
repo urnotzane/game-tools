@@ -21,7 +21,7 @@ pub async fn send_lol_req_cmd(
     method: &str,
     url: &str,
     data: Option<HashMap<String, Value>>,
-) -> Result<HashMap<String, Value>, String> {
+) -> Result<Value, String> {
     let mut teemo = Teemo::new();
     teemo.start();
 

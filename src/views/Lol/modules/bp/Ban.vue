@@ -9,7 +9,7 @@ import { LolSpace } from '@/types/lol';
 import BanItems from './BanItems.vue'
 import { computed } from 'vue';
 import { useLolChampsStore } from '@/store/lol/common';
-import { formatBanActions } from '../utils';
+import { formatBanActions } from '../../utils';
 import { useChampSelectStore } from '@/store/lol/useChampSelectStore';
 
 const champsStore = useLolChampsStore();

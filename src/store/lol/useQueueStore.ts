@@ -1,14 +1,25 @@
 import { LolSpace } from "@/types/lol";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
   const customQueues = ref<LolSpace.Subcategory[]>();
 
-  const availableQueues = computed(() => queues.value?.filter((item) => item.queueAvailability === "Available"));
-  const gameModes = computed(() => [...new Set(queues.value?.map((item) => item.gameMode))]);
+  const availableQueues = computed(() => {
+    const sorted = queues.value?.filter((item) => item.queueAvailability === "Available" && item.isVisible)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const queMap = sorted?.reduce((total: Record<string,any>, cur) => {
+      total[cur.name] = cur;
+      return total;
+    }, {})
+    const ques = queMap ? Object.values(queMap) : [];
+    console.log('category', ques.map(q => q.category));
+    console.log('type', ques.map(q => q.type));
+    return ques;
+  });
+  const gameModes = computed(() => [...new Set(availableQueues.value?.map((item) => item.gameMode))]);
 
   const getQueue = async () => {
     const res = await lolServices<LolSpace.Queue[]>({
@@ -25,7 +36,7 @@ export const useQueueStore = defineStore('lolQueue', () => {
   const getCustomQueues = async () => {
     const res = await lolServices<LolSpace.CustomGame>({
       method: LolSpace.Method.get,
-      url: "lol-game-queues/v1/custom-non-default"
+      url: "lol-game-queues/v1/custom"
     });
     
     if (res?.httpStatus) {
@@ -37,9 +48,10 @@ export const useQueueStore = defineStore('lolQueue', () => {
     return res;
   }
 
-  onMounted(() => {
-    getCustomQueues();
-  });
+  watch(availableQueues, () => {
+    console.log('availableQueues', availableQueues.value);
+  })
+
   return {
     queues,
     availableQueues,
