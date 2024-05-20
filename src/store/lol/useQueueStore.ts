@@ -5,6 +5,7 @@ import { computed, ref, watch } from "vue";
 
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
+  // 自定义对局
   const customQueues = ref<LolSpace.Subcategory[]>();
 
   const availableQueues = computed(() => {
@@ -30,6 +31,7 @@ export const useQueueStore = defineStore('lolQueue', () => {
       queues.value = undefined
     } else {
       queues.value = res;
+      console.log('gameModes', [...new Set(queues.value?.map(q => q.gameMode+q.name))]);
     }
     return res;
   }

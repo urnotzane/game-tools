@@ -48,6 +48,8 @@ export const useLolInitStore = defineStore("lolInit", () => {
   // }
   const lobbyLoaded:GTEvent.LolEventCallback<LolSpace.LobbySession> = async(event) => {
     if (!event.payload?.data) return;
+    console.log('[lobbyLoaded]', event.payload?.data);
+    
     lobbyStore.setLobbySession(event.payload?.data);
   }
   const champSelectLoaded:GTEvent.LolEventCallback<LolSpace.ChampSelectSession> = async(event) => {
