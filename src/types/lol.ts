@@ -36,6 +36,7 @@ export namespace LolSpace {
     /** 辅 */
     Support,
   }
+  export type QueueAvailability = "Available" | "PlatformDisabled"
   export interface Summoner {
     accountId: number;
     displayName: string;
@@ -613,7 +614,7 @@ export namespace LolSpace {
     minimumParticipantListSize: number
     name: string
     numPlayersPerTeam: number
-    queueAvailability: "Available" | "PlatformDisabled",
+    queueAvailability: QueueAvailability,
     queueRewards: QueueRewards
     removalFromGameAllowed: boolean
     removalFromGameDelayMinutes: number
@@ -897,12 +898,12 @@ export namespace LolSpace {
     minimumParticipantListSize: number;
     mutators: IMutator[];
     numPlayersPerTeam: number;
-    queueAvailability: string;
+    queueAvailability: QueueAvailability;
   }
 
   export interface CustomGame {
     gameServerRegions?: any;
-    queueAvailability: string;
+    queueAvailability: QueueAvailability;
     spectatorPolicies: any[];
     spectatorSlotLimit: number;
     subcategories: Subcategory[];

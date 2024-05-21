@@ -14,7 +14,30 @@ const queuesStore = useQueueStore();
       ...map,
       ...queue,
     }
-  }))
+  }));
+  /**
+   * 游戏模式
+   * @example ```[{ key: 'TFT', name: "云顶之奕"}]```
+   */
+  const gameModesValues = computed(() => gameMaps.value?.map(gm => ({
+    key: gm.gameMode,
+    name: gm.gameModeName,
+  })));
+  /**
+   * 游戏地图
+   * @example ```[{ key: 'SR', id: 11, name: "嚎哭深渊" }]```
+   */
+  const gameMapsValues = computed(() => {
+    const gameIds = [...new Set(gameMaps.value?.map(gm => gm.id))];
+    return gameIds.map(gId => {
+      const gameMap = gameMaps.value?.find(gm => gm.id === gId);
+      return {
+        key: gameMap?.mapStringId,
+        id: gId,
+        name: gameMap?.name,
+      }
+    })
+  })
 
   const getGameMap = async () => {
     const res = await lolServices<LolSpace.GameMap[]>({
@@ -33,6 +56,8 @@ const queuesStore = useQueueStore();
   return {
     gameMaps,
     customMaps,
+    gameModesValues,
+    gameMapsValues,
     getGameMap,
   };
 });
