@@ -1,3 +1,6 @@
+import { LolConstants } from "@/constants/lol";
+import { LolEnum } from "./lolEnum";
+
 export namespace LolSpace {
   export interface RemoteData {
     remote_token: string;
@@ -339,7 +342,7 @@ export namespace LolSpace {
     customSpectators: any[];
     customTeam100: CustomTeam[];
     customTeam200: CustomTeam[];
-    gameMode: string;
+    gameMode: LolEnum.GameModes;
     isCustom: boolean;
     isLobbyFull: boolean;
     isTeamBuilderManaged: boolean;
@@ -463,7 +466,7 @@ export namespace LolSpace {
   }
 
   export interface ICustomGameLobby {
-    configuration?: IConfiguration;
+    configuration?: LobbyConfiguration;
     gameId?: number;
     lobbyName: string;
     lobbyPassword?: string;
@@ -542,10 +545,10 @@ export namespace LolSpace {
     secondPreference: string;
   }
 
-  export interface IConfiguration {
-    gameMode: string;
+  export interface LobbyConfiguration {
+    gameMode: LolEnum.GameModes;
     gameServerRegion?: string;
-    gameTypeConfig?: GameTypeConfig;
+    gameTypeConfig?: IMutator;
     mapId: number;
     maxPlayerCount?: number;
     mutators?: Partial<IMutator>;
@@ -593,12 +596,12 @@ export namespace LolSpace {
     allowablePremadeSizes: number[]
     areFreeChampionsAllowed: boolean
     assetMutator: string
-    category: string
+    category: LolConstants.QueueCategory
     championsRequiredToPlay: number
     description: string
     detailedDescription: string
-    gameMode: string
-    gameTypeConfig: GameTypeConfig
+    gameMode: LolEnum.GameModes
+    gameTypeConfig: IMutator
     id: number
     /** 是不是排位 */
     isRanked: boolean
@@ -625,31 +628,6 @@ export namespace LolSpace {
     type: string
   }
 
-  export interface GameTypeConfig {
-    advancedLearningQuests: boolean
-    allowTrades: boolean
-    banMode: string
-    banTimerDuration: number
-    battleBoost: boolean
-    crossTeamChampionPool: boolean
-    deathMatch: boolean
-    doNotRemove: boolean
-    duplicatePick: boolean
-    exclusivePick: boolean
-    gameModeOverride: any
-    id: number
-    learningQuests: boolean
-    mainPickTimerDuration: number
-    maxAllowableBans: number
-    name: string
-    numPlayersPerTeamOverride: any
-    onboardCoopBeginner: boolean
-    pickMode: string
-    postPickTimerDuration: number
-    reroll: boolean
-    teamChampionPool: boolean
-  }
-
   export interface QueueRewards {
     isChampionPointsEnabled: boolean
     isIpEnabled: boolean
@@ -661,7 +639,7 @@ export namespace LolSpace {
     assets: Assets
     categorizedContentBundles: CategorizedContentBundles
     description: string
-    gameMode: string
+    gameMode: LolEnum.GameModes
     gameModeDescription: string
     gameModeName: string
     gameModeShortName: string
@@ -882,15 +860,9 @@ export namespace LolSpace {
     header: string
     imagePath: string
   }
-  export enum GameModes {
-    /** 训练模式 */
-    PRACTICETOOL = 'PRACTICETOOL',
-    /** 经典 */
-    CLASSIC = "CLASSIC",
-  }
   export interface Subcategory {
     customSpectatorPolicies: any[];
-    gameMode: GameModes;
+    gameMode: LolEnum.GameModes;
     mapId: number;
     maxPlayerCount: number;
     maximumParticipantListSize: number;

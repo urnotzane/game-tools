@@ -4,3 +4,8 @@ export interface RiotError {
   implementationDetails: any;
   message: string;
 }
+export interface SelectOption {
+  key: string;
+  id?: number;
+  name: string;
+}

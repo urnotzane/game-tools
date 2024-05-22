@@ -62,7 +62,7 @@ const mapChange = () => {
 const getGameMode = () => {
   const formData = new FormData(formRef.value);
   const mapId = formData.get('mapId') || '0';
-  return mapStore.customMaps?.find(m => m.mapId === +mapId)?.gameMode || LolSpace.GameModes.PRACTICETOOL;
+  return mapStore.customMaps?.find(m => m.mapId === +mapId)?.gameMode || 'PRACTICETOOL';
 }
 const createRoom = async () => {
   if (lobbyFetching.value) return;

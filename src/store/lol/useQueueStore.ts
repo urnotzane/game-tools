@@ -1,5 +1,5 @@
+import { LolConstants } from "@/constants/lol";
 import { LolSpace } from "@/types/lol";
-import { LolEnum } from "@/types/lolEnum";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
@@ -7,7 +7,7 @@ import { computed, ref, watch } from "vue";
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
   // 自定义对局
-  const customQueues = ref<LolSpace.Subcategory[]>();
+  // const customQueues = ref<LolSpace.Subcategory[]>();
 
   /**
    * 目前支持的可创建的游戏队列queue
@@ -24,8 +24,10 @@ export const useQueueStore = defineStore('lolQueue', () => {
   });
   const gameModes = computed(() => [...new Set(availableQueues.value?.map((item) => item.gameMode))]);
 
-  const pvpQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolEnum.QueueCategories.PvP));
-  const aiQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolEnum.QueueCategories.VersusAi));
+  const pvpQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.PvP));
+  const aiQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.VersusAi));
+  const practiceQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.Practice));
+  const customQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.Custom));
 
   const getQueue = async () => {
     const res = await lolServices<LolSpace.Queue[]>({
@@ -46,23 +48,22 @@ export const useQueueStore = defineStore('lolQueue', () => {
     });
     
     if (res?.httpStatus) {
-      customQueues.value = undefined;
+      // customQueues.value = undefined;
     }
     else {
-      customQueues.value = res?.subcategories.filter(sub => sub.queueAvailability === 'Available');
+      // customQueues.value = res?.subcategories.filter(sub => sub.queueAvailability === 'Available');
     }
     return res;
   }
-
-  watch(availableQueues, () => {
-    console.log('availableQueues', availableQueues.value);
-  })
 
   return {
     queues,
     availableQueues,
     gameModes,
     customQueues,
+    practiceQueues,
+    pvpQueues,
+    aiQueues,
     getQueue,
     getCustomQueues,
   }
