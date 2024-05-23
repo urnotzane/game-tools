@@ -21,7 +21,7 @@ export const formatSubCategoriesToQueues = (data: LolSpace.Subcategory[]) => dat
   if (!key) return total
   const queues = current.mutators?.filter(mu => !mu?.teamChampionPool).map(mutator => {
     const queue:LolSpace.Queue = {
-      id: 0,
+      id: mutator.id,
       mapId: key,
       gameMode: current.gameMode,
       name: mutator.name ? LolConstants.mutatorNameOpts[mutator.name] : '',

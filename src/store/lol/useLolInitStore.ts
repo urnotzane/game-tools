@@ -41,6 +41,7 @@ export const useLolInitStore = defineStore("lolInit", () => {
     // 游戏模式
     queueStore.getQueue();
     queueStore.getCustomQueues();
+    queueStore.getPracticeQueues();
 
   }
   // const _eventLoaded:GTEvent.LolEventCallback<LolSpace.Summoner> = (event) => {

@@ -9,6 +9,8 @@ export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
   // 自定义对局
   const customQueues = ref<LolSpace.Queue[]>([]);
+  // 训练模式
+  const practiceQueues = ref<LolSpace.Queue[]>([]);
 
   /**
    * 目前支持的可创建的游戏队列queue
@@ -28,7 +30,6 @@ export const useQueueStore = defineStore('lolQueue', () => {
 
   const pvpQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.PvP));
   const aiQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.VersusAi));
-  const practiceQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.Practice));
 
   const getQueue = async () => {
     const res = await lolServices<LolSpace.Queue[]>({
@@ -55,6 +56,19 @@ export const useQueueStore = defineStore('lolQueue', () => {
     }
     return res;
   }
+  const getPracticeQueues = async () => {
+    const res = await lolServices<LolSpace.CustomGame>({
+      method: LolSpace.Method.get,
+      url: "lol-game-queues/v1/custom-non-default"
+    });
+    if (res?.httpStatus) {
+      practiceQueues.value = [];
+    }
+    else {
+      practiceQueues.value = formatSubCategoriesToQueues(res?.subcategories?.filter(sub => sub.queueAvailability === 'Available') || []);
+    }
+    return res;
+  }
 
   return {
     queues,
@@ -66,5 +80,6 @@ export const useQueueStore = defineStore('lolQueue', () => {
     aiQueues,
     getQueue,
     getCustomQueues,
+    getPracticeQueues,
   }
 });

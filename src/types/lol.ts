@@ -174,7 +174,7 @@ export namespace LolSpace {
     partype?: string;
     stats?: ChampStat;
   }
-  
+
   export interface Skin {
     id?: string;
     num?: number;
@@ -185,9 +185,9 @@ export namespace LolSpace {
     label?: string[];
     effect?: string[];
   }
-  
-  export interface Datavalue {}
-  
+
+  export interface Datavalue { }
+
   export interface Spell {
     id?: string;
     name?: string;
@@ -210,13 +210,13 @@ export namespace LolSpace {
     image?: ChampImage;
     resource?: string;
   }
-  
+
   export interface Passive {
     name?: string;
     description?: string;
     image?: ChampImage;
   }
-  
+
   export interface ChampDetail {
     id?: string;
     key?: string;
@@ -236,9 +236,9 @@ export namespace LolSpace {
     passive?: Passive;
     recommended?: any[];
   }
-  
+
   export type ChampData = Record<string, ChampDetail>
-  
+
   export interface ChampWrapper {
     type?: string;
     format?: string;
@@ -885,18 +885,18 @@ export namespace LolSpace {
     role?: string;
     content?: string;
   }
-  
+
   export interface Choice {
     finish_reason?: string;
     message?: GptMessage;
   }
-  
+
   export interface Usage {
     prompt_tokens?: number;
     completion_tokens?: number;
     total_tokens?: number;
   }
-  
+
   export interface GptData {
     created?: number;
     id?: string;
@@ -908,9 +908,9 @@ export namespace LolSpace {
   export interface GptDataWaiting {
     active_job_id?: string;
   }
-  
-  export interface Extra {}
-  
+
+  export interface Extra { }
+
   export interface GptRes {
     data?: GptData & GptDataWaiting;
     status?: number;
