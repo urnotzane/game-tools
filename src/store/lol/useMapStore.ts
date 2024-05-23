@@ -29,8 +29,8 @@ export const useGameMapStore = defineStore('lolGameMap', () => {
    * @example ```[{ key: 'SR', id: 11, name: "嚎哭深渊" }]```
    */
   const gameMapsValues = computed(() => {
-    const gameIds = [...new Set(gameMaps.value?.map(gm => gm.id))];
-    return gameIds.map(gId => {
+    const mapIds = [...new Set(gameMaps.value?.map(gm => gm.id))];
+    return mapIds.map(gId => {
       const gameMap = gameMaps.value?.find(gm => gm.id === gId);
       return {
         key: gameMap?.mapStringId,

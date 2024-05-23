@@ -64,6 +64,7 @@ const queuesForCategory = computed(() => {
   }
   return queues
 });
+// formatCustomMutatorsByMapId
 /** 根据可选地图将queues进行分类 */
 const queuesForMaps = computed(() => formateQueuesByMapId(queuesForCategory.value));
 /** 该目录下所有可创建的地图 */
@@ -79,11 +80,10 @@ const lobbyBody = computed(() => {
   }
   const config: LolSpace.LobbyConfiguration = {
     gameMode: selectedQueue.value?.gameMode || LolEnum.GameModes.PRACTICETOOL,
-    gameServerRegion: '',
     mapId: lobbyValues.value.mapId,
     mutators: selectedQueue.value?.gameTypeConfig,
     gameTypeConfig: selectedQueue.value?.gameTypeConfig,
-    spectatorPolicy: 'AllAllowed',
+    spectatorPolicy: LolEnum.SpectatorPolicy.AllAllowed,
     teamSize: queueTeamSize.value,
   }
   const customGameLobby: LolSpace.LobbyBody['customGameLobby'] = {
@@ -92,10 +92,9 @@ const lobbyBody = computed(() => {
     lobbyPassword: lobbyValues.value.lobbyPassword,
   }
 
-  if (category.value === LolConstants.QueueCategory.Practice) {
+  if ([LolConstants.QueueCategory.Practice, LolConstants.QueueCategory.Custom].includes(category.value)) {
     data.customGameLobby = customGameLobby;
     data.isCustom = true
-  } else {
   }
   return data;
 })
@@ -108,7 +107,6 @@ const createLobby = async () => {
     url: "lol-lobby/v2/lobby",
     data: lobbyBody.value,
   });
-  console.log('[createLobby]', res);
   if (res?.httpStatus) {
     message(res.message, { type: 'error' })
   } else {
@@ -119,5 +117,9 @@ const createLobby = async () => {
 
 watch(category, () => {
   lobbyValues.value = {};
-}, { immediate: true })
+}, { immediate: true });
+watch(modesForMap, () => {
+  console.log('[modesForMap]', queuesForMaps.value);
+  
+})
 </script>

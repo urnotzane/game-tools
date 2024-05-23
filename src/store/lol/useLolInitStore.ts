@@ -32,8 +32,8 @@ export const useLolInitStore = defineStore("lolInit", () => {
   }
 
   const lcuLoaded:EventCallback<LolSpace.EventLcuLoaded> = (event) => {
-    clientToken.value = event.payload?.token;
-    clientUrl.value = event.payload?.url;
+    clientToken.value = event.payload?.token || '';
+    clientUrl.value = event.payload?.url || '';
   }
   const initLolData = () => {
     // 地图数据

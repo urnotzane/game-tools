@@ -38,4 +38,18 @@ export namespace LolEnum {
     HA = '嚎哭深渊',
     NB = '极限闪击',
   }
+
+  export enum MutatorName {
+    GAME_CFG_PICK_BLIND = 'GAME_CFG_PICK_BLIND',
+    GAME_CFG_DRAFT_STD ='GAME_CFG_DRAFT_STD',
+    GAME_CFG_PICK_RANDOM = 'GAME_CFG_PICK_RANDOM',
+    GAME_CFG_DRAFT_TOURNAMENT ='GAME_CFG_DRAFT_TOURNAMENT',
+  };
+
+  /** 房间观战选项 */
+  export enum SpectatorPolicy {
+    NotAllowed = "NotAllowed",
+    AllAllowed = 'AllAllowed',
+    LobbyAllowed = "LobbyAllowed"
+  }
 }

@@ -1,5 +1,6 @@
 import { LolConstants } from "@/constants/lol";
 import { LolSpace } from "@/types/lol";
+import { formatSubCategoriesToQueues } from "@/utils/lol";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
@@ -7,15 +8,16 @@ import { computed, ref, watch } from "vue";
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();
   // 自定义对局
-  // const customQueues = ref<LolSpace.Subcategory[]>();
+  const customQueues = ref<LolSpace.Queue[]>([]);
 
   /**
    * 目前支持的可创建的游戏队列queue
    */
   const availableQueues = computed(():LolSpace.Queue[] => {
     const sorted = queues.value?.filter((item) => item.queueAvailability === "Available" && item.isVisible)
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => a.name?.localeCompare(b.name || '') || 0);
     const queMap = sorted?.reduce((total: Record<string,any>, cur) => {
+      if (!cur.name) return total
       total[cur.name] = cur;
       return total;
     }, {})
@@ -27,7 +29,6 @@ export const useQueueStore = defineStore('lolQueue', () => {
   const pvpQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.PvP));
   const aiQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.VersusAi));
   const practiceQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.Practice));
-  const customQueues = computed(() => availableQueues.value?.filter(queue => queue.category === LolConstants.QueueCategory.Custom));
 
   const getQueue = async () => {
     const res = await lolServices<LolSpace.Queue[]>({
@@ -46,12 +47,11 @@ export const useQueueStore = defineStore('lolQueue', () => {
       method: LolSpace.Method.get,
       url: "lol-game-queues/v1/custom"
     });
-    
     if (res?.httpStatus) {
-      // customQueues.value = undefined;
+      customQueues.value = [];
     }
     else {
-      // customQueues.value = res?.subcategories.filter(sub => sub.queueAvailability === 'Available');
+      customQueues.value = formatSubCategoriesToQueues(res?.subcategories?.filter(sub => sub.queueAvailability === 'Available') || []);
     }
     return res;
   }
