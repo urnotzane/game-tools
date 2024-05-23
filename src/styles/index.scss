@@ -1,3 +1,4 @@
-@tailwind base;
+// 由于antd与tailwind样式冲突，这里禁掉 Preflight：https://tailwindcss.com/docs/preflight
+// @tailwind base;
 @tailwind components;
 @tailwind utilities;
