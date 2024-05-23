@@ -16,6 +16,20 @@
                 }}</a-select-option>
             </a-select>
           </a-form-item>
+          <template v-if="isCustom">
+            <a-form-item label="队伍规模" name="teamSize" :rules="requiredRules">
+              <a-select v-model:value="lobbyValues.teamSize" placeholder="请输入" defaultActiveFirstOption>
+                <a-select-option v-for="size in 5" :key="size" :value="size">{{ size }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </template>
+          <template v-if="category.key === LolConstants.QueueCategory.Custom">
+            <a-form-item label="允许观战" name="spectatorPolicy" :rules="requiredRules">
+              <a-select v-model:value="lobbyValues.spectatorPolicy" placeholder="请输入" defaultActiveFirstOption>
+                <a-select-option v-for="(policy, key) in LolConstants.spectatorPolicyOpts" :key="key" :value="key">{{ policy }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </template>
           <a-form-item label="房间名称" name="lobbyName" :rules="requiredRules">
             <a-input v-model:value="lobbyValues.lobbyName" placeholder="请输入" />
           </a-form-item>
@@ -40,14 +54,26 @@ import { useQueueStore } from '@/store/lol/useQueueStore';
 import { LolConstants } from '@/constants/lol';
 import { LolEnum } from '@/types/lolEnum';
 import { formateMapsForCategory, formateQueuesByMapId } from '@/utils/lol';
+import { useLolInitStore } from '@/store/lol/useLolInitStore';
 
-const requiredRules = [{ required: true, message: '必填' }]
+interface LobbyFormValues {
+  mapId?: number;
+  queueId?: number;
+  lobbyName?: string;
+  lobbyPassword?: string;
+  teamSize?: number;
+  spectatorPolicy?: LolEnum.SpectatorPolicy,
+}
+const requiredRules = [{ required: true, message: '必填' }];
+/** 自定义对局的类型 */
+const customCategories = [LolConstants.QueueCategory.Practice, LolConstants.QueueCategory.Custom];
 
 const mapStore = useGameMapStore();
 const queuesStore = useQueueStore();
+const initialStore = useLolInitStore();
 
 const lobbyFetching = ref(false)
-const lobbyValues = ref<Record<string, any>>({})
+const lobbyValues = ref<LobbyFormValues>({} as any)
 const category = ref<LolConstants.QueueCategory>(LolConstants.QueueCategory.PvP);
 
 /** 该目录下所有可创建的queues */
@@ -70,9 +96,9 @@ const queuesForMaps = computed(() => formateQueuesByMapId(queuesForCategory.valu
 /** 该目录下所有可创建的地图 */
 const mapsForCategory = computed(() => formateMapsForCategory(queuesForCategory.value, mapStore.gameMapsValues))
 /** 某地图下对应的游戏模式，但是是保存在queue数据里 */
-const modesForMap = computed(() => queuesForMaps.value[lobbyValues.value?.mapId]);
+const modesForMap = computed(() => queuesForMaps.value[lobbyValues.value?.mapId || 0]);
 const selectedQueue = computed(() => modesForMap.value?.find(m => m.id === lobbyValues.value?.queueId));
-const queueTeamSize = computed(() => selectedQueue.value?.maximumParticipantListSize || 5)
+const isCustom = computed(() => customCategories.includes(category.value));
 
 const lobbyBody = computed(() => {
   const data: LolSpace.LobbyBody = {
@@ -83,8 +109,8 @@ const lobbyBody = computed(() => {
     mapId: lobbyValues.value.mapId,
     mutators: selectedQueue.value?.gameTypeConfig,
     gameTypeConfig: selectedQueue.value?.gameTypeConfig,
-    spectatorPolicy: LolEnum.SpectatorPolicy.AllAllowed,
-    teamSize: queueTeamSize.value,
+    spectatorPolicy: lobbyValues.value.spectatorPolicy,
+    teamSize: selectedQueue.value?.maximumParticipantListSize || lobbyValues.value.teamSize,
   }
   const customGameLobby: LolSpace.LobbyBody['customGameLobby'] = {
     configuration: config,
@@ -92,7 +118,7 @@ const lobbyBody = computed(() => {
     lobbyPassword: lobbyValues.value.lobbyPassword,
   }
 
-  if ([LolConstants.QueueCategory.Practice, LolConstants.QueueCategory.Custom].includes(category.value)) {
+  if (isCustom.value) {
     data.customGameLobby = customGameLobby;
     data.isCustom = true
   }
@@ -101,7 +127,6 @@ const lobbyBody = computed(() => {
 const createLobby = async () => {
   if (lobbyFetching.value) return;
   lobbyFetching.value = true;
-  console.log('[createLobby]', lobbyBody.value, category.value, selectedQueue.value)
   const res = await lolServices<LolSpace.LobbySession, LolSpace.LobbyBody>({
     method: LolSpace.Method['post'],
     url: "lol-lobby/v2/lobby",
@@ -115,11 +140,13 @@ const createLobby = async () => {
   lobbyFetching.value = false;
 }
 
-watch(category, () => {
-  lobbyValues.value = {};
+watch([mapsForCategory, modesForMap, initialStore.currentSummoner], () => {
+  lobbyValues.value = {
+    mapId: mapsForCategory.value?.[0]?.id,
+    queueId: modesForMap.value?.[0]?.id,
+    lobbyName: `${initialStore.currentSummoner?.displayName || "某某某"}的自建房间`,
+    teamSize: 5,
+    spectatorPolicy: LolEnum.SpectatorPolicy.LobbyAllowed,
+  };
 }, { immediate: true });
-watch(modesForMap, () => {
-  console.log('[modesForMap]', queuesForMaps.value);
-  
-})
 </script>

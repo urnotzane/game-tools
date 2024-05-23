@@ -61,7 +61,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     if (res.data?.active_job_id) {
       return;
     }
-    randomChampSpellsSummary.value = res.data?.choices[0]?.message.content;
+    randomChampSpellsSummary.value = res.data?.choices?.[0]?.message?.content;
 
     return randomChampSpellsSummary.value;
   }

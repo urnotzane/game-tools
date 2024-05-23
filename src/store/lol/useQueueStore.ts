@@ -3,7 +3,7 @@ import { LolSpace } from "@/types/lol";
 import { formatSubCategoriesToQueues } from "@/utils/lol";
 import { lolServices } from "@/views/Lol/services/client";
 import { defineStore } from "pinia";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 
 export const useQueueStore = defineStore('lolQueue', () => {
   const queues = ref<LolSpace.Queue[]>();

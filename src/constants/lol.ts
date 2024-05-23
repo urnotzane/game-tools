@@ -53,7 +53,7 @@ export namespace LolConstants {
   };
   export const spectatorPolicyOpts = {
     [LolEnum.SpectatorPolicy.AllAllowed]: '允许所有人',
-    [LolEnum.SpectatorPolicy.NotAllowed]: '不允许',
     [LolEnum.SpectatorPolicy.LobbyAllowed]: '只允许房间内玩家',
+    [LolEnum.SpectatorPolicy.NotAllowed]: '不允许',
   }
 }
