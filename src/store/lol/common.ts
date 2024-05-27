@@ -4,11 +4,18 @@ import { formatChampSplash } from "@/views/Lol/utils";
 import { invoke } from "@tauri-apps/api";
 import { defineStore } from "pinia";
 import { computed, onMounted, ref } from "vue";
+import { createPinia } from 'pinia'
+
+export const pinia = createPinia()
 
 export const useLolChampsStore = defineStore("lolChamps", () => {
-  const champs = ref<Record<string, LolSpace.Champion>>({});
+  const champs = ref<Record<number, LolSpace.Champion>>({});
   const lolVersion = ref<string>();
   const randomChampBg = ref();
+  const randomChampId = ref("");
+  const randomChamp = ref<LolSpace.ChampDetail>();
+  const randomChampSpellsSummary = ref<string>();
+  const gptSpellsPending = ref(false);
 
   const getChamps = async () => {
     const res = await invoke<{
@@ -16,19 +23,48 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
       version: string;
     }>("get_champs");
     const champsList = Object.values(res.data);
+
     champs.value = champsList.reduce((pre, cur) => {
-      pre[cur.key] = cur;
+      pre[+cur.key] = cur;
       return pre
     }, {} as typeof champs.value);
 
     lolVersion.value = res.version;
 
     const random = Math.round(Math.random() * champsList.length);
-    randomChampBg.value = formatChampSplash(champsList[random].id);
+    const id = champsList[random].id;
+    randomChampBg.value = formatChampSplash(id);
+    randomChampId.value = id;
 
     return res;
   }
+  const getChamp = async (id: string) => {
+    if (!id) return;
+    const res = await invoke<LolSpace.ChampWrapper>("get_champs", { id });
 
+    randomChamp.value = res.data[id];
+    return randomChamp.value;
+  }
+  /**
+   * 通过gpt获取某个英雄技能简介
+   * @param id 英雄id
+   * @returns 
+   */
+  const getChampSpellsSummary = async(id: string) => {
+    if (!id || gptSpellsPending.value) return;
+
+    gptSpellsPending.value = true;
+    const res = await invoke<LolSpace.GptRes>("get_spells_summary", { id });
+    gptSpellsPending.value = false;
+
+    console.log('getChampSpellsSummary: ', id, res.data);
+    if (res.data?.active_job_id) {
+      return;
+    }
+    randomChampSpellsSummary.value = res.data?.choices?.[0]?.message?.content;
+
+    return randomChampSpellsSummary.value;
+  }
   onMounted(() => {
     getChamps();
   })
@@ -36,7 +72,12 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     champs,
     lolVersion,
     randomChampBg,
+    randomChampId,
+    randomChamp,
+    randomChampSpellsSummary,
     getChamps,
+    getChamp,
+    getChampSpellsSummary,
   }
 });
 
@@ -49,7 +90,7 @@ export const useLobbyStore = defineStore('lolLobby', () => {
   const getLobbySession = async () => {
     const res = await lolServices<LolSpace.LobbySession>({
       method: LolSpace.Method.get,
-      url: "/lol-lobby/v2/lobby"
+      url: "lol-lobby/v2/lobby"
     });
 
     if (res?.httpStatus) {
@@ -79,7 +120,7 @@ export const useSelectTimerStore = defineStore('lolChampsSelectTimer', () => {
   const getSelectTimer = async () => {
     const res = await lolServices<LolSpace.ChampSelectTimer>({
       method: LolSpace.Method.get,
-      url: "/lol-champ-select/v1/session/timer"
+      url: "lol-champ-select/v1/session/timer"
     });
     if (res?.httpStatus) {
       selectStage.value = undefined

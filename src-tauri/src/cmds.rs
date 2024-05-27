@@ -3,7 +3,7 @@ use std::{collections::HashMap, sync::Arc};
 use tauri::Runtime;
 use teemo::Teemo;
 
-use crate::lol::{get_champions, get_remote_data, RemoteData};
+use crate::lol::{get_champions, get_remote_data, RemoteData, get_champion, spells_summary};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -21,7 +21,7 @@ pub async fn send_lol_req_cmd(
     method: &str,
     url: &str,
     data: Option<HashMap<String, Value>>,
-) -> Result<HashMap<String, Value>, String> {
+) -> Result<Value, String> {
     let mut teemo = Teemo::new();
     teemo.start();
 
@@ -32,6 +32,16 @@ pub async fn send_lol_req_cmd(
 #[tauri::command]
 pub async fn get_champs() -> Result<Map<String, Value>, String> {
     let res = get_champions().await.unwrap();
+    Ok(res)
+}
+#[tauri::command]
+pub async fn get_champ(id: &str) -> Result<Map<String, Value>, String> {
+    let res = get_champion(id).await.unwrap();
+    Ok(res)
+}
+#[tauri::command]
+pub async fn get_spells_summary(id: &str) -> Result<HashMap<String, Value>, String> {
+    let res = spells_summary(id).await;
     Ok(res)
 }
 

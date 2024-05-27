@@ -19,7 +19,7 @@
 import { useLobbyStore, useLolChampsStore } from '@/store/lol/common';
 import { LolSpace } from '@/types/lol';
 import { computed } from 'vue';
-import { formatChampLoading } from '../utils';
+import { formatChampLoading } from '../../utils';
 import { useChampSelectStore } from '@/store/lol/useChampSelectStore';
 
 const props = defineProps<{
