@@ -69,6 +69,8 @@ https://github.com/rust-lang/rust/issues/95957
 图标链接地址：https://ddragon.leagueoflegends.com/cdn/13.23.1/img/<group>/<full>
 游戏加载界面：https://ddragon.leagueoflegends.com/cdn/img/<group>/loading/<id>_0.jpg
 
+游戏资源数据：https://github.com/CommunityDragon/Docs/blob/master/assets.md
+
 ```json
 /* Anivia (id: 34) */
 "spells": [
@@ -98,7 +100,10 @@ pnpm : 无法加载文件 C:\Users\username\AppData\Roaming\npm\pnpm.ps1，因�
 
 ## 获取客户端数据
 
-接口地址：https://lcu.vivide.re/
+接口地址：
+- 旧的：https://lcu.vivide.re/
+- 端口2999的：https://riotclient.nomi.dev/#/
+- `/Help`接口返回的，当前游戏客户端支持的最新API。
 
 ```bash
 wmic PROCESS WHERE name='LeagueClientUx.exe' GET commandline

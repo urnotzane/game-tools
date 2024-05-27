@@ -37,7 +37,7 @@
             <a-input-password v-model:value="lobbyValues.lobbyPassword" placeholder="请输入" />
           </a-form-item>
           <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-            <a-button type="primary" html-type="submit">Submit</a-button>
+            <a-button type="primary" html-type="submit">提交</a-button>
           </a-form-item>
         </a-form>
       </a-tab-pane>
