@@ -25,14 +25,14 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     const champsList = Object.values(res.data);
 
     champs.value = champsList.reduce((pre, cur) => {
-      pre[+cur.key] = cur;
+      pre[+(cur.key || 0)] = cur;
       return pre
     }, {} as typeof champs.value);
 
     lolVersion.value = res.version;
 
     const random = Math.round(Math.random() * champsList.length);
-    const id = champsList[random].id;
+    const id = champsList[random].id || '';
     randomChampBg.value = formatChampSplash(id);
     randomChampId.value = id;
 
@@ -42,7 +42,7 @@ export const useLolChampsStore = defineStore("lolChamps", () => {
     if (!id) return;
     const res = await invoke<LolSpace.ChampWrapper>("get_champs", { id });
 
-    randomChamp.value = res.data[id];
+    randomChamp.value = res.data?.[id];
     return randomChamp.value;
   }
   /**

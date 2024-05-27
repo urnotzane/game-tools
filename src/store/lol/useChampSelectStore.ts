@@ -5,7 +5,7 @@ import { ref, computed } from "vue";
 
 export const useChampSelectStore = defineStore('lolChampSelect', () => {
   const bpSession = ref<LolSpace.ChampSelectSession>();
-  const banLimit = computed(() => (bpSession.value?.bans.numBans || 10) / 2);
+  const banLimit = computed(() => (bpSession.value?.bans?.numBans || 10) / 2);
 
   const banSession = computed((): LolSpace.IBan => {
     const actions = bpSession.value?.actions;
@@ -14,10 +14,10 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
     actions?.forEach((action) => {
       const banAction = action?.find((item) => item.type === 'ban')
       if (!banAction) return;
-      if (banAction.pickTurn % 2) {
-        blueBans.push(banAction.championId)
+      if ((banAction.pickTurn || 0) % 2) {
+        blueBans.push(banAction.championId || -1)
       } else {
-        redBans.push(banAction.championId)
+        redBans.push(banAction.championId || -1)
       }
     })
     return {
@@ -37,7 +37,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       const banAction = action?.filter((item) => item.type === 'ban');
       if (!banAction.length) return;
       banAction.forEach((item) => {
-        if (item.pickTurn % 2) {
+        if ((item.pickTurn || 0) % 2) {
           blue.push(item)
         } else {
           red.push(item)
@@ -58,7 +58,7 @@ export const useChampSelectStore = defineStore('lolChampSelect', () => {
       const pickAction = action?.filter((item) => item.type === 'pick');
       if (!pickAction.length) return;
       pickAction.forEach((item) => {
-        if (item.pickTurn % 2) {
+        if ((item.pickTurn || 0) % 2) {
           blue.push(item)
         } else {
           red.push(item)
