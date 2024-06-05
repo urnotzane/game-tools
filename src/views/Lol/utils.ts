@@ -10,10 +10,10 @@ export const formatChampLoading = (champIdText:string) => `https://ddragon.leagu
 export const formatChampSplash = (champIdText: string, skinNum:number = 0) => `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champIdText}_${skinNum}.jpg`;
 
 export const formatBanActions = (actions:LolSpace.IAction[], champs:Record<string, LolSpace.Champion>): LolSpace.BanChamp[] => actions.map((action) => {
-  const champ = champs[action.championId];
+  const champ = champs[action.championId || 1];
   return {
     id: action.championId,
-    imgUrl: formatChampIcon(champ?.image?.full),
+    imgUrl: formatChampIcon(champ?.image?.full || ''),
     name: champ?.name || '',
     isInProgress: action.isInProgress,
   };

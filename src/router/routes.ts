@@ -2,7 +2,7 @@ import Home from '@/views/Home/Home.vue';
 import LolView from '@/views/Lol/LolView.vue'
 import LolMenus from '@/views/Lol/modules/LolMenus.vue'
 import BpView from '@/views/Lol/modules/bp/Bp.vue'
-import CreateLobby from '@/views/Lol/modules/gameUtils/createLobby.vue'
+import CreateLobby from '@/views/Lol/modules/gameUtils/CreateLobby.vue'
 import { RouteRecordRaw } from 'vue-router';
 
 export const routes: RouteRecordRaw[] = [

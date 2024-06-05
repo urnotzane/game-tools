@@ -138,7 +138,7 @@ watch(() => champSelectStore.bpSession, async (bpSession) => {
   const isFirstPlayer = latestAction?.actorCellId === 0;
   // pick英雄时且最后一个action且时蓝色第一个英雄时
   if (latestAction?.type === 'ban' || !latestAction || !isFirstPlayer) return;
-  const champ = champsStore.champs[latestAction.championId];
+  const champ = champsStore.champs[latestAction?.championId || 1];
 
   if (!champ) return;
 
