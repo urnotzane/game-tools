@@ -1,5 +1,11 @@
 # Game Tools
 
+一个PC游戏工具，现在只支持LOL。
+
+目前产品功能：
+- LOL BP实时展示。
+- 创建所有LOL支持的游戏房间。
+
 ## 开发
 1. 复制src_tauri下的assets并更名为local，保存本地数据
 2. 运行`pnpm tauri dev`即可启动项目
