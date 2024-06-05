@@ -5,7 +5,7 @@
       'blink-animation': getIsInProgress(index - 1),
     }" v-for="index in pickLimit" :key="index">
       <img class="w-full h-full object-cover object-top" v-if="teamMembers?.[index - 1]?.championId"
-        :src="formatChampImg(teamMembers?.[index - 1]?.championId)" />
+        :src="formatChampImg(teamMembers?.[index - 1]?.championId || 1)" />
       <div class="" v-else>
         <div class="pl-2 pt-2">{{ LolSpace.PlayerPositions[index - 1] }} </div>
       </div>
@@ -36,7 +36,8 @@ const isRedTeam = computed(() => props.team === LolSpace.TeamType.red);
 const pickActions = computed(() => isRedTeam.value ? selectStore.pickActions.red : selectStore.pickActions.blue);
 const inProgressPlayers = computed(() => pickActions.value.reduce((pre, cur) => {
   if (cur.isInProgress) {
-    const playerIndex = isRedTeam.value ? (cur.actorCellId - 5) : cur.actorCellId;
+    const playerIndex = isRedTeam.value ? ((cur.actorCellId || 0) - 5) : cur.actorCellId;
+    if (playerIndex === undefined) return pre;
     pre.push(playerIndex)
   }
   return pre;
